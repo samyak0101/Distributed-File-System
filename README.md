@@ -1,6 +1,15 @@
 # osp4
 Fall 2022 OS p4: Building a Distributed File System 
 
+TODO:
+    - Add timeout functionality to udp (ask peer mentor how to add and for how long)
+        - question: how many timeouts etc to add ?
+    - Make mfs stat method work
+    - 
+
+NOTES: 
+    - Use ss -ulpn to check port numbers and file descriptor of open ports
+    - we are reading the whole thing into memory using mmap and flushing it to disk with msync
 
 Client:
     - Open client socket
@@ -38,3 +47,5 @@ File contents
     mfs init uses the destination port number to connect to the server
     server gets message from client and so fills in the source socket address from client portnumber
     
+
+gcc -o out mfs.c udp.c client.c
