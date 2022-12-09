@@ -5,24 +5,25 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include "udp.h"
 #include "mfs.h"
 
 #define MFS_NAME_LEN 32
 #define MFS_BLOCK_SIZE 4096
 
-typedef struct MFS_Stat_t {
-  int type;  // MFS_DIRECTORY or MFS_REGULAR
-  int size;  // bytes
-  int blocks;  // number of blocks allocated to file
-  // note: no permissions, access times, etc.
-} MFS_Stat_t;
-
-typedef struct MFS_DirEnt_t {
-  char name[MFS_NAME_LEN];  // filename
-  int  inum;                // inode number of entry (-1 means entry not used)
-} MFS_DirEnt_t;
+static int clientport = 39965;
+static int serverport;
+static int clientfd;
+static struct sockaddr_in addrSnd, server; //, addrRcv;
 
 int MFS_Init(char *hostname, int port) {
+
+  // struct sockaddr_in addrSnd, addrRcv;
+  serverport = port;
+  // clientport = UDP_FillSockAddr(&addrSnd, "localhost", port);
+  clientfd = UDP_Open(clientport);
+
+
   // Create a socket
   int sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd < 0) {
@@ -31,7 +32,7 @@ int MFS_Init(char *hostname, int port) {
   }
 
   // Connect to the server
-  struct sockaddr_in server;
+  // struct sockaddr_in server;
   server.sin_family = AF_INET;
   server.sin_port = htons(port);
   inet_aton(hostname, &server.sin_addr);
@@ -77,7 +78,7 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
 }
 
 int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
-  int n = write(inum, buffer, nbytes);
+  int n = UDP_Write(inum, buffer, nbytes);
   if (n < 0) {
     perror("write");
     return -1;

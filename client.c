@@ -3,18 +3,22 @@
 
 #define BUFFER_SIZE (1000)
 
+static int serverport = 15151;
+static int clientport = 24135;
+
 // client code
 int main(int argc, char *argv[]) {
     struct sockaddr_in addrSnd, addrRcv;
 
-    int sd = UDP_Open(20000);
-    int rc = UDP_FillSockAddr(&addrSnd, "localhost", 10000);
+    // int sd = UDP_Open(20000);
+    // int rc = UDP_FillSockAddr(&addrSnd, "localhost", 10000);
+    int rc = MFS_Init("MyServer", 24135);
 
     char message[BUFFER_SIZE];
     sprintf(message, "hello world");
 
     printf("client:: send message [%s]\n", message);
-    rc = UDP_Write(sd, &addrSnd, message, BUFFER_SIZE);
+    rc = MFS_Write(sd, message, 0, BUFFER_SIZE);
     if (rc < 0) {
 	printf("client:: failed to send\n");
 	exit(1);
