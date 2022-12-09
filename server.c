@@ -15,7 +15,34 @@ void intHandler(int dummy) {
 // server code
 int main(int argc, char *argv[]) {
 
-    // assert(argc == 3)
+    //OFFICIAL CODE, DO NOT DELETE:
+
+    // assert(argc == 3);
+    // int port_num = atoi(argv[1]);
+    // const shar* img_path = argv[2];
+
+    // sd = UDP_Open(port_num);
+    // if(sd <= 0){
+    //     //throw error
+    //     perror("Failed to bind to UDP socket\n");
+    //     return -1;
+    } else{
+        printf("Listening for connections on port %i\n", port_num);
+    }
+
+    int file_fd = open(img_path, O_RDWR | O_APPEND);
+    struct stat finfo;
+
+    if(fstat(file_fd, &finfo) != 0) {
+        perror("Fstat failed\n");
+    }
+
+    void *fs_img = mmap(NULL, finfo.st_size, MAP_SHARED, PROT_READ | PROT_WRITE, file_fd, 0);
+
+    super_t *superblock = superblock->inode_bitmap_len * sizeof(unsigned int)* 8;
+
+    // END KAI'S CODE
+
 
     sd = UDP_Open(10000);
     assert(sd > -1);
