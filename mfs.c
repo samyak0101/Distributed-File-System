@@ -13,35 +13,26 @@
 
 static int clientport = 39965;
 static int serverport;
+static int serverfd;
 static int clientfd;
 static struct sockaddr_in addrSnd, server; //, addrRcv;
 
 int MFS_Init(char *hostname, int port) {
-
-  // struct sockaddr_in addrSnd, addrRcv;
   serverport = port;
-  // clientport = UDP_FillSockAddr(&addrSnd, "localhost", port);
+
+  // opens client port and sets socket fd to be clientfd
   clientfd = UDP_Open(clientport);
-
-
-  // Create a socket
-  int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd < 0) {
-    perror("socket");
-    return -1;
+  if(clientfd < 0){
+    // TODO: throw error
   }
 
-  // Connect to the server
-  // struct sockaddr_in server;
-  server.sin_family = AF_INET;
-  server.sin_port = htons(port);
-  inet_aton(hostname, &server.sin_addr);
-  if (connect(sockfd, (struct sockaddr*)&server, sizeof(server)) < 0) {
-    perror("connect");
-    return -1;
+  // sets the destination port to send messages to
+  serverfd = UDP_FillSockAddr(&addrSnd, hostname, serverport);
+  if(serverfd < 0){
+    // TODO: throw error
   }
-
-  return sockfd;
+  
+  return 1;
 }
 
 int MFS_Lookup(int pinum, char *name) {
@@ -78,6 +69,8 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
 }
 
 int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
+
+  
   int n = UDP_Write(inum, buffer, nbytes);
   if (n < 0) {
     perror("write");
