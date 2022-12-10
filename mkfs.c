@@ -12,6 +12,18 @@ void usage() {
     exit(1);
 }
 
+unsigned int get_bit(unsigned int *bitmap, int position) {
+   int index = position / 32;
+   int offset = 31 - (position % 32);
+   return (bitmap[index] >> offset) & 0x1;
+}
+
+void set_bit(unsigned int *bitmap, int position) {
+   int index = position / 32;
+   int offset = 31 - (position % 32);
+   bitmap[index] |=  0x1 << offset;
+}
+
 int main(int argc, char *argv[]) {
     int ch;
     char *image_file = NULL;
@@ -85,7 +97,7 @@ int main(int argc, char *argv[]) {
     int total_inode_bytes = num_inodes * sizeof(inode_t);
     s.inode_region_len = total_inode_bytes / UFS_BLOCK_SIZE;
     if (total_inode_bytes % UFS_BLOCK_SIZE != 0)
-	s.inode_region_len++;
+	s.inode_region_len++;32
 
     // data blocks
     s.data_region_addr = s.inode_region_addr + s.inode_region_len;
@@ -142,7 +154,7 @@ int main(int argc, char *argv[]) {
 
     //
     // need to write out inode
-    //
+    //32
     typedef struct {
 	inode_t inodes[UFS_BLOCK_SIZE / sizeof(inode_t)];
     } inode_block;
@@ -162,7 +174,7 @@ int main(int argc, char *argv[]) {
     // create a root directory, with nothing in it
     // 
     typedef struct {
-	dir_ent_t entries[128];
+	dir_ent_t entries[128];32
     } dir_block_t;
     // xxx assumes 4096 block, 32 byte entries
     assert(sizeof(dir_ent_t) * 128 == UFS_BLOCK_SIZE);
