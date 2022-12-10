@@ -3,10 +3,7 @@
 // create a socket and bind it to a port on the current machine
 // used to listen for incoming packets
 int UDP_Open(int port) {
-    printf("UDP_Open called with port number %d!\n", port);
     int fd;           
-    // af_INET is the ipx4 network call
-    // sock dgram is a UDP based data packet sending protocol
     if ((fd = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
 	perror("socket");
 	return 0;
@@ -17,30 +14,25 @@ int UDP_Open(int port) {
     bzero(&my_addr, sizeof(my_addr));
 
     my_addr.sin_family      = AF_INET;
-    //htons converts int port to network byte order.
     my_addr.sin_port        = htons(port);
-    my_addr.sin_addr.s_addr = INADDR_ANY; // used when we dont bind socket to a specific IP
+    my_addr.sin_addr.s_addr = INADDR_ANY;
 
-// bind assigns socket at fd to my_addr, and has size in bytes of the struct addr points to.q
     if (bind(fd, (struct sockaddr *) &my_addr, sizeof(my_addr)) == -1) {
 	perror("bind");
 	close(fd);
 	return -1;
     }
-    // returning int that points to the port connection
+
     return fd;
 }
 
 // fill sockaddr_in struct with proper goodies
 int UDP_FillSockAddr(struct sockaddr_in *addr, char *hostname, int port) {
-    // zeroes out everything at addr (cleans it).
-
     bzero(addr, sizeof(struct sockaddr_in));
     if (hostname == NULL) {
 	return 0; // it's OK just to clear the address
     }
     
-
     addr->sin_family = AF_INET;          // host byte order
     addr->sin_port   = htons(port);      // short, network byte order
 
@@ -50,33 +42,27 @@ int UDP_FillSockAddr(struct sockaddr_in *addr, char *hostname, int port) {
 	perror("gethostbyname");
 	return -1;
     }
-
-
     in_addr = (struct in_addr *) host_entry->h_addr;
     addr->sin_addr = *in_addr;
 
     return 0;
 }
 
-// sends message from source socket to destination socket using sendto(). 
 int UDP_Write(int fd, struct sockaddr_in *addr, char *buffer, int n) {
     int addr_len = sizeof(struct sockaddr_in);
-    // sending socket file descriptor, bufffer with message, size of buffer, flags, target socket, len of target addr
     int rc = sendto(fd, buffer, n, 0, (struct sockaddr *) addr, addr_len);
-    // returns number of bytes sent. -1 on error.
     return rc;
 }
 
-// receives message and stores into buffer of size n, source socket, length of msg. If no message available, it waits for message to arrive.
 int UDP_Read(int fd, struct sockaddr_in *addr, char *buffer, int n) {
+
     int len = sizeof(struct sockaddr_in); 
     int rc = recvfrom(fd, buffer, n, 0, (struct sockaddr *) addr, (socklen_t *) &len);
+    printf("recvfrom: %d\n", rc);
     // assert(len == sizeof(struct sockaddr_in)); 
-    // return number of bytes read. -1 on error. Buffer may show overflowed value if any.
     return rc;
 }
 
-// closes socket.
 int UDP_Close(int fd) {
     return close(fd);
 }

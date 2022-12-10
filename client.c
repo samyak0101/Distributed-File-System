@@ -10,13 +10,16 @@ int main(int argc, char *argv[]) {
     MFS_Init("localhost", 10000);
 
     // write message to server and receive a message back.
-    int inum = 1;
-    char *buffer = "hello world";
-    int offset = 0;
-    int nbytes = sizeof(buffer);
-    MFS_Write(inum,buffer,offset,nbytes);
+    // int inum = 1;
+    // char *buffer = "hello world";
+    // int offset = 0;
+    // int nbytes = sizeof(buffer);
+    // MFS_Write(inum,buffer,offset,nbytes);
 
-
+    int inum2 = 200;
+    MFS_Stat_t stat;
+    printf("before mfs\n");
+    MFS_Stat(inum2, &stat);
     // int sd = UDP_Open(20000);
     // int rc = UDP_FillSockAddr(&addrSnd, "localhost", 10000);
     // printf("rc: %d\n", rc);
