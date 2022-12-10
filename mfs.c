@@ -86,22 +86,22 @@ int MFS_Init(char *hostname, int port) {
 int MFS_Stat(int inum, MFS_Stat_t *m) {
   printf("in mfs\n");
 
-  messagestruct *msg;
-  msg->type = STAT;
-  msg->statstruct = *m;
-  msg->inum = inum;
+  messagestruct msg;
+  msg.type = STAT;
+  msg.statstruct = *m;
+  msg.inum = inum;
 
   printf("print 1\n");
 
-  int n = UDP_Write(clientfd, &addrSnd, (char *)msg, BUFFER_SIZE);
+  int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
   if (n < 0) {
     perror("write");
     return -1;
   }
   printf("print 2\n");
 
-  char* statreturn;
-  n = UDP_Read(clientfd, &addrRcv, statreturn, BUFFER_SIZE);
+  char statreturn[sizeof(MFS_Stat_t)];
+  n = UDP_Read(clientfd, &addrRcv, statreturn, sizeof(MFS_Stat_t));
   if (n < 0) {
     perror("read");
     return -1;
@@ -109,6 +109,8 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
     printf("print 3\n");
 
   m = (MFS_Stat_t*)statreturn;
+  printf("size of m: %d\n", m->size);
+  fflush(stdout);
 
   return 0;
 }
