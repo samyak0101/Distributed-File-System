@@ -82,57 +82,66 @@ int MFS_Init(char *hostname, int port) {
 //   return inum;
 // }
 
-// int MFS_Stat(int inum, MFS_Stat_t *m) {
-//   int n = write(inum, m, sizeof(MFS_Stat_t));
-//   if (n < 0) {
-//     perror("write");
-//     return -1;
-//   }
+// Done
+int MFS_Stat(int inum, MFS_Stat_t *m) {
+  printf("in mfs\n");
 
-//   n = read(inum, m, sizeof(MFS_Stat_t));
-//   if (n < 0) {
-//     perror("read");
-//     return -1;
-//   }
+  messagestruct msg;
+  msg.type = STAT;
+  msg.statstruct = *m;
+  msg.inum = inum;
 
-//   return 0;
-// }
+  printf("print 1\n");
 
-int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
-
-int rc;
-
-// added for testing
-    char message[BUFFER_SIZE];
-    sprintf(message, buffer);
-    // sending the message
-    printf("client:: send message [%s]\n", message);
-    rc = UDP_Write(clientfd, &addrSnd, message, BUFFER_SIZE);
-    if (rc < 0) {
-	printf("client:: failed to send\n");
-	exit(1);
-    }
-
-    // waiting for response
-    printf("client:: wait for reply...\n");
-    rc = UDP_Read(clientfd, &addrRcv, message, BUFFER_SIZE);
-    printf("client:: got reply [size:%d contents:(%s)\n", rc, message);
-
-  struct _write w1;
-  w1->inum = inum;
-  w1->nbytes = nbytes;
-  memcpy(w1->buffer, buffer, sizeof(_write));
-  // w1->buffer = strdup(buffer);
-  w1->offset = offset;
-
-  int n = UDP_Write(inum, (char *)&w1, sizeof(_write));
+  int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
   if (n < 0) {
     perror("write");
     return -1;
   }
+  printf("print 2\n");
+
+  char statreturn[sizeof(MFS_Stat_t)];
+  n = UDP_Read(clientfd, &addrRcv, statreturn, sizeof(MFS_Stat_t));
+  if (n < 0) {
+    perror("read");
+    return -1;
+  }
+    printf("print 3\n");
+
+  m = (MFS_Stat_t*)statreturn;
+  printf("size of m: %d\n", m->size);
+  fflush(stdout);
 
   return 0;
 }
+
+int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
+return 0;
+}
+
+// int rc;
+
+// // added for testing
+//     char message[BUFFER_SIZE];
+
+
+//     sprintf(message, buffer);
+//     // sending the message
+//     printf("client:: send message [%s]\n", message);
+//     rc = UDP_Write(clientfd, &addrSnd, message, BUFFER_SIZE);
+//     if (rc < 0) {
+// 	printf("client:: failed to send\n");
+// 	exit(1);
+//     }
+
+//     // waiting for response
+//     printf("client:: wait for reply...\n");
+//     rc = UDP_Read(clientfd, &addrRcv, message, BUFFER_SIZE);
+//     printf("client:: got reply [size:%d contents:(%s)\n", rc, message);
+
+
+//   return 0;
+// }
 
 // int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
 //   int n = write(inum, buffer, nbytes);

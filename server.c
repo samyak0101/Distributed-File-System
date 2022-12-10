@@ -3,9 +3,7 @@
 
 #define BUFFER_SIZE (100)
 
-
 int sd;
-
 
 void intHandler(int dummy) {
     UDP_Close(sd);
@@ -26,20 +24,20 @@ int main(int argc, char *argv[]) {
     //     //throw error
     //     perror("Failed to bind to UDP socket\n");
     //     return -1;
-    } else{
-        printf("Listening for connections on port %i\n", port_num);
-    }
+    // } else{
+    //     printf("Listening for connections on port %i\n", port_num);
+    // }
 
-    int file_fd = open(img_path, O_RDWR | O_APPEND);
-    struct stat finfo;
+    // int file_fd = open(img_path, O_RDWR | O_APPEND);
+    // struct stat finfo;
 
-    if(fstat(file_fd, &finfo) != 0) {
-        perror("Fstat failed\n");
-    }
+    // if(fstat(file_fd, &finfo) != 0) {
+    //     perror("Fstat failed\n");
+    // }
 
-    void *fs_img = mmap(NULL, finfo.st_size, MAP_SHARED, PROT_READ | PROT_WRITE, file_fd, 0);
+    // void *fs_img = mmap(NULL, finfo.st_size, MAP_SHARED, PROT_READ | PROT_WRITE, file_fd, 0);
 
-    super_t *superblock = superblock->inode_bitmap_len * sizeof(unsigned int)* 8;
+    // super_t *superblock = superblock->inode_bitmap_len * sizeof(unsigned int)* 8;
 
     // END KAI'S CODE
 
@@ -61,7 +59,6 @@ int main(int argc, char *argv[]) {
     }
 
     signal(SIGINT, intHandler);
-
 
     return 0; 
 }
