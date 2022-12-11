@@ -3,6 +3,7 @@
 
 #define UFS_DIRECTORY (0)
 #define UFS_REGULAR_FILE (1)
+#define BUFFER_SIZE (1000)
 
 #define UFS_BLOCK_SIZE (4096)
 

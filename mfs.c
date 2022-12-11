@@ -17,6 +17,7 @@ static int serverport;
 static int serverfd;
 static int clientfd;
 static struct sockaddr_in addrSnd, addrRcv; 
+messagestruct msg;
 
 // int tryMessage(struct _message message) 
 // {    
@@ -65,40 +66,48 @@ int MFS_Init(char *hostname, int port) {
     return 0;
 }
 
-// int MFS_Lookup(int pinum, char *name) {
-//   // int inum;
-//   int n = write(pinum, &inum, sizeof(inum));
-//   if (n < 0) {
-//     perror("write");
-//     return -1;
-//   }
+int MFS_Lookup(int pinum, char *name) {
+  printf("in mfs lookup\n");
 
-//   n = read(pinum, &inum, sizeof(inum));
-//   if (n < 0) {
-//     perror("read");
-//     return -1;
-//   }
+  msg.type = LOOKUP;
+  msg.pinum = pinum;
+  msg.name = strdup(name);
 
-//   return inum;
-// }
-
-// Done
-int MFS_Stat(int inum, MFS_Stat_t *m) {
-  printf("in mfs\n");
-
-  messagestruct msg;
-  msg.type = STAT;
-  msg.statstruct = *m;
-  msg.inum = inum;
-
-  printf("print 1\n");
 
   int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
   if (n < 0) {
     perror("write");
     return -1;
   }
-  printf("print 2\n");
+
+  char smth[1];
+
+  n = UDP_Read(clientfd, &addrRcv, smth, sizeof(int *));
+  if (n < 0) {
+    perror("read");
+    return -1;
+  }
+
+  printf("inum of lookup file: %d\n", atoi(smth));
+  fflush(stdout);
+
+  return 0;
+}
+
+// Done
+int MFS_Stat(int inum, MFS_Stat_t *m) {
+  printf("in mfs stat\n");
+
+  msg.type = STAT;
+  msg.statstruct = *m;
+  msg.inum = inum;
+
+
+  int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
+  if (n < 0) {
+    perror("write");
+    return -1;
+  }
 
   char statreturn[sizeof(MFS_Stat_t)];
   n = UDP_Read(clientfd, &addrRcv, statreturn, sizeof(MFS_Stat_t));
@@ -106,12 +115,13 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
     perror("read");
     return -1;
   }
-    printf("print 3\n");
 
   m = (MFS_Stat_t*)statreturn;
   printf("size of m: %d\n", m->size);
+  printf("type of data: %d\n", m->type);
   fflush(stdout);
 
+  // return 0 on success
   return 0;
 }
 

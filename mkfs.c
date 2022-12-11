@@ -174,7 +174,7 @@ int main(int argc, char *argv[]) {
     // create a root directory, with nothing in it
     // 
     typedef struct {
-	dir_ent_t entries[128];32
+	dir_ent_t entries[128];
     } dir_block_t;
     // xxx assumes 4096 block, 32 byte entries
     assert(sizeof(dir_ent_t) * 128 == UFS_BLOCK_SIZE);

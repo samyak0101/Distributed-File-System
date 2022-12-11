@@ -3,7 +3,7 @@
 
 #define MFS_DIRECTORY    (0)
 #define MFS_REGULAR_FILE (1)
-
+#define BUFFER_SIZE (1000)
 #define MFS_BLOCK_SIZE   (4096)
 
 typedef struct __MFS_Stat_t {
@@ -27,12 +27,12 @@ enum message_type{
 typedef struct _message{
     enum message_type type;
     int pinum;
-    char name;
+    char *name;
     int inum;
     int ttype;
     int offset;
     int nbytes;
-    char buffer;
+    char buffer[BUFFER_SIZE];
     // mfs stat struct info
     MFS_Stat_t statstruct;
     // int mfs_stat_type;

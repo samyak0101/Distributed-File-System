@@ -1,13 +1,40 @@
 #include <stdio.h>
 #include "udp.h"
 #include "mfs.h"
+#include "ufs.h"
 
 #define BUFFER_SIZE (1000)
 
 // client code
 int main(int argc, char *argv[]) {
+    inode_t inode;
+    printf("size of inode: %ld\n", sizeof(inode_t));
     // initialize port connection:
     MFS_Init("localhost", 10000);
+
+    // { // TEST 1: Test stat
+    //     int inum2 = 0;
+    //     MFS_Stat_t stat;
+    //     printf("before mfs\n");
+    //     MFS_Stat(inum2, &stat);
+    // }
+    
+    { // TEST 2: Test lookup
+        int pinum = 0;
+        printf("before lookup \n");
+        MFS_Lookup(pinum, "samyak jain lomalo");
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+
+
 
     // write message to server and receive a message back.
     // int inum = 1;
@@ -16,10 +43,8 @@ int main(int argc, char *argv[]) {
     // int nbytes = sizeof(buffer);
     // MFS_Write(inum,buffer,offset,nbytes);
 
-    int inum2 = 200;
-    MFS_Stat_t stat;
-    printf("before mfs\n");
-    MFS_Stat(inum2, &stat);
+
+
     // int sd = UDP_Open(20000);
     // int rc = UDP_FillSockAddr(&addrSnd, "localhost", 10000);
     // printf("rc: %d\n", rc);
@@ -37,7 +62,6 @@ int main(int argc, char *argv[]) {
     // printf("client:: wait for reply...\n");
     // rc = UDP_Read(sd, &addrRcv, message, BUFFER_SIZE);
     // printf("client:: got reply [size:%d contents:(%s)\n", rc, message);
-    return 0;
-}
+
 
 
