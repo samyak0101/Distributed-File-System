@@ -27,7 +27,7 @@ enum message_type{
 typedef struct _message{
     enum message_type type;
     int pinum;
-    char *name;
+    char name[28];
     int inum;
     int ttype;
     int offset;

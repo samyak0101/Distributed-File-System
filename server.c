@@ -59,7 +59,8 @@ char* Ser_MFS_Stat(void* fs_img){
 
 // server MFS Lookup
  int Ser_MFS_Lookup(void* fs_img){
-
+    // TODO: fix method so it searches for string name in msg->name and return it's inum
+    // Also do the error checking and retunrn appropriately when  the thing im looking for isn't there or something.
     printf("MESSAGE TYPE! type: %d\n", msg->type);
 
     // check if the inode is valid in inode bitmap
@@ -141,6 +142,7 @@ int main(int argc, char *argv[]) {
       //working till here
       printf("server:: read message [size:%d contents:(%s)]\n", rc, message);
       msg = (messagestruct*)message;
+      printf("name in msg: %s\n", msg->name);
       char *tempreply;
 
 

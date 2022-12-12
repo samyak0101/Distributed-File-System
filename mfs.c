@@ -66,12 +66,12 @@ int MFS_Init(char *hostname, int port) {
     return 0;
 }
 
-int MFS_Lookup(int pinum, char *name) {
+int MFS_Lookup(int pinum, char name[28]) {
   printf("in mfs lookup\n");
 
   msg.type = LOOKUP;
   msg.pinum = pinum;
-  msg.name = strdup(name);
+  sprintf(msg.name, name);
 
 
   int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
@@ -89,6 +89,7 @@ int MFS_Lookup(int pinum, char *name) {
   }
 
   printf("inum of lookup file: %d\n", atoi(smth));
+  //TODO: Fix stack smashing error and add string to seaarch for in lookup
   fflush(stdout);
 
   return 0;

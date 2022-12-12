@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
     { // TEST 2: Test lookup
         int pinum = 0;
         printf("before lookup \n");
-        MFS_Lookup(pinum, "samyak jain lomalo");
+        MFS_Lookup(pinum, "samyak jain");
     }
 
     return 0;
