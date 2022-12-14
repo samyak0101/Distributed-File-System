@@ -10,9 +10,9 @@ TODO:
 NOTES: 
     - Use ss -ulpn to check port numbers and file descriptor of open ports
     - we are reading the whole thing into memory using mmap and flushing it to disk with msync
-    - Use ./mkfs -ffs.img -d32 -i64 -v to ceck the layout of the file system image (need to compile mkfs before doing this obviously)
+    - Use ./mkfs -ffs.img -d32 -i32 -v to ceck the layout of the file system image (need to compile mkfs before doing this obviously)
     - Used gcc -o out mfs.c udp.c client.c for compiling the client
-    - 
+    - in unlink set inode to -1.
 
 Client:
     - Open client socket
@@ -67,6 +67,7 @@ Creat notes
     - Loop through parent inode direntries blocks to find free space for another dir ent. If can't find space, make space. If can't make space, -1.
     - If space found, continue to step 5, else:
     - Loop through data bitmap to find free block. When found, assign that int to the next free dirent index of parent
+    - change size of parent to increase by sizeof directory entry.
     - After finding free block, go to that address in data region and save that places address.
     - 5: loop through inode bitmap to find free bit. If exist, assign it. If not exist, return -1 since no space. (Make sure to loop through all inode bitmap blocks).
     - go to inode region and create a new struct of inode
@@ -90,3 +91,8 @@ Questions:
 
 gcc -o client mfs.c udp.c client.c
 server 52364 file
+
+
+
+fix:
+    - 

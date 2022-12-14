@@ -19,57 +19,27 @@ int main(int argc, char *argv[]) {
     //     MFS_Stat(inum2, &stat);
     // }
     
-   
 
-    // { // TEST 3: Test Creat
-    //     int pinum = 0;
-    //     printf("before creat\n");
-    //     MFS_Creat(pinum, 0, "test dir 5");
-    // }
 
-     { // TEST 2: Test lookup
-        int pinum = 0;
-        printf("before lookup \n");
-        MFS_Lookup(pinum, "idk");
+
+//    { // TEST 2: Test lookup
+//         int pinum = 0;
+//         printf("before lookup \n");
+//         MFS_Lookup(pinum, "test 5");
+//     }
+
+
+
+
+
+    { // TEST 3: Test Creat
+        int pinum = 1;
+        printf("before creat\n");
+        MFS_Creat(pinum, 1, "file1");
     }
+
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-    // write message to server and receive a message back.
-    // int inum = 1;
-    // char *buffer = "hello world";
-    // int offset = 0;
-    // int nbytes = sizeof(buffer);
-    // MFS_Write(inum,buffer,offset,nbytes);
-
-
-
-    // int sd = UDP_Open(20000);
-    // int rc = UDP_FillSockAddr(&addrSnd, "localhost", 10000);
-    // printf("rc: %d\n", rc);
-
-    // char message[BUFFER_SIZE];
-    // sprintf(message, "hello world");
-
-    // printf("client:: send message [%s]\n", message);
-    // rc = UDP_Write(sd, &addrSnd, message, BUFFER_SIZE);
-    // if (rc < 0) {
-	// printf("client:: failed to send\n");
-	// exit(1);
-    // }
-
-    // printf("client:: wait for reply...\n");
-    // rc = UDP_Read(sd, &addrRcv, message, BUFFER_SIZE);
-    // printf("client:: got reply [size:%d contents:(%s)\n", rc, message);
-
 
 
