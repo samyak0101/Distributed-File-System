@@ -95,4 +95,6 @@ server 52364 file
 
 
 fix:
+    - wrote subdir in data bitmap idk why
+    - subdir data block was 7 instead of 6
     - 

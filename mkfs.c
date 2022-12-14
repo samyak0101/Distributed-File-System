@@ -12,17 +12,6 @@ void usage() {
     exit(1);
 }
 
-unsigned int get_bit(unsigned int *bitmap, int position) {
-   int index = position / 32;
-   int offset = 31 - (position % 32);
-   return (bitmap[index] >> offset) & 0x1;
-}
-
-void set_bit(unsigned int *bitmap, int position) {
-   int index = position / 32;
-   int offset = 31 - (position % 32);
-   bitmap[index] |=  0x1 << offset;
-}
 
 int main(int argc, char *argv[]) {
     int ch;
@@ -97,7 +86,7 @@ int main(int argc, char *argv[]) {
     int total_inode_bytes = num_inodes * sizeof(inode_t);
     s.inode_region_len = total_inode_bytes / UFS_BLOCK_SIZE;
     if (total_inode_bytes % UFS_BLOCK_SIZE != 0)
-	s.inode_region_len++;32
+	s.inode_region_len++;
 
     // data blocks
     s.data_region_addr = s.inode_region_addr + s.inode_region_len;
