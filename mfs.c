@@ -80,17 +80,24 @@ int MFS_Lookup(int pinum, char name[28]) {
     return -1;
   }
 
-  char smth[1];
+  char response[4096];
 
-  n = UDP_Read(clientfd, &addrRcv, smth, sizeof(int *));
+  n = UDP_Read(clientfd, &addrRcv, response, sizeof(int *));
   if (n < 0) {
     perror("read");
     return -1;
   }
 
-  printf("inum of lookup file: %d\n", atoi(smth));
+  printf("read %d bytes\n", n);
+  printf("inum of lookup file: %d\n", (int)*response);
+  // for (int i = 0; i < 8; i++) {
+  //   for (int j = 0; j < 8; j++) {
+  //     printf("%x ", response[i*8 + j]);
+  //   }
+  //   printf("\n");
+  // }
   //TODO: Fix stack smashing error and add string to seaarch for in lookup
-  fflush(stdout);
+  // fflush(stdout);
 
   return 0;
 }
@@ -127,87 +134,144 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
 }
 
 int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
+  printf("in mfs creat\n");
+
+  msg.type = WRITE;
+  msg.inum = inum;
+  msg.offset = offset;
+  msg.nbytes = nbytes;
+  sprintf(msg.buffer, buffer);
+
+
+  int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
+  if (n < 0) {
+    perror("write");
+    return -1;
+  }
+
+  char response[4096];
+
+  n = UDP_Read(clientfd, &addrRcv, response, sizeof(int *));
+  if (n < 0) {
+    perror("read");
+    return -1;
+  }
+
+  printf("read %d bytes\n", n);
+  printf("response of creat: %d\n", (int)*response);
+
+
 return 0;
 }
 
-// int rc;
 
-// // added for testing
-//     char message[BUFFER_SIZE];
+int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
+  printf("in mfs creat\n");
 
-
-//     sprintf(message, buffer);
-//     // sending the message
-//     printf("client:: send message [%s]\n", message);
-//     rc = UDP_Write(clientfd, &addrSnd, message, BUFFER_SIZE);
-//     if (rc < 0) {
-// 	printf("client:: failed to send\n");
-// 	exit(1);
-//     }
-
-//     // waiting for response
-//     printf("client:: wait for reply...\n");
-//     rc = UDP_Read(clientfd, &addrRcv, message, BUFFER_SIZE);
-//     printf("client:: got reply [size:%d contents:(%s)\n", rc, message);
+  msg.type = READ;
+  msg.inum = inum;
+  msg.offset = offset;
+  msg.nbytes = nbytes;
+  sprintf(msg.buffer, buffer);
 
 
-//   return 0;
-// }
+  int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
+  if (n < 0) {
+    perror("write");
+    return -1;
+  }
 
-// int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
-//   int n = write(inum, buffer, nbytes);
-//   if (n < 0) {
-//     perror("write");
-//     return -1;
-//   }
+  char response[4096];
 
-//   n = read(inum, buffer, nbytes);
-//   if (n < 0) {
-//     perror("read");
-//     return -1;
-//   }
+  n = UDP_Read(clientfd, &addrRcv, response, sizeof(int *));
+  if (n < 0) {
+    perror("read");
+    return -1;
+  }
 
-//   return 0;
-// }
+  printf("read %d bytes\n", n);
+  printf("response of creat: %d\n", (int)*response);
 
-// int MFS_Creat(int pinum, int type, char *name) {
-//   int n = write(pinum, &type, sizeof(type));
-//   if (n < 0) {
-//     perror("write");
-//     return -1;
-//   }
+return (int)*response;
+}
 
-//   n = write(pinum, name, MFS_NAME_LEN);
-//   if (n < 0) {
-//     perror("write");
-//     return -1;
-//   }
+int MFS_Creat(int pinum, int type, char *name) {
+  printf("in mfs creat\n");
 
-//   n = read(pinum, &type, sizeof(type));
-//   if (n < 0) {
-//     perror("read");
-//     return -1;
-//   }
+  msg.type = CREAT;
+  msg.pinum = pinum;
+  msg.ttype = type;
+  sprintf(msg.name, name);
 
-//   return 0;
-// }
 
-// int MFS_Unlink(int pinum, char *name) {
-//   int n = write(pinum, name, MFS_NAME_LEN);
-//   if (n < 0) {
-//     perror("write");
-//     return -1;
-//   }
+  int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
+  if (n < 0) {
+    perror("write");
+    return -1;
+  }
 
-//   n = read(pinum, name, MFS_NAME_LEN);
-//   if (n < 0) {
-//     perror("read");
-//     return -1;
-//   }
+  char response[4096];
 
-//   return 0;
-// }
+  n = UDP_Read(clientfd, &addrRcv, response, sizeof(int *));
+  if (n < 0) {
+    perror("read");
+    return -1;
+  }
 
-// int MFS_Shutdown() {
-//   exit(0);
-// }
+  printf("read %d bytes\n", n);
+  printf("response of creat: %d\n", (int)*response);
+  return 0;
+
+}
+
+int MFS_Unlink(int pinum, char *name) {
+  printf("in mfs creat\n");
+
+  msg.type = UNLINK;
+  msg.pinum = pinum;
+  sprintf(msg.name, name);
+
+
+  int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
+  if (n < 0) {
+    perror("write");
+    return -1;
+  }
+
+  char response[4096];
+
+  n = UDP_Read(clientfd, &addrRcv, response, sizeof(int *));
+  if (n < 0) {
+    perror("read");
+    return -1;
+  }
+
+  printf("read %d bytes\n", n);
+  printf("response of creat: %d\n", (int)*response);
+  return 0;
+
+}
+
+int MFS_Shutdown() {
+  printf("in mfs shutdown\n");
+
+  msg.type = SHUTDOWN;
+
+  int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
+  if (n < 0) {
+    perror("write");
+    return -1;
+  }
+
+  char response[4096];
+
+  n = UDP_Read(clientfd, &addrRcv, response, sizeof(int *));
+  if (n < 0) {
+    perror("read");
+    return -1;
+  }
+
+  printf("read %d bytes\n", n);
+  printf("response of creat: %d\n", (int)*response);
+  return (int)*response;
+}

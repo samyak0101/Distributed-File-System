@@ -21,6 +21,9 @@ enum message_type{
         LOOKUP,
         STAT,
         WRITE,
+        READ,
+        CREAT,
+        UNLINK,
        SHUTDOWN
 };
 

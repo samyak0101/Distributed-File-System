@@ -10,7 +10,7 @@ int main(int argc, char *argv[]) {
     inode_t inode;
     printf("size of inode: %ld\n", sizeof(inode_t));
     // initialize port connection:
-    MFS_Init("localhost", 10000);
+    MFS_Init("localhost", 52364);
 
     // { // TEST 1: Test stat
     //     int inum2 = 0;
@@ -19,10 +19,18 @@ int main(int argc, char *argv[]) {
     //     MFS_Stat(inum2, &stat);
     // }
     
-    { // TEST 2: Test lookup
+   
+
+    // { // TEST 3: Test Creat
+    //     int pinum = 0;
+    //     printf("before creat\n");
+    //     MFS_Creat(pinum, 0, "test dir 5");
+    // }
+
+     { // TEST 2: Test lookup
         int pinum = 0;
         printf("before lookup \n");
-        MFS_Lookup(pinum, "samyak jain");
+        MFS_Lookup(pinum, "idk");
     }
 
     return 0;

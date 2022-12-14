@@ -56,11 +56,31 @@ File contents
     - Inode contains information about the type of file (f or d), the size, etc.
     - Each directory has 2 entries at least: the current director ( . ) and the parent directory ( .. ). 
     - Each dirctory or file name can only be 28 char string in length at max.
-    - 
+    - Each file and directory have their own inode. Each inode has an array of dir_entries. Each of these enties points to a different block in memory
+    - There can further be 128 other dir_ent structs at these blocks in memory
+
+
+Creat notes
+- Another edgecase: Need to check if file or dir already exists. If it does, return -1 or someting before creating new space for anything.
+    - Creating either file or directory under a parent inum of name *name;
+    - Check if pinum exists and is valid. If not, return -1 since parent does not exist
+    - Loop through parent inode direntries blocks to find free space for another dir ent. If can't find space, make space. If can't make space, -1.
+    - If space found, continue to step 5, else:
+    - Loop through data bitmap to find free block. When found, assign that int to the next free dirent index of parent
+    - After finding free block, go to that address in data region and save that places address.
+    - 5: loop through inode bitmap to find free bit. If exist, assign it. If not exist, return -1 since no space. (Make sure to loop through all inode bitmap blocks).
+    - go to inode region and create a new struct of inode
+    - write type and size of the creation
+    - if type is file, then go to that saved address and create a new dirent with filename and inum of file
+    - if type is directory then make new dir ent in saved place with new directry name and inum.
+    - find new bit in data bitmap and allocate to the first dirent entry of new dirctory inode. If not found, return -1.
+    - go to that block and create 2 new dir entries for . and ..
 
 Questions:
-    - if root dir starts from 0 then how many inodes per block? if inum is 5 then where do  get it. 
-
+    - if data full do we allocate file inode still (cuz it can't have data)
+    - how to do mmap sync or flush etc.
+    - in creat sometimes there are random garbage values at the dir ent location, how do i know for sure if theres a dir entry at a specific location or not?
+    
 
 
     Client randomly picks its own port number within mfs.c
@@ -69,3 +89,4 @@ Questions:
     
 
 gcc -o client mfs.c udp.c client.c
+server 52364 file

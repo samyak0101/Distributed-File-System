@@ -12,7 +12,7 @@
 typedef struct {
     int type;   // MFS_DIRECTORY or MFS_REGULAR
     int size;   // bytes
-    unsigned int direct[DIRECT_PTRS];
+    unsigned int direct[DIRECT_PTRS];// 0 1 2 3
 } inode_t;
 
 typedef struct {

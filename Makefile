@@ -1,5 +1,5 @@
 CC     := gcc
-CFLAGS := -Wall -Werror 
+CFLAGS := -Wall -Werror -g
 
 SRCS   := server.c 
 	# server.c 
