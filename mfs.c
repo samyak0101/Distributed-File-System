@@ -98,8 +98,10 @@ int MFS_Lookup(int pinum, char name[28]) {
     return -1;
   }
 
+
   printf("read %d bytes\n", n);
-  printf("inum of lookup file: %d\n", (int)*response);
+  int ret = (int)*response;
+  printf("return of lookup: %d\n", ret);
   // for (int i = 0; i < 8; i++) {
   //   for (int j = 0; j < 8; j++) {
   //     printf("%x ", response[i*8 + j]);
@@ -108,8 +110,10 @@ int MFS_Lookup(int pinum, char name[28]) {
   // }
   //TODO: Fix stack smashing error and add string to seaarch for in lookup
   // fflush(stdout);
-
-  return 0;
+  if(ret == -2){
+    ret = -1;
+  }
+  return ret;
 }
 
 // Done
@@ -232,8 +236,9 @@ int MFS_Creat(int pinum, int type, char *name) {
   }
 
   printf("read %d bytes\n", n);
-  printf("response of creat: %d\n", (int)*response);
-  return 0;
+  int a = (int)*response;
+  printf("response of creat: %d\n", a);
+  return a;
 
 }
 
