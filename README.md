@@ -88,6 +88,19 @@ Questions:
     mfs init uses the destination port number to connect to the server
     server gets message from client and so fills in the source socket address from client portnumber
     
+Unlink notes:
+    - removes file or dir specified by pinum; ret 0 on success -1 on failure
+    - Check if pinum is valid. If not, return -1.
+    - Loop through parent's directory entries looking for name
+    - If found name, store inum (file and dir both), check dir ent. Get inum and check if file. 
+    - if file, clear inode bitmap 
+    - check dirent[0]. If alloc'd, set dirent to -1
+    - Go to data bitmap and set bit to 0.
+    - if directory, check size. If size > 64, return -1 since dir is not empty. if size == 64, then clear inode bitmap, clear dirent[0] and data bitmap
+    - reduce parent size field and set that dirent's inum to -1
+    - remove inode corresponding to directory
+
+
 
 gcc -o client mfs.c udp.c client.c
 server 52364 file

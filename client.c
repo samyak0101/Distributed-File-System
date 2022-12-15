@@ -7,7 +7,6 @@
 
 // client code
 int main(int argc, char *argv[]) {
-    inode_t inode;
     printf("size of inode: %ld\n", sizeof(inode_t));
     // initialize port connection:
     MFS_Init("localhost", 52364);
@@ -32,14 +31,30 @@ int main(int argc, char *argv[]) {
 
 
 
-    { // TEST 3: Test Creat
-        int pinum = 1;
-        printf("before creat\n");
-        MFS_Creat(pinum, 1, "file1");
+    // { // TEST 3: Test Creat
+    //     int pinum = 0;
+    //     printf("before creat\n");
+    //     MFS_Creat(pinum, 1, "dir 1 write");
+    // }
+
+
+
+    { // TEST 4: Test Write
+    int inum = 1;// file inum
+    char *buffer = "writing to the file\n";
+    int offset = 0;
+    int nbytes = sizeof(buffer);
+    printf("nbytes is: %d\n", nbytes);
+
+    // MFS_Write(inum, buffer, offest, nbytes);
+
+    return 0;
     }
 
 
-    return 0;
+
+
+
 }
 
 

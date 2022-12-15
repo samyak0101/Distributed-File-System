@@ -58,7 +58,7 @@ int UDP_Read(int fd, struct sockaddr_in *addr, char *buffer, int n) {
 
     int len = sizeof(struct sockaddr_in); 
     int rc = recvfrom(fd, buffer, n, 0, (struct sockaddr *) addr, (socklen_t *) &len);
-    printf("recvfrom: %d\n", rc);
+    // printf("recvfrom: %d\n", rc);
     // assert(len == sizeof(struct sockaddr_in)); 
     return rc;
 }

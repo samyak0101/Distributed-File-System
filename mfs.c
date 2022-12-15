@@ -7,17 +7,24 @@
 #include <unistd.h>
 #include "udp.h"
 #include "mfs.h"
-
+#include <time.h>
+#include <stdlib.h>
 #define MFS_NAME_LEN 32
 #define BUFFER_SIZE (1000)
 // #define MFS_BLOCK_SIZE 4096
 
-static int clientport = 39965;
+int clientport;
 static int serverport;
 static int serverfd;
 static int clientfd;
 static struct sockaddr_in addrSnd, addrRcv; 
 messagestruct msg;
+int MIN_PORT = 20000;
+int MAX_PORT = 40000;
+
+
+
+
 
 // int tryMessage(struct _message message) 
 // {    
@@ -52,6 +59,9 @@ int MFS_Init(char *hostname, int port) {
   serverport = port;
 
   // opens client port and sets socket fd to be clientfd
+
+  srand(time(0));
+  clientport = (rand() % (MAX_PORT - MIN_PORT) + MIN_PORT);
   clientfd = UDP_Open(clientport);
   if(clientfd < 0){
     // TODO: throw error
@@ -203,6 +213,9 @@ int MFS_Creat(int pinum, int type, char *name) {
   msg.ttype = type;
   sprintf(msg.name, name);
 
+  if(strlen(name)>27){
+    return -1;
+  }
 
   int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
   if (n < 0) {
@@ -263,15 +276,5 @@ int MFS_Shutdown() {
     return -1;
   }
 
-  char response[4096];
-
-  n = UDP_Read(clientfd, &addrRcv, response, sizeof(int *));
-  if (n < 0) {
-    perror("read");
-    return -1;
-  }
-
-  printf("read %d bytes\n", n);
-  printf("response of creat: %d\n", (int)*response);
-  return (int)*response;
+  UDP_Close(clientfd);
 }
