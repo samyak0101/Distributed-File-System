@@ -495,6 +495,10 @@ int Ser_MFS_Unlink(void* fs_img){
 
     inode_t *inode_to_delete = (inode_t*)inode_offset;
 
+    //TODO: DELETE THIS BITCH
+    if(inode_to_delete->type == 0){
+      return -1;
+    }
 
     if(inode_to_delete->type == 0 && inode_to_delete->size > 64){
       return -1; // cannot delete non-empty directory.

@@ -53,9 +53,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8202
-/tmp/tmpCg0x4X/p/server 8202 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 8202
+Starting server on port 5456
+/tmp/tmpvX1dCw/p/server 5456 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 5456
 inodes 0
 max inum: 32
 server:: waiting...
@@ -81,9 +81,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7380
-/tmp/tmpCg0x4X/p/server 7380 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 7380
+Starting server on port 7236
+/tmp/tmpvX1dCw/p/server 7236 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 7236
 inodes 0
 max inum: 32
 server:: waiting...
@@ -129,8 +129,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5614
-/tmp/tmpCg0x4X/p/server 5614 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 7900
+/tmp/tmpvX1dCw/p/server 7900 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -164,8 +164,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8121
-/tmp/tmpCg0x4X/p/server 8121 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 8549
+/tmp/tmpvX1dCw/p/server 8549 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -199,8 +199,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6226
-/tmp/tmpCg0x4X/p/server 6226 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 6091
+/tmp/tmpvX1dCw/p/server 6091 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -234,8 +234,8 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6386
-/tmp/tmpCg0x4X/p/server 6386 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 9644
+/tmp/tmpvX1dCw/p/server 9644 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -356,8 +356,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9454
-/tmp/tmpCg0x4X/p/server 9454 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 8764
+/tmp/tmpvX1dCw/p/server 8764 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -480,9 +480,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5854
-/tmp/tmpCg0x4X/p/server 5854 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 5854
+Starting server on port 8828
+/tmp/tmpvX1dCw/p/server 8828 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8828
 inodes 0
 max inum: 32
 server:: waiting...
@@ -524,8 +524,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8144
-/tmp/tmpCg0x4X/p/server 8144 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 7340
+/tmp/tmpvX1dCw/p/server 7340 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -556,9 +556,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8772
-/tmp/tmpCg0x4X/p/server 8772 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 8772
+Starting server on port 8638
+/tmp/tmpvX1dCw/p/server 8638 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8638
 inodes 0
 max inum: 32
 server:: waiting...
@@ -616,9 +616,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5799
-/tmp/tmpCg0x4X/p/server 5799 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 5799
+Starting server on port 7548
+/tmp/tmpvX1dCw/p/server 7548 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 7548
 inodes 0
 max inum: 32
 server:: waiting...
@@ -673,9 +673,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6575
-/tmp/tmpCg0x4X/p/server 6575 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 6575
+Starting server on port 9492
+/tmp/tmpvX1dCw/p/server 9492 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 9492
 inodes 0
 max inum: 32
 server:: waiting...
@@ -750,9 +750,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9942
-/tmp/tmpCg0x4X/p/server 9942 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 9942
+Starting server on port 7877
+/tmp/tmpvX1dCw/p/server 7877 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 7877
 inodes 0
 max inum: 32
 server:: waiting...
@@ -828,8 +828,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9883
-/tmp/tmpCg0x4X/p/server 9883 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 8735
+/tmp/tmpvX1dCw/p/server 8735 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -860,9 +860,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9155
-/tmp/tmpCg0x4X/p/server 9155 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 9155
+Starting server on port 9275
+/tmp/tmpvX1dCw/p/server 9275 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 9275
 inodes 0
 max inum: 32
 server:: waiting...
@@ -889,8 +889,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9603
-/tmp/tmpCg0x4X/p/server 9603 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 5924
+/tmp/tmpvX1dCw/p/server 5924 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -927,8 +927,8 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5322
-/tmp/tmpCg0x4X/p/server 5322 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 9068
+/tmp/tmpvX1dCw/p/server 9068 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -959,8 +959,8 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6508
-/tmp/tmpCg0x4X/p/server 6508 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 5351
+/tmp/tmpvX1dCw/p/server 5351 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
