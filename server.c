@@ -91,24 +91,24 @@ char* Ser_MFS_Stat(void* fs_img){
     // printf("MESSAGE TYPE! type: %d\n", msg->type);
     MFS_Stat_t *statstruct = &(msg->statstruct);
 
-    // check if the inode is valid in inode bitmap
+     // check if the inode is valid in inode bitmap
     void *addr = fs_img + (superblock->inode_bitmap_addr * MFS_BLOCK_SIZE);
-    unsigned int valid = get_bit(addr, msg->inum);
+    int valid = get_bit(addr, msg->inum);
 
     // return struct with -1's if inode is invalid
     // printf("valid bit of root: %i\n", valid);
     if(valid != 1){
-        statstruct->type = -1;
-        statstruct->size = -1;
-        return (char*)statstruct;
+      statstruct->type = -1;
+      return (char *)statstruct;
     }
 
     // else, go to inode and read in inode struct
     void *inode_offset = fs_img + (superblock->inode_region_addr + msg->inum/32) * MFS_BLOCK_SIZE;
     inode_offset = inode_offset +  (msg->inum % 32);
-    
     // read in inode struct but as an MFS stat struct
+
     statstruct = (MFS_Stat_t*)inode_offset;
+    printf("type of file by stat: %d\n size of file %d\n", statstruct->type, statstruct->size);
 
     // return stat struct
     return (char*)statstruct;
@@ -146,7 +146,9 @@ int Ser_MFS_Lookup(void* fs_img){
 
     int found = -1;
     found -= 1; found += 1; found = -1;
+
     // loop through all directory pointers (30) and all dirents to find the file.
+    
     for (int i = 0; i<DIRECT_PTRS; i++){
       // printf("entered for loop\n");
       if(inode->direct[i]<0 || inode->direct[i]>=30){

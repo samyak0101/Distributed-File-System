@@ -21,38 +21,49 @@ int main(int argc, char *argv[]) {
     
 
 
-
-
-
-
-
-
     { // TEST 3: Test Creat
         int pinum = 0;
         printf("before creat\n");
-        MFS_Creat(pinum, 1, "file to del");
+        MFS_Creat(pinum, 0, "dir 1");
     }
 
-     sleep(10);
+     sleep(5);
 
 
    { // TEST 2: Test lookup
-        int pinum = 1;
+        int pinum = 0;
         printf("before lookup \n");
-        int a = MFS_Lookup(pinum, "doesn't even matter, should return -1\n");
+        int a = MFS_Lookup(pinum, "dir 1");
         printf("lookup response: %d\n", a);
     }
 
-    sleep(10);
+    sleep(5);
 
     { // TEST 3: Test Creat
         int pinum = 1;
         printf("before creat\n");
-        int a = MFS_Creat(pinum, 1, "subfile should fail");
+        int a = MFS_Creat(pinum, 0, "dir 1a");
         printf("creat response: %d\n", a);
 
     }
 
+    sleep(5);
+
+    { // TEST 3: Test Creat
+        int pinum = 1;
+        printf("before creat\n");
+        MFS_Creat(pinum, 0, "dir 1b");
+    }
+
+     sleep(5);
+
+    { // TEST 1: Test stat
+        int inum2 = 1;
+        MFS_Stat_t stat;
+        printf("before mfs\n");
+        MFS_Stat(inum2, &stat);
+    }
+    
 
 
     // { // TEST 4: Test Write
@@ -69,12 +80,12 @@ int main(int argc, char *argv[]) {
     sleep(10);
 
     
-    { // TEST 5: Test Unlink
-        int pinum = 0;
-        printf("before creat\n");
-        int a = MFS_Unlink(pinum, "file to del");
-        printf("unlink response: %d\n", a);
-    }
+    // { // TEST 5: Test Unlink
+    //     int pinum = 0;
+    //     printf("before creat\n");
+    //     int a = MFS_Unlink(pinum, "file to del");
+    //     printf("unlink response: %d\n", a);
+    // }
 
 
 

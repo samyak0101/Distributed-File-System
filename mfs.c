@@ -133,6 +133,7 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
 
   char statreturn[sizeof(MFS_Stat_t)];
   n = UDP_Read(clientfd, &addrRcv, statreturn, sizeof(MFS_Stat_t));
+  
   if (n < 0) {
     perror("read");
     return -1;
