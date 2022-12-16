@@ -17,35 +17,37 @@ typedef struct __MFS_DirEnt_t {
     int  inum;      // inode number of entry (-1 means entry not used)
 } MFS_DirEnt_t;
 
+enum read_type{
+        FILEREAD,
+        DIRREAD
+};
+
 enum message_type{
         LOOKUP,
         STAT,
         WRITE,
-       SHUTDOWN
+        READ,
+        CREAT,
+        UNLINK,
+        SHUTDOWN
 };
 
 typedef struct _message{
     enum message_type type;
     int pinum;
-    char name;
+    char name[28];
     int inum;
     int ttype;
     int offset;
     int nbytes;
-    char buffer;
-    // mfs stat struct info
+    char buffer[MFS_BLOCK_SIZE];
     MFS_Stat_t statstruct;
-    // int mfs_stat_type;
-    // int mfs_stat_size;
 } messagestruct;
 
 
 typedef struct {
-    int inum;
-    char buffer;
-    int offset;
-    int nbytes;
-} _write;
+    char buffer[MFS_BLOCK_SIZE];
+} _read;
 
 int MFS_Init(char *hostname, int port);
 int MFS_Lookup(int pinum, char *name);

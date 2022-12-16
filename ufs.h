@@ -19,6 +19,14 @@ typedef struct {
     int  inum;      // inode number of entry (-1 means entry not used)
 } dir_ent_t;
 
+typedef struct __FileRead_t {
+    char filedata[UFS_BLOCK_SIZE];  // files are stored in only 1 block
+} FileRead_t;
+
+typedef struct __DirRead_t {
+    dir_ent_t direntries[UFS_BLOCK_SIZE / sizeof(dir_ent_t)];  // max of 4096 bytes still for directory read
+} DirRead_t;
+
 // presumed: block 0 is the super block
 typedef struct __super {
     int inode_bitmap_addr; // block address (in blocks)
