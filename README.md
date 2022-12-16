@@ -94,7 +94,7 @@ Unlink notes:
     - Loop through parent's directory entries looking for name
     - If found name, store inum (file and dir both), check dir ent. Get inum and check if file. 
     - if file, clear inode bitmap 
-    - check dirent[0]. If alloc'd, set dirent to -1
+    - check direct[0]. If alloc'd, set to -1
     - Go to data bitmap and set bit to 0.
     - if directory, check size. If size > 64, return -1 since dir is not empty. if size == 64, then clear inode bitmap, clear dirent[0] and data bitmap
     - reduce parent size field and set that dirent's inum to -1
