@@ -118,7 +118,7 @@ int MFS_Lookup(int pinum, char name[28]) {
 
 // Done
 int MFS_Stat(int inum, MFS_Stat_t *m) {
-  printf("in mfs stat\n");
+  // printf("in mfs stat\n");
 
   msg.type = STAT;
   msg.statstruct = *m;
@@ -141,8 +141,8 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
   }
 
   // m = (MFS_Stat_t*)statreturn;
-  printf("size of m: %d\n", m->size);
-  printf("type of data: %d\n", m->type);
+  // printf("size of m: %d\n", m->size);
+  // printf("type of data: %d\n", m->type);
   fflush(stdout);
   m->size = statreturn->size;
   m->type = statreturn->type;
@@ -152,16 +152,16 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
 }
 
 int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
-  printf("in mfs write\n");
+  // printf("in mfs write\n");
 
   msg.type = WRITE;
   msg.inum = inum;
   msg.offset = offset;
   msg.nbytes = nbytes;
-  printf("seg fault?\n");
+  // printf("seg fault?\n");
   memcpy(msg.buffer, buffer, nbytes);
 
-  printf("why though?\n");
+  // printf("why though?\n");
   int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
   if (n < 0) {
     perror("write");
@@ -177,14 +177,14 @@ int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
   }
 
   int a = (int)*response;
-  printf("mfs write response %d\n", a);
+  // printf("mfs write response %d\n", a);
 
   return a;
 }
 
 
 int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
-  printf("in mfs read\n");
+  // printf("in mfs read\n");
 
   msg.type = READ;
   msg.inum = inum;
@@ -203,7 +203,7 @@ int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
 
   // n = UDP_Read(clientfd, &addrRcv, response, sizeof(int*));
   n = UDP_Read(clientfd, &addrRcv, response, msg.nbytes);
-  printf("%s\n", response);
+  // printf("%s\n", response);
 
   if (n < 0) {
     perror("read");
@@ -217,7 +217,7 @@ int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
 
   memcpy(buffer, response, msg.nbytes);
 
-  printf("read %d bytes\n", n);
+  // printf("read %d bytes\n", n);
   // memcpy(buffer, response, msg.nbytes);
   // printf("response of creat: %s\n", (int)*response);
   
@@ -226,7 +226,7 @@ int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
 }
 
 int MFS_Creat(int pinum, int type, char *name) {
-  printf("in mfs creat\n");
+  // printf("in mfs creat\n");
 
   msg.type = CREAT;
   msg.pinum = pinum;
@@ -259,7 +259,7 @@ int MFS_Creat(int pinum, int type, char *name) {
 }
 
 int MFS_Unlink(int pinum, char *name) {
-  printf("in mfs unlink\n");
+  // printf("in mfs unlink\n");
 
   msg.type = UNLINK;
   msg.pinum = pinum;
@@ -287,7 +287,7 @@ int MFS_Unlink(int pinum, char *name) {
 }
 
 int MFS_Shutdown() {
-  printf("in mfs shutdown\n");
+  // printf("in mfs shutdown\n");
 
   msg.type = SHUTDOWN;
 
