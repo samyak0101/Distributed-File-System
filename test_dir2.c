@@ -25,27 +25,39 @@ int main(int argc, char *argv[]) {
       self.shutdown()
       
     */
-     { // TEST 1: Test stat
-        int inum2 = 0;
-        MFS_Creat(0, 0, "testdir");
-        int inum = MFS_Lookup(0, "testdir");
-        MFS_Creat(inum, 1, "testfile");
-        MFS_Lookup(inum, "testfile");
-        int ret = MFS_Unlink(0, "testdir");
-        printf("unlink return value: %d\n", ret);
-      //   unlinking the dir inside
-        ret = MFS_Unlink(1, "testfile");
-        printf("unlink return val: %d\n", ret); // should easily unlink
-        ret = MFS_Unlink(0, "testdir");
-        printf("unlink return val: %d\n", ret); // should unlink!!!
 
-        
-      //   MFS_Stat_t *stat = malloc(sizeof(MFS_Stat_t));
-      //   stat->size = 0;
-      //   stat->type = 0;
-      //   printf("before mfs\n");
-      //   MFS_Stat(inum2, stat);
-      //    printf("printing stats after stat: size %d\n and type %d\n", stat->size, stat->type);
+    char *write_block = malloc(4096*sizeof(char));
+    for (int i = 0; i<4096; i++){
+      write_block[i] = 'a';
+    }
+
+    // printf("writing input: %ld\n", strlen(write_block));
+
+    char *read_block = malloc(4096*sizeof(char));
+
+    { // TEST 1: Test stat
+      int inum2 = 0;
+      MFS_Creat(0, 1, "testfile");
+      int inum = MFS_Lookup(0, "testfile");
+
+      //   writing to file
+      // char *ms = malloc(10);
+      // strcpy(ms, "whatcanolf");
+      // printf("start   :%s\n", ms); // should print same block as write!!!
+
+      int ret = MFS_Write(inum, write_block, 0, UFS_BLOCK_SIZE);
+      // printf("now  :%s\n", ms); // should print same block as write!!!
+
+      printf("write return val: %d\n", ret); // should write a block into a file 
+      sleep(3);
+      // char ts[10];
+      ret = MFS_Read(inum, read_block, 0, UFS_BLOCK_SIZE);
+      printf("write return val: %d\n", ret); // should read
+
+      // printf("read from file:%s\n", ts); // should print same block as write!!!
+      // printf("read from file:%s\n\n\n", ms);
+      printf("comparing: %d\n", strcmp(read_block, write_block));
+
 
     }
 

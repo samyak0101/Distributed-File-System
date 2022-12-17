@@ -152,15 +152,16 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
 }
 
 int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
-  printf("in mfs creat\n");
+  printf("in mfs write\n");
 
   msg.type = WRITE;
   msg.inum = inum;
   msg.offset = offset;
   msg.nbytes = nbytes;
-  sprintf(msg.buffer, buffer);
+  printf("seg fault?\n");
+  memcpy(msg.buffer, buffer, nbytes);
 
-
+  printf("why though?\n");
   int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
   if (n < 0) {
     perror("write");
@@ -175,16 +176,15 @@ int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
     return -1;
   }
 
-  // printf("read %d bytes\n", n);
-  // printf("response of creat: %d\n", (int)*response);
+  int a = (int)*response;
+  printf("mfs write response %d\n", a);
 
-
-return 0;
+  return a;
 }
 
 
 int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
-  printf("in mfs creat\n");
+  printf("in mfs read\n");
 
   msg.type = READ;
   msg.inum = inum;
@@ -199,17 +199,26 @@ int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
     return -1;
   }
 
-  char response[MFS_BLOCK_SIZE];
+  char *response = malloc(msg.nbytes);
 
   // n = UDP_Read(clientfd, &addrRcv, response, sizeof(int*));
   n = UDP_Read(clientfd, &addrRcv, response, msg.nbytes);
+  printf("%s\n", response);
+
   if (n < 0) {
     perror("read");
     return -1;
   }
 
-  printf("read %d bytes\n", n);
+
+  if((int)*response == -1){
+    return -1;
+  }
+
   memcpy(buffer, response, msg.nbytes);
+
+  printf("read %d bytes\n", n);
+  // memcpy(buffer, response, msg.nbytes);
   // printf("response of creat: %s\n", (int)*response);
   
   // return (int)*response;
