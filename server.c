@@ -428,19 +428,22 @@ int Ser_MFS_Read(void* fs_img){
       // Check if nbytes is greater than size of file minus offset or less than 0, if so return -1
       if(msg->nbytes > fileinode->size - msg->offset || msg->nbytes < 0)
         return -1;
-
+      printf("congrats on reaching this part\n");
       // Use fileinode->direct[0] and offset to reach byte to begin reading from
       void *tempptr = fs_img + (fileinode->direct[0] * MFS_BLOCK_SIZE) + msg->offset;
       char *readptr = (char*)tempptr;
       int i = 0;
+      printf("congrats on reaching this part 2\n");
       fileread = malloc(sizeof(FileRead_t));
       for(i = 0; i < msg->nbytes; i++){
         fileread->filedata[i] = *readptr;
         readptr++;
       }
+      
       if(i < MFS_BLOCK_SIZE){
         fileread->filedata[i] = '\0';
       }
+      printf("string read: %s\n", fileread->filedata);
       return 0;
     }
 
@@ -729,6 +732,8 @@ int main(int argc, char *argv[]) {
         //   tempreply = malloc();
         //   strcpy(tempreply, fileread->filedata);
         // }
+        int ret = Ser_MFS_Read(fs_img);
+        printf("Read finished, it's %d\n", ret);
         tempreply = malloc(msg->nbytes);
         if(readtype == FILEREAD){
           strcpy(tempreply, fileread->filedata);

@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
     sleep(1);
     
 
-     // TEST 5: Test Read
+     // TEST 5: Test Read for regular file
     int inum2 = 1; // file inum
     char buffer2[MFS_BLOCK_SIZE];
     int offset2 = 69;

@@ -8,8 +8,8 @@ build project using make
 **********************************************************************
 Trying to build project using make
 make
-gcc server.o -o server udp.c
-gcc -c -fpic mfs.c 
+gcc -g -Wall -Werror  server.o -o server udp.c
+gcc -g -c -fpic mfs.c 
 mfs.c: In function ‘MFS_Lookup’:
 mfs.c:84:3: warning: format not a string literal and no format arguments [-Wformat-security]
    84 |   sprintf(msg.name, name);
@@ -30,10 +30,10 @@ mfs.c: In function ‘MFS_Unlink’:
 mfs.c:245:3: warning: format not a string literal and no format arguments [-Wformat-security]
   245 |   sprintf(msg.name, name);
       |   ^~~~~~~
-gcc -c -fpic udp.c
-gcc -c -fpic server.c
+gcc -g -c -fpic udp.c
+gcc -g -c -fpic server.c
 gcc -shared -o libmfs.so mfs.o udp.o
-gcc -L. -o client client.c -Wall libmfs.so
+gcc -L. -g -o client client.c -Wall libmfs.so
 
 
 test build PASSED
@@ -53,9 +53,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9083
-/tmp/tmpuuvalU/p/server 9083 /home/follis/private/cs537/Project4/osp4/test.img
-Listening for connections on port 9083
+Starting server on port 9583
+/tmp/tmpDOpdnf/p/server 9583 /home/follis/private/cs537/Project4/osp4/test.img
+Listening for connections on port 9583
 inodes 0
 max inum: 32
 server:: waiting...
@@ -82,9 +82,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9011
-/tmp/tmpuuvalU/p/server 9011 /home/follis/private/cs537/Project4/osp4/test.img
-Listening for connections on port 9011
+Starting server on port 9795
+/tmp/tmpDOpdnf/p/server 9795 /home/follis/private/cs537/Project4/osp4/test.img
+Listening for connections on port 9795
 inodes 0
 max inum: 32
 server:: waiting...
@@ -133,22 +133,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8032
-/tmp/tmpuuvalU/p/server 8032 /home/follis/private/cs537/Project4/osp4/test.img
-
-
-test write FAILED
- (write then read one block)
- Timelimit (10.0s) exceeded
-
-('starting', 'stat')
-
-**********************************************************************
-
-Test stat
-stat a regular file
-
-**********************************************************************
+Starting server on port 7392
+/tmp/tmpDOpdnf/p/server 7392 /home/follis/private/cs537/Project4/osp4/test.img
 in mfs creat
 recvfrom: 8
 read 8 bytes
@@ -162,15 +148,32 @@ recvfrom: 8
 read 8 bytes
 response of write: -1
 in mfs read
-recvfrom: -1
+recvfrom: 8
+read 8 bytes
+response of read: 46
+Failure: MFS_Read returned failure inum=0 block=0
+
+
+test write FAILED
+ (write then read one block)
+ MFS_Read returned failure inum=0 block=0
+
+('starting', 'stat')
+
+**********************************************************************
+
+Test stat
+stat a regular file
+
+**********************************************************************
 total blocks        36
   inodes            32 [size of each: 128]
   data blocks       32
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6997
-/tmp/tmpuuvalU/p/server 6997 /home/follis/private/cs537/Project4/osp4/test.img
+Starting server on port 5391
+/tmp/tmpDOpdnf/p/server 5391 /home/follis/private/cs537/Project4/osp4/test.img
 in mfs creat
 recvfrom: 8
 read 8 bytes
@@ -208,22 +211,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7875
-/tmp/tmpuuvalU/p/server 7875 /home/follis/private/cs537/Project4/osp4/test.img
-
-
-test overwrite FAILED
- (overwrite a block)
- Timelimit (10.0s) exceeded
-
-('starting', 'maxfile')
-
-**********************************************************************
-
-Test maxfile
-write largest possible file
-
-**********************************************************************
+Starting server on port 8630
+/tmp/tmpDOpdnf/p/server 8630 /home/follis/private/cs537/Project4/osp4/test.img
 in mfs creat
 recvfrom: 8
 read 8 bytes
@@ -237,16 +226,33 @@ recvfrom: 8
 read 8 bytes
 response of write: -1
 in mfs read
-recvfrom: -1
+recvfrom: 8
+read 8 bytes
+response of read: 46
+Failure: MFS_Read returned failure inum=0 block=0
+
+
+test overwrite FAILED
+ (overwrite a block)
+ MFS_Read returned failure inum=0 block=0
+
+('starting', 'maxfile')
+
+**********************************************************************
+
+Test maxfile
+write largest possible file
+
+**********************************************************************
 total blocks        39
   inodes            128 [size of each: 128]
   data blocks       32
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5839
-/tmp/tmpuuvalU/p/server 5839 /home/follis/private/cs537/Project4/osp4/test.img
-Listening for connections on port 5839
+Starting server on port 7802
+/tmp/tmpDOpdnf/p/server 7802 /home/follis/private/cs537/Project4/osp4/test.img
+Listening for connections on port 7802
 inodes 0
 max inum: 32
 server:: waiting...
@@ -433,21 +439,7 @@ Write done, it's -1
 server:: reply
 server:: waiting...
 recvfrom: 1000
-server:: read message [si
-
-test maxfile FAILED
- (write largest possible file)
- Timelimit (10.0s) exceeded
-
-('starting', 'maxfile2')
-
-**********************************************************************
-
-Test maxfile2
-write more blocks than possible
-
-**********************************************************************
-in mfs creat
+server:: read message [siin mfs creat
 recvfrom: 8
 read 8 bytes
 response of creat: 0
@@ -576,16 +568,33 @@ recvfrom: 8
 read 8 bytes
 response of write: -1
 in mfs read
-recvfrom: -1
+recvfrom: 8
+read 8 bytes
+response of read: 46
+Failure: MFS_Read returned failure inum=0 block=0
+
+
+test maxfile FAILED
+ (write largest possible file)
+ MFS_Read returned failure inum=0 block=0
+
+('starting', 'maxfile2')
+
+**********************************************************************
+
+Test maxfile2
+write more blocks than possible
+
+**********************************************************************
 total blocks        36
   inodes            32 [size of each: 128]
   data blocks       32
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8835
-/tmp/tmpuuvalU/p/server 8835 /home/follis/private/cs537/Project4/osp4/test.img
-Listening for connections on port 8835
+Starting server on port 5213
+/tmp/tmpDOpdnf/p/server 5213 /home/follis/private/cs537/Project4/osp4/test.img
+Listening for connections on port 5213
 inodes 0
 max inum: 32
 server:: waiting...
@@ -927,9 +936,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8558
-/tmp/tmpuuvalU/p/server 8558 /home/follis/private/cs537/Project4/osp4/test.img
-Listening for connections on port 8558
+Starting server on port 7020
+/tmp/tmpDOpdnf/p/server 7020 /home/follis/private/cs537/Project4/osp4/test.img
+Listening for connections on port 7020
 inodes 0
 max inum: 32
 server:: waiting...
@@ -976,9 +985,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5585
-/tmp/tmpuuvalU/p/server 5585 /home/follis/private/cs537/Project4/osp4/test.img
-Listening for connections on port 5585
+Starting server on port 9467
+/tmp/tmpDOpdnf/p/server 9467 /home/follis/private/cs537/Project4/osp4/test.img
+Listening for connections on port 9467
 inodes 0
 max inum: 32
 server:: waiting...
@@ -1048,8 +1057,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6367
-/tmp/tmpuuvalU/p/server 6367 /home/follis/private/cs537/Project4/osp4/test.img
+Starting server on port 8944
+/tmp/tmpDOpdnf/p/server 8944 /home/follis/private/cs537/Project4/osp4/test.img
 in mfs creat
 recvfrom: 8
 read 8 bytes
@@ -1083,8 +1092,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7930
-/tmp/tmpuuvalU/p/server 7930 /home/follis/private/cs537/Project4/osp4/test.img
+Starting server on port 6216
+/tmp/tmpDOpdnf/p/server 6216 /home/follis/private/cs537/Project4/osp4/test.img
 in mfs creat
 recvfrom: 8
 read 8 bytes
@@ -1118,8 +1127,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5947
-/tmp/tmpuuvalU/p/server 5947 /home/follis/private/cs537/Project4/osp4/test.img
+Starting server on port 8183
+/tmp/tmpDOpdnf/p/server 8183 /home/follis/private/cs537/Project4/osp4/test.img
 in mfs creat
 recvfrom: 8
 read 8 bytes
@@ -1157,8 +1166,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7275
-/tmp/tmpuuvalU/p/server 7275 /home/follis/private/cs537/Project4/osp4/test.img
+Starting server on port 6231
+/tmp/tmpDOpdnf/p/server 6231 /home/follis/private/cs537/Project4/osp4/test.img
 in mfs creat
 recvfrom: 8
 read 8 bytes
@@ -1196,8 +1205,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5958
-/tmp/tmpuuvalU/p/server 5958 /home/follis/private/cs537/Project4/osp4/test.img
+Starting server on port 5465
+/tmp/tmpDOpdnf/p/server 5465 /home/follis/private/cs537/Project4/osp4/test.img
 in mfs creat
 recvfrom: 8
 read 8 bytes
@@ -1239,9 +1248,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7736
-/tmp/tmpuuvalU/p/server 7736 /home/follis/private/cs537/Project4/osp4/test.img
-Listening for connections on port 7736
+Starting server on port 9071
+/tmp/tmpDOpdnf/p/server 9071 /home/follis/private/cs537/Project4/osp4/test.img
+Listening for connections on port 9071
 inodes 0
 max inum: 32
 server:: waiting...
@@ -1269,22 +1278,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8556
-/tmp/tmpuuvalU/p/server 8556 /home/follis/private/cs537/Project4/osp4/test.img
-
-
-test persist FAILED
- (restart server after creating a file)
- Timelimit (30.0s) exceeded
-
-('starting', 'bigdir')
-
-**********************************************************************
-
-Test bigdir
-create a directory with 126 files
-
-**********************************************************************
+Starting server on port 9033
+/tmp/tmpDOpdnf/p/server 9033 /home/follis/private/cs537/Project4/osp4/test.img
 in mfs creat
 recvfrom: 8
 read 8 bytes
@@ -1302,16 +1297,33 @@ recvfrom: 8
 read 8 bytes
 inum of lookup file: 1
 in mfs read
-recvfrom: -1
+recvfrom: 8
+read 8 bytes
+response of read: 46
+Failure: MFS_Read returned failure inum=0 block=0
+
+
+test persist FAILED
+ (restart server after creating a file)
+ MFS_Read returned failure inum=0 block=0
+
+('starting', 'bigdir')
+
+**********************************************************************
+
+Test bigdir
+create a directory with 126 files
+
+**********************************************************************
 total blocks        39
   inodes            128 [size of each: 128]
   data blocks       32
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8477
-/tmp/tmpuuvalU/p/server 8477 /home/follis/private/cs537/Project4/osp4/test.img
-Listening for connections on port 8477
+Starting server on port 9088
+/tmp/tmpDOpdnf/p/server 9088 /home/follis/private/cs537/Project4/osp4/test.img
+Listening for connections on port 9088
 inodes 0
 max inum: 32
 server:: waiting...
@@ -4133,9 +4145,9 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7628
-/tmp/tmpuuvalU/p/server 7628 /home/follis/private/cs537/Project4/osp4/test.img
-Listening for connections on port 7628
+Starting server on port 8278
+/tmp/tmpDOpdnf/p/server 8278 /home/follis/private/cs537/Project4/osp4/test.img
+Listening for connections on port 8278
 inodes 0
 max inum: 32
 server:: waiting...
@@ -4326,7 +4338,7 @@ test creat PASSED
 
 test write FAILED
  (write then read one block)
- Timelimit (10.0s) exceeded
+ MFS_Read returned failure inum=0 block=0
 
 test stat FAILED
  (stat a regular file)
@@ -4334,11 +4346,11 @@ test stat FAILED
 
 test overwrite FAILED
  (overwrite a block)
- Timelimit (10.0s) exceeded
+ MFS_Read returned failure inum=0 block=0
 
 test maxfile FAILED
  (write largest possible file)
- Timelimit (10.0s) exceeded
+ MFS_Read returned failure inum=0 block=0
 
 test maxfile2 FAILED
  (write more blocks than possible)
@@ -4375,7 +4387,7 @@ test name PASSED
 
 test persist FAILED
  (restart server after creating a file)
- Timelimit (30.0s) exceeded
+ MFS_Read returned failure inum=0 block=0
 
 test bigdir PASSED
  (create a directory with 126 files)
