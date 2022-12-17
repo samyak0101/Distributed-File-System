@@ -40,14 +40,14 @@ int MAX_PORT = 40000;
 //       if (retval == -1)
 //         perror("select()");
 //       else if (retval) {
-//         // printf("Data is available now.\n");
+//         // //("Data is available now.\n");
 //         /* FD_ISSET(0, &rfds) will be true. */
 //         rc = UDP_Read(sd, &addr2, (char *)&buf, sizeof(MFS_Msg_t));
-//         printf("CLIENT:: Type: %d Inum: %d Block: %d Message: %s\n",buf.type,buf.inum,buf.block,(char *)buf.buffer);
+//         //("CLIENT:: Type: %d Inum: %d Block: %d Message: %s\n",buf.type,buf.inum,buf.block,(char *)buf.buffer);
 //         return rc;
 //       }
 //       else {
-//         //printf("No data within five seconds.\n");
+//         ////("No data within five seconds.\n");
 //       }
 //     }
 //   // } while (!retval);
@@ -77,7 +77,7 @@ int MFS_Init(char *hostname, int port) {
 }
 
 int MFS_Lookup(int pinum, char name[28]) {
-  // printf("in mfs lookup\n");
+  // //("in mfs lookup\n");
 
   msg.type = LOOKUP;
   msg.pinum = pinum;
@@ -99,14 +99,14 @@ int MFS_Lookup(int pinum, char name[28]) {
   }
 
 
-  // printf("read %d bytes\n", n);
+  // //("read %d bytes\n", n);
   int ret = (int)*response;
-  // printf("return of lookup: %d\n", ret);
+  // //("return of lookup: %d\n", ret);
   // for (int i = 0; i < 8; i++) {
   //   for (int j = 0; j < 8; j++) {
-  //     printf("%x ", response[i*8 + j]);
+  //     //("%x ", response[i*8 + j]);
   //   }
-  //   printf("\n");
+  //   //("\n");
   // }
   //TODO: Fix stack smashing error and add string to seaarch for in lookup
   // fflush(stdout);
@@ -118,7 +118,7 @@ int MFS_Lookup(int pinum, char name[28]) {
 
 // Done
 int MFS_Stat(int inum, MFS_Stat_t *m) {
-  // printf("in mfs stat\n");
+  // //("in mfs stat\n");
 
   msg.type = STAT;
   msg.statstruct = *m;
@@ -141,8 +141,8 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
   }
 
   // m = (MFS_Stat_t*)statreturn;
-  // printf("size of m: %d\n", m->size);
-  // printf("type of data: %d\n", m->type);
+  // //("size of m: %d\n", m->size);
+  // //("type of data: %d\n", m->type);
   fflush(stdout);
   m->size = statreturn->size;
   m->type = statreturn->type;
@@ -152,16 +152,16 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
 }
 
 int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
-  // printf("in mfs write\n");
+  // //("in mfs write\n");
 
   msg.type = WRITE;
   msg.inum = inum;
   msg.offset = offset;
   msg.nbytes = nbytes;
-  // printf("seg fault?\n");
+  // //("seg fault?\n");
   memcpy(msg.buffer, buffer, nbytes);
 
-  // printf("why though?\n");
+  // //("why though?\n");
   int n = UDP_Write(clientfd, &addrSnd, (char *)&msg, sizeof(messagestruct));
   if (n < 0) {
     perror("write");
@@ -177,14 +177,13 @@ int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
   }
 
   int a = (int)*response;
-  printf("mfs write response %d\n", a);
+  //("mfs write response %d\n", a);
 
   return a;
 }
 
 
 int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
-  // printf("in mfs read\n");
 
   msg.type = READ;
   msg.inum = inum;
@@ -203,7 +202,7 @@ int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
 
   // n = UDP_Read(clientfd, &addrRcv, response, sizeof(int*));
   n = UDP_Read(clientfd, &addrRcv, response, msg.nbytes);
-  // printf("%s\n", response);
+  // //("%s\n", response);
 
   if (n < 0) {
     perror("read");
@@ -221,16 +220,16 @@ int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
     return -1;
   }
 
-  // printf("read %d bytes\n", n);
+  // //("read %d bytes\n", n);
   // memcpy(buffer, response, msg.nbytes);
-  // printf("response of creat: %s\n", (int)*response);
+  // //("response of creat: %s\n", (int)*response);
   
   // return (int)*response;
   return 0;
 }
 
 int MFS_Creat(int pinum, int type, char *name) {
-  // printf("in mfs creat\n");
+  // //("in mfs creat\n");
 
   msg.type = CREAT;
   msg.pinum = pinum;
@@ -255,15 +254,15 @@ int MFS_Creat(int pinum, int type, char *name) {
     return -1;
   }
 
-  // printf("read %d bytes\n", n);
+  // //("read %d bytes\n", n);
   int a = (int)*response;
-  // printf("response of creat: %d\n", a);
+  // //("response of creat: %d\n", a);
   return a;
 
 }
 
 int MFS_Unlink(int pinum, char *name) {
-  // printf("in mfs unlink\n");
+  // //("in mfs unlink\n");
 
   msg.type = UNLINK;
   msg.pinum = pinum;
@@ -285,13 +284,13 @@ int MFS_Unlink(int pinum, char *name) {
   }
 
     int a = (int)*response;
-  // printf("response of unlink: %d\n", a);
+  // //("response of unlink: %d\n", a);
   return a;
 
 }
 
 int MFS_Shutdown() {
-  // printf("in mfs shutdown\n");
+  // //("in mfs shutdown\n");
 
   msg.type = SHUTDOWN;
 

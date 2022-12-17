@@ -39,14 +39,14 @@ unsigned int get_bit(unsigned int *bitmap, int position) {
 }
 
 void set_bit(unsigned int *bitmap, int position) {
-  // printf("position: %d\n", position);
+  // //("position: %d\n", position);
    int index = position / 32;
    int offset = 31 - (position % 32);
    bitmap[index] |= (0x1 << offset);
 }
 
 void clear_bit(unsigned int *bitmap, int position) {
-  // printf("position: %d\n", position);
+  // //("position: %d\n", position);
    int index = position / 32;
    int offset = 31 - (position % 32);
    bitmap[index] &= ~(1UL << offset);
@@ -54,32 +54,32 @@ void clear_bit(unsigned int *bitmap, int position) {
 
 //helper
 int alloc_databitmap(void* fs_img){
-  // printf("inside alloc data bitmap \n");
+  // //("inside alloc data bitmap \n");
 
   void *addr = fs_img + (superblock->data_bitmap_addr * MFS_BLOCK_SIZE);
   int valid;
   int position = -1;
   // TODO: change this loop to loop over entire data bitmap. Rn assuming only 1 block dbm.
   for (int i = 0; i < superblock -> num_data; i++){
-    printf("calling getbit with i = %d\n", i);
+    //("calling getbit with i = %d\n", i);
     valid = get_bit((unsigned int *)addr, i);
     if(valid != 1){
-      printf("valid was not 1\n");
+      //("valid was not 1\n");
       position = i;
       
       set_bit((unsigned int *)addr, i);
-      printf("done setting bit!\n");
+      //("done setting bit!\n");
       break;
     }
   }
-  // printf("returned value databitmap alloc: %d\n", position);
+  // //("returned value databitmap alloc: %d\n", position);
 
   return position;  
 }
 
 //helper
 int alloc_inodebitmap(void* fs_img){
-  printf("inside alloc inode bit\n");
+  //("inside alloc inode bit\n");
 
   void *addr = fs_img + (superblock->inode_bitmap_addr * MFS_BLOCK_SIZE);
   int valid;
@@ -93,14 +93,14 @@ int alloc_inodebitmap(void* fs_img){
       break;
     }
   }
-  // printf(" returned value inode bitmap alloc: %d\n", position);
+  // //(" returned value inode bitmap alloc: %d\n", position);
 
   return position;  
 }
 
 // server MFS Stat
 char* Ser_MFS_Stat(void* fs_img){
-    // printf("MESSAGE TYPE! type: %d\n", msg->type);
+    // //("MESSAGE TYPE! type: %d\n", msg->type);
     MFS_Stat_t *statstruct = &(msg->statstruct);
 
     // check if the inode is valid in inode bitmap
@@ -108,7 +108,7 @@ char* Ser_MFS_Stat(void* fs_img){
     int valid = get_bit(addr, msg->inum);
 
     // return struct with -1's if inode is invalid
-    // printf("valid bit of root: %i\n", valid);
+    // //("valid bit of root: %i\n", valid);
 
     if(valid != 1){
         statstruct->type = -1; 
@@ -116,8 +116,8 @@ char* Ser_MFS_Stat(void* fs_img){
         return (char*)statstruct; 
     }
 
-    printf("is it valid?: %d\n", valid);
-    printf("what inum am i looking for? %d\n", msg->inum);
+    //("is it valid?: %d\n", valid);
+    //("what inum am i looking for? %d\n", msg->inum);
 
     // else, go to inode and read in inode struct 
     void *inode_offset = fs_img + (superblock->inode_region_addr + msg->inum/32) * MFS_BLOCK_SIZE; 
@@ -129,7 +129,7 @@ char* Ser_MFS_Stat(void* fs_img){
     statstruct -> type = inode->type;
     statstruct -> size = inode->size;
 
-    printf("Printing from stat!\n This is the size: %d\n This is the type: %d\n", inode->size, inode->type);
+    //("Printing from stat!\n This is the size: %d\n This is the type: %d\n", inode->size, inode->type);
     
     // return stat struct 
     return (char*)statstruct;
@@ -140,15 +140,15 @@ int Ser_MFS_Lookup(void* fs_img){
 
     // TODO: fix method so it searches for string name in msg->name and return it's inum
     // Also do the error checking and retunrn appropriately when  the thing im looking for isn't there or something.
-    // printf("MESSAGE TYPE! type: %d\n", msg->type);
-    // printf("Looking for this name in lookup: %s\n", msg->name);
+    // //("MESSAGE TYPE! type: %d\n", msg->type);
+    // //("Looking for this name in lookup: %s\n", msg->name);
 
     // check if the inode is valid in inode bitmap
     void *addr = fs_img + (superblock->inode_bitmap_addr * MFS_BLOCK_SIZE);
     int valid = get_bit(addr, msg->pinum);
 
     // return struct with -1's if inode is invalid
-    // printf("valid bit of root: %i\n", valid);
+    // //("valid bit of root: %i\n", valid);
     if(valid != 1){
         return -1;
     }
@@ -157,8 +157,8 @@ int Ser_MFS_Lookup(void* fs_img){
     void *inode_offset = fs_img + (superblock->inode_region_addr + msg->inum/32) * MFS_BLOCK_SIZE;
     void *inode_offset2 = inode_offset;
     inode_offset = inode_offset +  (msg->pinum % 32)*sizeof(inode_t);
-    printf("msg inum: %d\n", msg->pinum);
-    printf("%p vs %p\n", inode_offset2, inode_offset);
+    //("msg inum: %d\n", msg->pinum);
+    //("%p vs %p\n", inode_offset2, inode_offset);
     // read in inode struct but as an MFS stat struct
 
     inode_t *inode = (inode_t*)inode_offset;
@@ -171,24 +171,24 @@ int Ser_MFS_Lookup(void* fs_img){
     found -= 1; found += 1; found = -1;
     // loop through all directory pointers (30) and all dirents to find the file.
     for (int i = 0; i<DIRECT_PTRS; i++){
-      // printf("entered for loop\n");
+      // //("entered for loop\n");
       if(inode->direct[i]<0 || inode->direct[i]>=30){
         break;
       }
       int location = inode->direct[i] * UFS_BLOCK_SIZE;
-      // printf("block size: %ld\n", UFS_BLOCK_SIZE/sizeof(dir_ent_t));
+      // //("block size: %ld\n", UFS_BLOCK_SIZE/sizeof(dir_ent_t));
       for (int j = 0; j < UFS_BLOCK_SIZE/sizeof(dir_ent_t); j++){
-        // printf("entered second for loop\n");
+        // //("entered second for loop\n");
         // location += sizeof(dir_ent_t)*j;
         void *dir_ent_offset = fs_img + location + sizeof(dir_ent_t)*j;
         dir_ent_t *directory_entry = (dir_ent_t *)dir_ent_offset;
-        // printf("name of dirent at this location: %s\n ", directory_entry->name);
+        // //("name of dirent at this location: %s\n ", directory_entry->name);
         // check if the name is the same
         if(strcmp(msg->name, directory_entry->name)==0){
           found = 1;
-          printf("Looked up inode %d -> %s\n", directory_entry->inum, msg->name);
-          printf("Found this name in lookup: %s\n", directory_entry->name);
-          printf("inum in lookup LOOKKKUPP: %d\n", directory_entry->inum);
+          //("Looked up inode %d -> %s\n", directory_entry->inum, msg->name);
+          //("Found this name in lookup: %s\n", directory_entry->name);
+          //("inum in lookup LOOKKKUPP: %d\n", directory_entry->inum);
           return directory_entry->inum;
         }
       }
@@ -200,23 +200,23 @@ int Ser_MFS_Lookup(void* fs_img){
 int Ser_MFS_Creat(void* fs_img){ 
 
 
-    // printf("Message Type: %d\n", msg->type);
+    // //("Message Type: %d\n", msg->type);
     // check if the inode of the parent directory is valid
     void *addr = fs_img + (superblock->inode_bitmap_addr * MFS_BLOCK_SIZE);
     int valid = get_bit(addr, msg->pinum);
     if(valid != 1){
       return -1; // pinum is invalid
     }
-    // printf("pinum is valid\n");
+    // //("pinum is valid\n");
 
 
     //if pinum is valid, check if dir or file already exists
     int already_exists = Ser_MFS_Lookup(fs_img);
     if(already_exists != -1){
-      printf("file or directory already exists\n");
+      //("file or directory already exists\n");
       return 0; // file or directory with same name already exists, cannot overwrite
     } else {
-      printf("file not found in lookup\n");
+      //("file not found in lookup\n");
     }
 
 
@@ -238,11 +238,11 @@ int Ser_MFS_Creat(void* fs_img){
     int found = -1;
 
     // find space for dir ent of new file/directory and save pointer to address space check.
-    // printf("Looping through dirent to find free dir ent slot\n");
+    // //("Looping through dirent to find free dir ent slot\n");
     for(int i = 0; i < DIRECT_PTRS; i++){
-      // printf("parent inode dierct i is %d\n", parentinode->direct[i]);
+      // //("parent inode dierct i is %d\n", parentinode->direct[i]);
       if(parentinode->direct[i] == -1){
-        // printf("NOT SUPPOSED TO GO HERE! \n\n\n");
+        // //("NOT SUPPOSED TO GO HERE! \n\n\n");
         // create and allocate here
         // TODO: assign data bitmap location and allocate data block
         int datablock_addr = alloc_databitmap(fs_img);
@@ -261,12 +261,12 @@ int Ser_MFS_Creat(void* fs_img){
       iterator = fs_img + direct_ptr_datablock * UFS_BLOCK_SIZE;
 
       for (int j = 0; j < (int) UFS_BLOCK_SIZE / sizeof(dir_ent_t); j++){
-        // printf("checking for sub directories: \n");
+        // //("checking for sub directories: \n");
         void *location = iterator + j*sizeof(dir_ent_t);
         check = (dir_ent_t *)location;
-        // printf("name of this location: %s\n", check -> name);
+        // //("name of this location: %s\n", check -> name);
         // if an unused directory entry exists, there is space to create a new file/directory
-        // printf("Reached inum checking area\n");
+        // //("Reached inum checking area\n");
         if(check->inum == -1){
           found = 1;
           break;
@@ -291,21 +291,21 @@ int Ser_MFS_Creat(void* fs_img){
     //increase size of parent inode
 
     parentinode->size += sizeof(dir_ent_t);
-    printf("Found space for inode, now need to alloc an inode to it\n");
+    //("Found space for inode, now need to alloc an inode to it\n");
     // file/directory does not exist, so allocate inode for it
-    // printf("allocating inode to type %d\n", msg->ttype);
+    // //("allocating inode to type %d\n", msg->ttype);
     int new_inode = alloc_inodebitmap(fs_img);
     if(new_inode < 0){
-      printf("could not allocate a new inode that's the problem\n");
+      //("could not allocate a new inode that's the problem\n");
       return -1; // could not allocate since inode bitmap is full
     }
-    printf("Allocated inode : %d\n", new_inode);
+    //("Allocated inode : %d\n", new_inode);
     // creating inode in inode region
     void *tempint = fs_img + superblock->inode_region_addr * MFS_BLOCK_SIZE;
   
     tempint += sizeof(inode_t) * new_inode;
 
-    printf("here 10k idk\n");
+    //("here 10k idk\n");
     inode_t *new_inode_struct = (inode_t *)tempint;
     new_inode_struct->type = msg->ttype;
 
@@ -314,24 +314,24 @@ int Ser_MFS_Creat(void* fs_img){
     }
 
     if(msg->ttype == 0){
-      printf("director: %d\n", msg->ttype);
+      //("director: %d\n", msg->ttype);
     }
     else{
-      // printf("file: %d\n", msg->ttype);
+      // //("file: %d\n", msg->ttype);
     }
     if(msg->ttype==1){
       //almost done
       new_inode_struct -> size = 0;
       check->inum = new_inode;
       strcpy(check->name, msg->name);
-      // printf("Created new file. Inum is %d \n", new_inode);
+      // //("Created new file. Inum is %d \n", new_inode);
       return 0; // done?
     }
 
     new_inode_struct -> size = 64;
 
     // if directory:
-    printf("here\n");
+    //("here\n");
     int newdir_dirent_int = alloc_databitmap(fs_img);
     if(newdir_dirent_int < 0){
       // set new direntry to null
@@ -346,7 +346,7 @@ int Ser_MFS_Creat(void* fs_img){
     iterator = fs_img + new_inode_struct->direct[0] * UFS_BLOCK_SIZE;
 
       for (int j = 0; j < (int) UFS_BLOCK_SIZE / sizeof(dir_ent_t); j++){
-        // printf("checking for sub directories: \n");
+        // //("checking for sub directories: \n");
         void *location = iterator + j*sizeof(dir_ent_t);
         check = (dir_ent_t *)location;
         check->inum = -1;
@@ -358,24 +358,24 @@ int Ser_MFS_Creat(void* fs_img){
       dir_ent_t *newdir_dirent_one = (dir_ent_t *)inode_offset;
       
       // newdir_dirent_one->name = ".";
-      // printf("Created new directory. Inum is %d and about to write children now:\n", new_inode);
+      // //("Created new directory. Inum is %d and about to write children now:\n", new_inode);
       strcpy(newdir_dirent_one->name, ".");
-      printf("new inode printed later: %d\n", new_inode);
+      //("new inode printed later: %d\n", new_inode);
       newdir_dirent_one->inum = new_inode;
-      printf("Created directory '%s' inum '%d'\n", newdir_dirent_one->name, newdir_dirent_one->inum);
+      //("Created directory '%s' inum '%d'\n", newdir_dirent_one->name, newdir_dirent_one->inum);
 
       newdir_dirent_one += 1;
       strcpy(newdir_dirent_one->name, "..");
       newdir_dirent_one->inum = msg->pinum;
 
-      printf("Created directory '%s' inum '%d'\n", newdir_dirent_one->name, newdir_dirent_one->inum);
+      //("Created directory '%s' inum '%d'\n", newdir_dirent_one->name, newdir_dirent_one->inum);
 
     return 0;
 }
 
 // server MFS Write - 
 int Ser_MFS_Write(void* fs_img){
-    printf("Inside Server MFS_Write; Message type: %d\n", msg->type);
+    //("Inside Server MFS_Write; Message type: %d\n", msg->type);
     if(msg->offset / UFS_BLOCK_SIZE > 29){
       return -1;
     }
@@ -387,7 +387,7 @@ int Ser_MFS_Write(void* fs_img){
     }
     // Check if nbytes is greater than 4096 or less than 0, if so return -1
     if(msg->nbytes > 4096 || msg->nbytes < 0){
-      printf("2\n");
+      //("2\n");
       return -1;
     }
     // Go to appropriate inode based on inum
@@ -397,23 +397,23 @@ int Ser_MFS_Write(void* fs_img){
     inode_t *inode = (inode_t*)inode_off;
     // Check if offset is greater than size of data block or less than 0, if so return -1
     if( msg->offset < 0 ){
-      printf("3\n");
+      //("3\n");
       return -1;
     }
     // Check i-bitmap and make sure bit corresponding to inum is allocated (set to 1)
     // void *tempptr = fs_img + superblock->inode_bitmap_addr * MFS_BLOCK_SIZE;
     // int bit = get_bit((unsigned int*)tempptr, msg->inum);
     // if(bit == 0){
-    //   printf("4\n");
+    //   //("4\n");
     //   return -1;
     // }
     // If i-bitmap is allocated at inum, check if file type is directory, if so return -1
     if(inode->type == MFS_DIRECTORY){
-      printf("5\n");
+      //("5\n");
       return -1;
     }
 
-    printf("file size: %d\n", inode->size);
+    //("file size: %d\n", inode->size);
     // If inode's size is set to 0, try to allocate space for file in data region
     if(inode->size == 0){
       int datablock = alloc_databitmap(fs_img);
@@ -427,13 +427,13 @@ int Ser_MFS_Write(void* fs_img){
       }
     }
 
-    printf("offset requested: %d\n", msg->offset);
+    //("offset requested: %d\n", msg->offset);
 
     int block = msg->offset / UFS_BLOCK_SIZE;
-    printf("Block offset: %d\n", block);
+    //("Block offset: %d\n", block);
     if(inode->direct[block] == -1){
       int datablock = alloc_databitmap(fs_img);
-      printf("Allocated new data bitmap!\n");
+      //("Allocated new data bitmap!\n");
       if(datablock == -1){
         return -1;
       }
@@ -460,7 +460,7 @@ void *Ser_MFS_Read(void* fs_img){
   }
     
     
-    printf("Inside Server MFS_Read; Message type: %d\n", msg->type);
+    //("Inside Server MFS_Read; Message type: %d\n", msg->type);
     // Check if inum is valid, if not return -1
     void *addr = fs_img + (superblock->inode_bitmap_addr * MFS_BLOCK_SIZE);
     int valid = get_bit(addr, msg->inum);
@@ -473,13 +473,13 @@ void *Ser_MFS_Read(void* fs_img){
     // reading inode struct of parent.
     inode_t *inode = (inode_t*)inode_off;
 
-    printf("size of file at inode: %d\n", inode->size);
+    //("size of file at inode: %d\n", inode->size);
 
     // Read behavior for file read
     if(inode->type == 1){
       // readtype is used in main for determining message to send back to client
       // readtype = FILEREAD;
-      printf("reached here\n");
+      //("reached here\n");
       // Check if offset is greater than size of file or less than 0, if so return -1
       if(msg -> offset > inode->size || msg->offset < 0){
       return (void *)negative_val;
@@ -492,7 +492,7 @@ void *Ser_MFS_Read(void* fs_img){
 
       }
 
-      printf("congrats on reaching this part\n");
+      //("congrats on reaching this part\n");
       if(inode->direct[0] < 0){
       return (void *)negative_val;
 
@@ -502,7 +502,7 @@ void *Ser_MFS_Read(void* fs_img){
       // char *readptr = (char*)tempptr;
       
       int i = 0;
-      printf("congrats on reaching this part 2\n");
+      //("congrats on reaching this part 2\n");
       // for(i = 0; i < msg->nbytes; i++){
       //   read_bytes[i] = *readptr;
       //   readptr++;
@@ -513,7 +513,7 @@ void *Ser_MFS_Read(void* fs_img){
       // if(i < MFS_BLOCK_SIZE){
       //   fileread->filedata[i] = '\0';
       // }
-      printf("string read: %s\n", (char *)read_bytes);
+      //("string read: %s\n", (char *)read_bytes);
 
       return read_bytes;
 
@@ -577,21 +577,21 @@ void *Ser_MFS_Read(void* fs_img){
 int Ser_MFS_Unlink(void* fs_img){
 
 
-  printf("Trying to unlink a file called %s\n", msg->name);
+  //("Trying to unlink a file called %s\n", msg->name);
 
   // check if pinum is valid
-    printf("parent has the inum: %d\n", msg->pinum);
+    //("parent has the inum: %d\n", msg->pinum);
     void *addr = fs_img + (superblock->inode_bitmap_addr * MFS_BLOCK_SIZE);
     int valid = get_bit(addr, msg->pinum);
 
     // return struct with -1's if inode is invalid
 
     if(valid != 1){
-      printf("parent inum aws invalid?\n");
+      //("parent inum aws invalid?\n");
         return -1;
     }
 
-    printf("pinum is valid\n");
+    //("pinum is valid\n");
 
     // else, go to inode and read in inode struct
     void *inode_offset = fs_img + (superblock->inode_region_addr + msg->pinum/32) * MFS_BLOCK_SIZE;
@@ -599,7 +599,7 @@ int Ser_MFS_Unlink(void* fs_img){
     // read in inode struct but as an MFS stat struct
 
     inode_t *parent_inode = (inode_t*)inode_offset;
-    printf("Got the parent inode. It's size is: %d\n", parent_inode->size);
+    //("Got the parent inode. It's size is: %d\n", parent_inode->size);
 
     int found = -1;
     int find_inum = -1;
@@ -610,7 +610,7 @@ int Ser_MFS_Unlink(void* fs_img){
 
       if(parent_inode->direct[i] == -1){
         // return 0 because file name does not exist so maybe it has already been deleted
-        printf("File name dne\n");
+        //("File name dne\n");
         return 0;
       }
 
@@ -618,13 +618,13 @@ int Ser_MFS_Unlink(void* fs_img){
       
 
       for (int j = 0; j < UFS_BLOCK_SIZE/sizeof(dir_ent_t); j++){
-        printf("entered second for loop\n");
+        //("entered second for loop\n");
         void *dir_ent_offset = fs_img + location + sizeof(dir_ent_t)*j;
         dirent_to_delete = (dir_ent_t *)dir_ent_offset;
-        // printf("name of dirent at this location: %s\n ", directory_entry->name);
+        // //("name of dirent at this location: %s\n ", directory_entry->name);
         // check if the name is the same
         if(strcmp(msg->name, dirent_to_delete->name)==0){
-          printf("Found dir ent with name %s in parent's directory entries\n", msg->name);
+          //("Found dir ent with name %s in parent's directory entries\n", msg->name);
           found = 1;
           find_inum = dirent_to_delete->inum;
           break;
@@ -636,11 +636,11 @@ int Ser_MFS_Unlink(void* fs_img){
     }
 
     if(found == -1){
-      printf("Not Supposed to be here!\n");
+      //("Not Supposed to be here!\n");
       return 0;
     }
     if(find_inum == -1){
-      printf("NOT SUPPOSED TO BE HERE!!! \n\n");
+      //("NOT SUPPOSED TO BE HERE!!! \n\n");
     }
 
     inode_offset = fs_img + (superblock->inode_region_addr + find_inum/32) * MFS_BLOCK_SIZE;
@@ -648,34 +648,34 @@ int Ser_MFS_Unlink(void* fs_img){
     // read in inode struct but as an MFS stat struct
 
     inode_t *inode_to_delete = (inode_t*)inode_offset;
-    printf("inode to delete size: %d\n inode to del   type: %d\n", inode_to_delete->size, inode_to_delete->type);
+    //("inode to delete size: %d\n inode to del   type: %d\n", inode_to_delete->size, inode_to_delete->type);
 
 
     if(inode_to_delete->type == 0 && inode_to_delete->size > 64){
       return -1; // cannot delete non-empty directory.
     }
 
-    printf("Reached, about to clear inode and some other stuff\n");
+    //("Reached, about to clear inode and some other stuff\n");
     // clear inode bitmap bit
     addr = fs_img + (superblock->inode_bitmap_addr * MFS_BLOCK_SIZE);
-    printf("attempting to clear %d\n", find_inum);
+    //("attempting to clear %d\n", find_inum);
     clear_bit((unsigned int *)addr, find_inum);
 
     
     int del_dbit = inode_to_delete->direct[0];
-    printf("Got past clear_bit i think!\n");
-    printf("value of delbit is %d\n", del_dbit);
+    //("Got past clear_bit i think!\n");
+    //("value of delbit is %d\n", del_dbit);
 
     if(del_dbit >= 0){
       // clear dbit
       addr = fs_img + (superblock->data_bitmap_addr * MFS_BLOCK_SIZE);
-      printf("before second clear bit\n");
+      //("before second clear bit\n");
       clear_bit((unsigned int *)addr, del_dbit);
-      printf("after second clear bit \n");
+      //("after second clear bit \n");
       inode_to_delete->direct[0] = -1;
     }
 
-    printf("Last 2 things to change!\n");
+    //("Last 2 things to change!\n");
     dirent_to_delete->inum = -1;
     parent_inode->size -= 32;
       
@@ -699,7 +699,7 @@ int main(int argc, char *argv[]) {
         perror("Failed to bind to UDP socket\n");
         return -1;
     } else{
-        printf("Listening for connections on port %i\n", port_num);
+        //("Listening for connections on port %i\n", port_num);
     }
 
     file_fd = open(img_path, O_RDWR);
@@ -716,11 +716,11 @@ int main(int argc, char *argv[]) {
 
     inodes = fs_img + superblock->inode_region_addr * UFS_BLOCK_SIZE;
 
-    printf("inodes %d\n", inodes->type);
+    //("inodes %d\n", inodes->type);
     
-    printf("max inum: %i\n", max_inodes);
+    //("max inum: %i\n", max_inodes);
 // delete these
-    // fprintf(stderr, "max inodes: %d\n", superblock->num_inodes);
+    // f//(stderr, "max inodes: %d\n", superblock->num_inodes);
     // exit(0);
 // delete until here
 
@@ -733,63 +733,63 @@ int main(int argc, char *argv[]) {
     while (1) {
       struct sockaddr_in addr;
       char message[BUFFER_SIZE];
-      printf("server:: waiting...\n");
+      //("server:: waiting...\n");
       int rc = UDP_Read(serverfd, &addr, message, BUFFER_SIZE);
 
       //working till here
-      printf("server:: read message [size:%d contents:(%s)]\n", rc, message);
+      //("server:: read message [size:%d contents:(%s)]\n", rc, message);
       msg = (messagestruct*)message;
       char *tempreply;
 
 
         // TODO: Create switch statement for different message types
       if(msg->type == STAT) {
-        printf(" message inum: %d\n", msg->inum);
+        //(" message inum: %d\n", msg->inum);
         tempreply = Ser_MFS_Stat(fs_img);    
         read_allocated = -1;    
       }
 
       else if(msg->type == LOOKUP) {
-        // printf("lookup message inum: %d\n", msg->inum);
-        printf("lookup message pinum: %d\n", msg->pinum);
+        // //("lookup message inum: %d\n", msg->inum);
+        //("lookup message pinum: %d\n", msg->pinum);
         int inum = Ser_MFS_Lookup(fs_img);
-        printf("Lookup done, it's %d\n", inum);
+        //("Lookup done, it's %d\n", inum);
         // tempreply = "test";
         tempreply = malloc(4);
         memcpy(tempreply, &inum, 4);
-        // printf("%s\n", tempreply);
+        // //("%s\n", tempreply);
       }
 
       else if(msg->type == CREAT){
-        printf(" message pinum: %d\n", msg->pinum);
-        printf("Creating with name: %s\n", msg->name);
+        //(" message pinum: %d\n", msg->pinum);
+        //("Creating with name: %s\n", msg->name);
 
         int ret = Ser_MFS_Creat(fs_img);
-        printf("Create done, it's %d\n", ret);
+        //("Create done, it's %d\n", ret);
         // tempreply = "test";
         tempreply = malloc(4);
         memcpy(tempreply, &ret, 4);
       }
 
       else if(msg->type == READ){
-        printf("calling read\n");
+        //("calling read\n");
         Ser_MFS_Read(fs_img);
-        printf("after read\n");
+        //("after read\n");
         tempreply = read_bytes;
-        printf("read response: %s\n", tempreply);
+        //("read response: %s\n", tempreply);
       }
 
       else if(msg->type == WRITE){
-        printf("calling write\n");
+        //("calling write\n");
         int ret = Ser_MFS_Write(fs_img);
-        printf("Write done, it's %d\n", ret);
+        //("Write done, it's %d\n", ret);
         // tempreply = "test";
         tempreply = malloc(4);
         memcpy(tempreply, &ret, 4);
       }
 
       else if(msg->type == SHUTDOWN){
-        printf("Calling shutdown\n");
+        //("Calling shutdown\n");
         msync(fs_img, finfo.st_size, PROT_READ | PROT_WRITE);
         UDP_Close(serverfd);
         close(file_fd);
@@ -797,9 +797,9 @@ int main(int argc, char *argv[]) {
       }
 
       else if(msg->type == UNLINK){
-        printf("Calling unlink\n");
+        //("Calling unlink\n");
         int inum = Ser_MFS_Unlink(fs_img);
-        printf("Unlink done, it's %d\n", inum);
+        //("Unlink done, it's %d\n", inum);
         tempreply = malloc(4);
         memcpy(tempreply, &inum, 4);
       }
@@ -812,7 +812,7 @@ int main(int argc, char *argv[]) {
         if(read_allocated != -1){
           free(tempreply);
         }
-        printf("server:: reply\n");
+        //("server:: reply\n");
       } 
     }
 
