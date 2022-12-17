@@ -8,7 +8,7 @@
 
 // client code
 int main(int argc, char *argv[]) {
-    MFS_Init("localhost", 57639);
+    MFS_Init("localhost", 52364);
 
     /*
     
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
     */
 
     int write_one_block(int inum, char *write_block, int off, int nbytes){
-      int ret = MFS_Write(inum, write_block, 0, nbytes);
+      int ret = MFS_Write(inum, write_block, off, nbytes);
       // printf("now  :%s\n", ms); // should print same block as write!!!
       // printf("write return val: %d\n", ret); // should write a block into a file 
       sleep(0.1);
@@ -50,12 +50,12 @@ int main(int argc, char *argv[]) {
       int inum = MFS_Lookup(0, "testfile");
 
 
-      for (int i = 0; i<30; i++){
+      for (int i = 0; i<31; i++){
         int ret = write_one_block(inum, write_block, UFS_BLOCK_SIZE*i, UFS_BLOCK_SIZE);
+        printf("write return val: %d\n", ret); // should read
         printf("iteration number: %d\n", i);
         ret = MFS_Read(inum, read_block, UFS_BLOCK_SIZE*i, UFS_BLOCK_SIZE);
-        printf("write return val: %d\n", ret); // should read
-        printf("comparing: %d\n", strcmp(read_block, write_block));
+        printf("read return val: %d\n", ret);
       }
 
       // printf("now  :%s\n", ms); // should print same block as write!!!

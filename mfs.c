@@ -177,7 +177,7 @@ int MFS_Write(int inum, char *buffer, int offset, int nbytes) {
   }
 
   int a = (int)*response;
-  // printf("mfs write response %d\n", a);
+  printf("mfs write response %d\n", a);
 
   return a;
 }
@@ -216,6 +216,10 @@ int MFS_Read(int inum, char *buffer, int offset, int nbytes) {
   }
 
   memcpy(buffer, response, msg.nbytes);
+
+  if(strcmp(response, "-1")==0){
+    return -1;
+  }
 
   // printf("read %d bytes\n", n);
   // memcpy(buffer, response, msg.nbytes);

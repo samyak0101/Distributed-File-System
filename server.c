@@ -24,6 +24,7 @@ void *read_bytes;
 FileRead_t *fileread;  // Filled when reading a single
 DirRead_t *dirread;    // Filled when reading directory
 enum read_type readtype;
+int read_allocated = 0;
 //
 
 void intHandler(int dummy) {
@@ -375,6 +376,9 @@ int Ser_MFS_Creat(void* fs_img){
 // server MFS Write - 
 int Ser_MFS_Write(void* fs_img){
     printf("Inside Server MFS_Write; Message type: %d\n", msg->type);
+    if(msg->offset / UFS_BLOCK_SIZE > 29){
+      return -1;
+    }
     // Check if inum is valid, if not return -1
     void *addr = fs_img + (superblock->inode_bitmap_addr * MFS_BLOCK_SIZE);
     int valid = get_bit(addr, msg->inum);
@@ -392,7 +396,7 @@ int Ser_MFS_Write(void* fs_img){
     // reading inode struct of parent.
     inode_t *inode = (inode_t*)inode_off;
     // Check if offset is greater than size of data block or less than 0, if so return -1
-    if(msg->offset >= MFS_BLOCK_SIZE || msg->offset < 0){
+    if( msg->offset < 0 ){
       printf("3\n");
       return -1;
     }
@@ -416,10 +420,27 @@ int Ser_MFS_Write(void* fs_img){
       if(datablock == -1){
         return -1;
       }
+
       inode->direct[0] = datablock + superblock->data_region_addr;      // helpful!!!
+      for (int p = 1; p<30; p++){
+        inode->direct[p] = -1;
+      }
+    }
+
+    printf("offset requested: %d\n", msg->offset);
+
+    int block = msg->offset / UFS_BLOCK_SIZE;
+    printf("Block offset: %d\n", block);
+    if(inode->direct[block] == -1){
+      int datablock = alloc_databitmap(fs_img);
+      printf("Allocated new data bitmap!\n");
+      if(datablock == -1){
+        return -1;
+      }
+      inode->direct[block] = datablock + superblock->data_region_addr;
     }
     // Use fileinode->direct[0] and offset to reach byte to begin writing from
-    void *tempptr = fs_img + (inode->direct[0] * MFS_BLOCK_SIZE) + msg->offset;
+    void *tempptr = fs_img + (inode->direct[block] * MFS_BLOCK_SIZE) + (msg->offset % UFS_BLOCK_SIZE);
     // char *writeptr = (char*)tempptr;
     memcpy(tempptr, msg->buffer, msg->nbytes);
     // Update file's size in inode
@@ -429,10 +450,16 @@ int Ser_MFS_Write(void* fs_img){
 
 // Server MFS READ - Need to test
 void *Ser_MFS_Read(void* fs_img){
-
-    read_bytes = malloc(sizeof(msg->nbytes));
-    char *negative_val = "-1";
-    char *positive_val = "0";
+  char *negative_val = "-1";
+  char *positive_val = "0";
+  read_bytes = malloc(sizeof(msg->nbytes));
+  read_allocated = 1;
+  if(msg->offset / UFS_BLOCK_SIZE > 29){
+    strcpy(read_bytes, "-1");
+    return (char *)negative_val;
+  }
+    
+    
     printf("Inside Server MFS_Read; Message type: %d\n", msg->type);
     // Check if inum is valid, if not return -1
     void *addr = fs_img + (superblock->inode_bitmap_addr * MFS_BLOCK_SIZE);
@@ -718,7 +745,8 @@ int main(int argc, char *argv[]) {
         // TODO: Create switch statement for different message types
       if(msg->type == STAT) {
         printf(" message inum: %d\n", msg->inum);
-        tempreply = Ser_MFS_Stat(fs_img);        
+        tempreply = Ser_MFS_Stat(fs_img);    
+        read_allocated = -1;    
       }
 
       else if(msg->type == LOOKUP) {
@@ -746,20 +774,9 @@ int main(int argc, char *argv[]) {
       else if(msg->type == READ){
         printf("calling read\n");
         Ser_MFS_Read(fs_img);
-        printf("jere?\n");
+        printf("after read\n");
         tempreply = read_bytes;
-        printf("jere?\n");
-        // memcpy(tempreply, read_bytes, msg->nbytes);
-        // free(read_bytes);
-
-        // if(readtype == FILEREAD){
-        //   strcpy(tempreply, fileread->filedata);
-        //   free(fileread);
-        // }
-        // else{
-        //   strcpy(tempreply, (char*)dirread);
-        //   free(dirread);
-        // }
+        printf("read response: %s\n", tempreply);
       }
 
       else if(msg->type == WRITE){
@@ -792,6 +809,9 @@ int main(int argc, char *argv[]) {
         // do mmap flush or sync or something
         msync(fs_img, finfo.st_size, PROT_READ | PROT_WRITE);
         rc = UDP_Write(serverfd, &addr, tempreply, sizeof(messagestruct));
+        if(read_allocated != -1){
+          free(tempreply);
+        }
         printf("server:: reply\n");
       } 
     }

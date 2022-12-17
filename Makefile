@@ -1,6 +1,6 @@
 CC     := gcc
 
-CFLAGS := -g -Wall -Werror 
+CFLAGS := -g -Wall -Werror -O
 IMGFGS := -f -i -d 
 SRCS   := server.c \
 #	  mfs.c \
