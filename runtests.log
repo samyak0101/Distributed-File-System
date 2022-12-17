@@ -8,8 +8,8 @@ build project using make
 **********************************************************************
 Trying to build project using make
 make
-gcc server.o -o server udp.c
-gcc -c -fpic mfs.c 
+gcc -g -Wall -Werror  server.o -o server udp.c
+gcc -g -c -fpic mfs.c 
 mfs.c: In function ‘MFS_Lookup’:
 mfs.c:84:3: warning: format not a string literal and no format arguments [-Wformat-security]
    84 |   sprintf(msg.name, name);
@@ -40,10 +40,14 @@ mfs.c: In function ‘MFS_Unlink’:
 mfs.c:252:3: warning: format not a string literal and no format arguments [-Wformat-security]
   252 |   sprintf(msg.name, name);
       |   ^~~~~~~
-gcc -c -fpic udp.c
-gcc -c -fpic server.c
+gcc -g -c -fpic udp.c
+gcc -g -c -fpic server.c
 gcc -shared -o libmfs.so mfs.o udp.o
-gcc -L. -o client client.c -Wall libmfs.so
+gcc -L. -g -o client client.c -Wall libmfs.so
+client.c: In function ‘main’:
+client.c:65:9: warning: ‘stat’ is used uninitialized [-Wuninitialized]
+   65 |         MFS_Stat(inum2, stat);
+      |         ^~~~~~~~~~~~~~~~~~~~~
 
 
 test build PASSED
@@ -63,9 +67,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6016
-/tmp/tmpKPoWyf/p/server 6016 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 6016
+Starting server on port 9818
+/tmp/tmp6idvVQ/p/server 9818 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 9818
 inodes 0
 max inum: 32
 server:: waiting...
@@ -91,21 +95,30 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8872
-/tmp/tmpKPoWyf/p/server 8872 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 8872
+Starting server on port 8998
+/tmp/tmp6idvVQ/p/server 8998 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8998
 inodes 0
 max inum: 32
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
+msg inum: 0
+0x7f0b76aaf000 vs 0x7f0b76aaf000
 parent inode dierct i is 4
+Allocated inode : 1
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
- message pinum: 0
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7f0b76aaf000 vs 0x7f0b76aaf000
+Looked up inode 1 -> test
+Found this name in lookup: test
+inum in lookup LOOKKKUPP: 1
 Lookup done, it's 1
 server:: reply
 server:: waiting...
@@ -137,8 +150,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7100
-/tmp/tmpKPoWyf/p/server 7100 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 9683
+/tmp/tmp6idvVQ/p/server 9683 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -147,10 +160,10 @@ read 8 bytes
 return of lookup: 1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: 0
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: 83
 Failure: MFS_Read returned failure inum=1 block=0
 
 
@@ -172,8 +185,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7921
-/tmp/tmpKPoWyf/p/server 7921 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 7336
+/tmp/tmp6idvVQ/p/server 7336 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -186,18 +199,12 @@ type of data: 0
 in mfs stat
 size of m: 0
 type of data: 1
-in mfs creat
-read 8 bytes
-response of creat: 1
-in mfs stat
-size of m: 0
-type of data: 1
-Failure: Stat gave wrong size
+Failure: Stat gave wrong type
 
 
 test stat FAILED
  (stat a regular file)
- Stat gave wrong size
+ Stat gave wrong type
 
 ('starting', 'overwrite')
 
@@ -213,8 +220,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9951
-/tmp/tmpKPoWyf/p/server 9951 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 6815
+/tmp/tmp6idvVQ/p/server 6815 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -223,10 +230,10 @@ read 8 bytes
 return of lookup: 1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: 0
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: 83
 Failure: MFS_Read returned failure inum=1 block=0
 
 
@@ -248,9 +255,187 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7121
-/tmp/tmpKPoWyf/p/server 7121 /home/samyak/cs537/p4/osp4/test.img
-in mfs creat
+Starting server on port 6359
+/tmp/tmp6idvVQ/p/server 6359 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 6359
+inodes 0
+max inum: 32
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 0
+Creating with name: test
+msg inum: 0
+0x7fc491449000 vs 0x7fc491449000
+parent inode dierct i is 7
+Allocated inode : 1
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7fc491449000 vs 0x7fc491449000
+Looked up inode 1 -> test
+Found this name in lookup: test
+inum in lookup LOOKKKUPP: 1
+Lookup done, it's 1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+file size: 0
+Write done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: wain mfs creat
 read 8 bytes
 response of creat: 0
 in mfs lookup
@@ -258,97 +443,97 @@ read 8 bytes
 return of lookup: 1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: 0
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: 83
 Failure: MFS_Read returned failure inum=1 block=0
 
 
@@ -370,9 +555,187 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9692
-/tmp/tmpKPoWyf/p/server 9692 /home/samyak/cs537/p4/osp4/test.img
-in mfs creat
+Starting server on port 9388
+/tmp/tmp6idvVQ/p/server 9388 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 9388
+inodes 0
+max inum: 32
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 0
+Creating with name: test
+msg inum: 0
+0x7fe2f2658000 vs 0x7fe2f2658000
+parent inode dierct i is 4
+Allocated inode : 1
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7fe2f2658000 vs 0x7fe2f2658000
+Looked up inode 1 -> test
+Found this name in lookup: test
+inum in lookup LOOKKKUPP: 1
+Lookup done, it's 1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+file size: 0
+Write done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+calling write
+Inside Server MFS_Write; Message type: 2
+2
+Write done, it's -1
+server:: reply
+server:: wain mfs creat
 read 8 bytes
 response of creat: 0
 in mfs lookup
@@ -381,98 +744,98 @@ return of lookup: 1
 31
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: 0
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 write more than need
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: -1
 Failure: MFS_Write should fail on inalid block number
 
 
@@ -494,19 +857,31 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8271
-/tmp/tmpKPoWyf/p/server 8271 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 8271
+Starting server on port 7525
+/tmp/tmp6idvVQ/p/server 7525 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 7525
 inodes 0
 max inum: 32
 server:: waiting...
 server:: read message [size:1000 contents:()]
- message pinum: 0
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7f88c0b09000 vs 0x7f88c0b09000
+Looked up inode 0 -> .
+Found this name in lookup: .
+inum in lookup LOOKKKUPP: 0
 Lookup done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
- message pinum: 0
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7f88c0b09000 vs 0x7f88c0b09000
+Looked up inode 0 -> ..
+Found this name in lookup: ..
+inum in lookup LOOKKKUPP: 0
 Lookup done, it's 0
 server:: reply
 server:: waiting...
@@ -538,8 +913,61 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6484
-/tmp/tmpKPoWyf/p/server 6484 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 5870
+/tmp/tmp6idvVQ/p/server 5870 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 5870
+inodes 0
+max inum: 32
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 0
+Creating with name: testdir
+msg inum: 0
+0x7fd62cd3d000 vs 0x7fd62cd3d000
+parent inode dierct i is 4
+Allocated inode : 1
+here
+new inode printed later: 1
+Created directory '.' inum '1'
+Created directory '..' inum '0'
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7fd62cd3d000 vs 0x7fd62cd3d000
+Looked up inode 1 -> testdir
+Found this name in lookup: testdir
+inum in lookup LOOKKKUPP: 1
+Lookup done, it's 1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 1
+msg inum: 1
+0x7fd62cd3d000 vs 0x7fd62cd3d080
+Looked up inode 1 -> .
+Found this name in lookup: .
+inum in lookup LOOKKKUPP: 1
+Lookup done, it's 1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 1
+msg inum: 1
+0x7fd62cd3d000 vs 0x7fd62cd3d080
+Looked up inode 0 -> ..
+Found this name in lookup: ..
+inum in lookup LOOKKKUPP: 0
+Lookup done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+Calling shutdown
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -548,13 +976,15 @@ read 8 bytes
 return of lookup: 1
 in mfs lookup
 read 8 bytes
+return of lookup: 1
+in mfs lookup
+read 8 bytes
 return of lookup: 0
-Failure: '.' in directory should point to directory itself
+in mfs shutdown
 
 
-test dir2 FAILED
+test dir2 PASSED
  (create a new directory and check it)
- '.' in directory should point to directory itself
 
 ('starting', 'baddir')
 
@@ -570,27 +1000,38 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7540
-/tmp/tmpKPoWyf/p/server 7540 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 7540
+Starting server on port 7245
+/tmp/tmp6idvVQ/p/server 7245 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 7245
 inodes 0
 max inum: 32
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
+msg inum: 0
+0x7f6c9319f000 vs 0x7f6c9319f000
 parent inode dierct i is 4
+Allocated inode : 1
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
- message pinum: 0
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7f6c9319f000 vs 0x7f6c9319f000
+Looked up inode 1 -> testdir
+Found this name in lookup: testdir
+inum in lookup LOOKKKUPP: 1
 Lookup done, it's 1
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: testfile
+msg inum: 1
+0x7f6c9319f000 vs 0x7f6c9319f080
 Create done, it's -1
 server:: reply
 server:: waiting...
@@ -625,26 +1066,38 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7934
-/tmp/tmpKPoWyf/p/server 7934 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 7934
+Starting server on port 6664
+/tmp/tmp6idvVQ/p/server 6664 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 6664
 inodes 0
 max inum: 32
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
+msg inum: 0
+0x7f0be2168000 vs 0x7f0be2168000
 parent inode dierct i is 4
+Allocated inode : 1
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
- message pinum: 0
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7f0be2168000 vs 0x7f0be2168000
+Looked up inode 1 -> testdir
+Found this name in lookup: testdir
+inum in lookup LOOKKKUPP: 1
 Lookup done, it's 1
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
- message pinum: 1
+lookup message inum: 0
+lookup message pinum: 1
+msg inum: 1
+0x7f0be2168000 vs 0x7f0be2168080
 Lookup done, it's -1
 server:: reply
 server:: waiting...
@@ -679,21 +1132,30 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7933
-/tmp/tmpKPoWyf/p/server 7933 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 7933
+Starting server on port 6524
+/tmp/tmp6idvVQ/p/server 6524 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 6524
 inodes 0
 max inum: 32
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
+msg inum: 0
+0x7f75ec80b000 vs 0x7f75ec80b000
 parent inode dierct i is 4
+Allocated inode : 1
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
- message pinum: 0
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7f75ec80b000 vs 0x7f75ec80b000
+Looked up inode 1 -> test
+Found this name in lookup: test
+inum in lookup LOOKKKUPP: 1
 Lookup done, it's 1
 server:: reply
 server:: waiting...
@@ -716,7 +1178,8 @@ Unlink done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
- message pinum: 0
+lookup message inum: 0
+lookup message pinum: 0
 Lookup done, it's -1
 server:: reply
 server:: waiting...
@@ -754,22 +1217,34 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8809
-/tmp/tmpKPoWyf/p/server 8809 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 8809
+Starting server on port 8341
+/tmp/tmp6idvVQ/p/server 8341 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8341
 inodes 0
 max inum: 32
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
+msg inum: 0
+0x7f37c415a000 vs 0x7f37c415a000
 parent inode dierct i is 4
+Allocated inode : 1
 here
+new inode printed later: 1
+Created directory '.' inum '1'
+Created directory '..' inum '0'
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
- message pinum: 0
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7f37c415a000 vs 0x7f37c415a000
+Looked up inode 1 -> test
+Found this name in lookup: test
+inum in lookup LOOKKKUPP: 1
 Lookup done, it's 1
 server:: reply
 server:: waiting...
@@ -792,7 +1267,8 @@ Unlink done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
- message pinum: 0
+lookup message inum: 0
+lookup message pinum: 0
 Lookup done, it's -1
 server:: reply
 server:: waiting...
@@ -830,8 +1306,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6707
-/tmp/tmpKPoWyf/p/server 6707 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 6867
+/tmp/tmp6idvVQ/p/server 6867 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -843,13 +1319,16 @@ read 8 bytes
 response of creat: 0
 in mfs lookup
 read 8 bytes
-return of lookup: -1
-Failure: MFS_Lookup returned failure inum=1 name='testfile'
+return of lookup: 2
+in mfs creat
+read 8 bytes
+response of creat: 0
+Failure: MFS_Unlink should fail on non-empty dir
 
 
 test empty FAILED
  (unlink a non-empty directory)
- MFS_Lookup returned failure inum=1 name='testfile'
+ MFS_Unlink should fail on non-empty dir
 
 ('starting', 'name')
 
@@ -865,9 +1344,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5868
-/tmp/tmpKPoWyf/p/server 5868 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 5868
+Starting server on port 8479
+/tmp/tmp6idvVQ/p/server 8479 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8479
 inodes 0
 max inum: 32
 server:: waiting...
@@ -894,8 +1373,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7233
-/tmp/tmpKPoWyf/p/server 7233 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 7713
+/tmp/tmp6idvVQ/p/server 7713 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -904,16 +1383,19 @@ read 8 bytes
 return of lookup: 1
 in mfs creat
 read 8 bytes
-response of creat: 1
+response of creat: 0
 in mfs lookup
 read 8 bytes
-return of lookup: -1
-Failure: MFS_Lookup returned failure inum=0 name='test'
+return of lookup: 1
+in mfs creat
+read 8 bytes
+response of creat: 83
+Failure: MFS_Read returned failure inum=1 block=0
 
 
 test persist FAILED
  (restart server after creating a file)
- MFS_Lookup returned failure inum=0 name='test'
+ MFS_Read returned failure inum=1 block=0
 
 ('starting', 'bigdir')
 
@@ -929,179 +1411,182 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5473
-/tmp/tmpKPoWyf/p/server 5473 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 5473
+Starting server on port 9563
+/tmp/tmp6idvVQ/p/server 9563 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 9563
 inodes 0
 max inum: 32
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
+msg inum: 0
+0x7fba7598e000 vs 0x7fba7598e000
 parent inode dierct i is 7
+Allocated inode : 1
 here
+new inode printed later: 1
+Created directory '.' inum '1'
+Created directory '..' inum '0'
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
- message pinum: 0
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7fba7598e000 vs 0x7fba7598e000
+Looked up inode 1 -> testdir
+Found this name in lookup: testdir
+inum in lookup LOOKKKUPP: 1
 Lookup done, it's 1
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 0
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 2
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 1
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 3
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 2
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 4
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 3
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 5
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 4
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 6
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 5
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 7
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 6
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 8
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 7
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 9
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 8
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 10
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 9
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 11
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 10
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 12
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 11
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 13
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 12
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 14
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 13
+msg inum: 1
+0x7fba7598e000 vs 0x7fba7598e080
 parent inode dierct i is 8
+Allocated inode : 15
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 14
-parent inode dierct i is 8
-Create done, it's 0
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
- message pinum: 1
-Creating with name: 15
-parent inode dierct i is 8
-Create done, it's 0
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
- message pinum: 1
-Creating with name: 16
-parent inode dierct i is 8
-Create done, it's 0
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
- message pinum: 1
-Creating with name: 17
-parent inode dierct i is 8
-Create done, it's 0
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
- message pinum: 1
-Creating with name: 18
-parent inode dierct i is 8
-Create done, it's 0
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
- message pinum: 1
-Creating with name: 19
-parent inode dierct i is 8
-Create done, it's 0
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
- message pinum: 1
-Creating with name: 20
-parent inode dierct i is 8
-Create done, it's 0
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
- message pinum: 1
-Creating with name: 21
-parent inode dierct i is 8
-Create done, it's 0
-server:: reply
-serverin mfs creat
+msg inum: 1
+0x7fba759in mfs creat
 read 8 bytes
 response of creat: 0
 in mfs lookup
@@ -1221,8 +1706,194 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7839
-/tmp/tmpKPoWyf/p/server 7839 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 9139
+/tmp/tmp6idvVQ/p/server 9139 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 9139
+inodes 0
+max inum: 32
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 0
+Creating with name: testdir
+msg inum: 0
+0x7f4c28743000 vs 0x7f4c28743000
+parent inode dierct i is 7
+Allocated inode : 1
+here
+new inode printed later: 1
+Created directory '.' inum '1'
+Created directory '..' inum '0'
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7f4c28743000 vs 0x7f4c28743000
+Looked up inode 1 -> testdir
+Found this name in lookup: testdir
+inum in lookup LOOKKKUPP: 1
+Lookup done, it's 1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 0
+msg inum: 1
+0x7f4c28743000 vs 0x7f4c28743080
+parent inode dierct i is 8
+Allocated inode : 2
+here
+new inode printed later: 2
+Created directory '.' inum '2'
+Created directory '..' inum '1'
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 1
+msg inum: 1
+0x7f4c28743000 vs 0x7f4c28743080
+Looked up inode 2 -> 0
+Found this name in lookup: 0
+inum in lookup LOOKKKUPP: 2
+Lookup done, it's 2
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 2
+Creating with name: 1
+msg inum: 2
+0x7f4c28743000 vs 0x7f4c28743100
+parent inode dierct i is 9
+Allocated inode : 3
+here
+new inode printed later: 3
+Created directory '.' inum '3'
+Created directory '..' inum '2'
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 2
+msg inum: 2
+0x7f4c28743000 vs 0x7f4c28743100
+Looked up inode 3 -> 1
+Found this name in lookup: 1
+inum in lookup LOOKKKUPP: 3
+Lookup done, it's 3
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 3
+Creating with name: 2
+msg inum: 3
+0x7f4c28743000 vs 0x7f4c28743180
+parent inode dierct i is 10
+Allocated inode : 4
+here
+new inode printed later: 4
+Created directory '.' inum '4'
+Created directory '..' inum '3'
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 3
+msg inum: 3
+0x7f4c28743000 vs 0x7f4c28743180
+Looked up inode 4 -> 2
+Found this name in lookup: 2
+inum in lookup LOOKKKUPP: 4
+Lookup done, it's 4
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 4
+Creating with name: 3
+msg inum: 4
+0x7f4c28743000 vs 0x7f4c28743200
+parent inode dierct i is 11
+Allocated inode : 5
+here
+new inode printed later: 5
+Created directory '.' inum '5'
+Created directory '..' inum '4'
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 4
+msg inum: 4
+0x7f4c28743000 vs 0x7f4c28743200
+Looked up inode 5 -> 3
+Found this name in lookup: 3
+inum in lookup LOOKKKUPP: 5
+Lookup done, it's 5
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 0
+msg inum: 0
+0x7f4c28743000 vs 0x7f4c28743000
+Looked up inode 1 -> testdir
+Found this name in lookup: testdir
+inum in lookup LOOKKKUPP: 1
+Lookup done, it's 1
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 1
+msg inum: 1
+0x7f4c28743000 vs 0x7f4c28743080
+Looked up inode 2 -> 0
+Found this name in lookup: 0
+inum in lookup LOOKKKUPP: 2
+Lookup done, it's 2
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 2
+msg inum: 2
+0x7f4c28743000 vs 0x7f4c28743100
+Looked up inode 3 -> 1
+Found this name in lookup: 1
+inum in lookup LOOKKKUPP: 3
+Lookup done, it's 3
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 3
+msg inum: 3
+0x7f4c28743000 vs 0x7f4c28743180
+Looked up inode 4 -> 2
+Found this name in lookup: 2
+inum in lookup LOOKKKUPP: 4
+Lookup done, it's 4
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message inum: 0
+lookup message pinum: 4
+msg inum: 4
+0x7f4c28743000 vs 0x7f4c28743200
+Looked up inode 5 -> 3
+Found this name in lookup: 3
+inum in lookup LOOKKKUPP: 5
+Lookup done, it's 5
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+Calling shutdown
 in mfs creat
 read 8 bytes
 response of creat: 0
@@ -1234,13 +1905,45 @@ read 8 bytes
 response of creat: 0
 in mfs lookup
 read 8 bytes
-return of lookup: -1
-Failure: MFS_Lookup returned failure inum=1 name='0'
+return of lookup: 2
+in mfs creat
+read 8 bytes
+response of creat: 0
+in mfs lookup
+read 8 bytes
+return of lookup: 3
+in mfs creat
+read 8 bytes
+response of creat: 0
+in mfs lookup
+read 8 bytes
+return of lookup: 4
+in mfs creat
+read 8 bytes
+response of creat: 0
+in mfs lookup
+read 8 bytes
+return of lookup: 5
+in mfs lookup
+read 8 bytes
+return of lookup: 1
+in mfs lookup
+read 8 bytes
+return of lookup: 2
+in mfs lookup
+read 8 bytes
+return of lookup: 3
+in mfs lookup
+read 8 bytes
+return of lookup: 4
+in mfs lookup
+read 8 bytes
+return of lookup: 5
+in mfs shutdown
 
 
-test deep FAILED
+test deep PASSED
  (create many deeply nested directories)
- MFS_Lookup returned failure inum=1 name='0'
 
 **********************************************************************
 Summary:
@@ -1259,7 +1962,7 @@ test write FAILED
 
 test stat FAILED
  (stat a regular file)
- Stat gave wrong size
+ Stat gave wrong type
 
 test overwrite FAILED
  (overwrite a block)
@@ -1276,9 +1979,8 @@ test maxfile2 FAILED
 test dir1 PASSED
  (check root for dot entries)
 
-test dir2 FAILED
+test dir2 PASSED
  (create a new directory and check it)
- '.' in directory should point to directory itself
 
 test baddir PASSED
  (try to create a file with a file parent inode)
@@ -1294,22 +1996,21 @@ test unlink2 PASSED
 
 test empty FAILED
  (unlink a non-empty directory)
- MFS_Lookup returned failure inum=1 name='testfile'
+ MFS_Unlink should fail on non-empty dir
 
 test name PASSED
  (name too long)
 
 test persist FAILED
  (restart server after creating a file)
- MFS_Lookup returned failure inum=0 name='test'
+ MFS_Read returned failure inum=1 block=0
 
 test bigdir FAILED
  (create a directory with 126 files)
  MFS_Creat returned failure inum=1 type=1 name='30'
 
-test deep FAILED
+test deep PASSED
  (create many deeply nested directories)
- MFS_Lookup returned failure inum=1 name='0'
 
-Passed 9 of 19 tests.
-Overall 9 of 19
+Passed 11 of 19 tests.
+Overall 11 of 19

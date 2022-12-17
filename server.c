@@ -19,6 +19,12 @@ inode_t *inodes;
 int max_inodes;
 int file_fd;
 
+//
+FileRead_t *fileread;  // Filled when reading a single
+DirRead_t *dirread;    // Filled when reading directory
+enum read_type readtype;
+//
+
 void intHandler(int dummy) {
     UDP_Close(serverfd);
     exit(130);
@@ -133,7 +139,7 @@ int Ser_MFS_Lookup(void* fs_img){
 
     // check if the inode is valid in inode bitmap
     void *addr = fs_img + (superblock->inode_bitmap_addr * MFS_BLOCK_SIZE);
-    int valid = get_bit(addr, msg->inum);
+    int valid = get_bit(addr, msg->pinum);
 
     // return struct with -1's if inode is invalid
     // printf("valid bit of root: %i\n", valid);
@@ -143,7 +149,10 @@ int Ser_MFS_Lookup(void* fs_img){
 
     // else, go to inode and read in inode struct
     void *inode_offset = fs_img + (superblock->inode_region_addr + msg->inum/32) * MFS_BLOCK_SIZE;
-    inode_offset = inode_offset +  (msg->inum % 32);
+    void *inode_offset2 = inode_offset;
+    inode_offset = inode_offset +  (msg->pinum % 32)*sizeof(inode_t);
+    printf("msg inum: %d\n", msg->pinum);
+    printf("%p vs %p\n", inode_offset2, inode_offset);
     // read in inode struct but as an MFS stat struct
 
     inode_t *inode = (inode_t*)inode_offset;
@@ -171,7 +180,9 @@ int Ser_MFS_Lookup(void* fs_img){
         // check if the name is the same
         if(strcmp(msg->name, directory_entry->name)==0){
           found = 1;
-          // printf("Found this name in lookup: %s\n", directory_entry->name);
+          printf("Looked up inode %d -> %s\n", directory_entry->inum, msg->name);
+          printf("Found this name in lookup: %s\n", directory_entry->name);
+          printf("inum in lookup LOOKKKUPP: %d\n", directory_entry->inum);
           return directory_entry->inum;
         }
       }
@@ -281,7 +292,7 @@ int Ser_MFS_Creat(void* fs_img){
     if(new_inode < 0){
       return -1; // could not allocate since inode bitmap is full
     }
-    // printf("Allocated inode : %d\n", new_inode);
+    printf("Allocated inode : %d\n", new_inode);
     // creating inode in inode region
     void *tempint = fs_img + superblock->inode_region_addr * MFS_BLOCK_SIZE;
   
@@ -342,45 +353,61 @@ int Ser_MFS_Creat(void* fs_img){
       // newdir_dirent_one->name = ".";
       // printf("Created new directory. Inum is %d and about to write children now:\n", new_inode);
       strcpy(newdir_dirent_one->name, ".");
+      printf("new inode printed later: %d\n", new_inode);
       newdir_dirent_one->inum = new_inode;
+      printf("Created directory '%s' inum '%d'\n", newdir_dirent_one->name, newdir_dirent_one->inum);
+
       newdir_dirent_one += 1;
       strcpy(newdir_dirent_one->name, "..");
       newdir_dirent_one->inum = msg->pinum;
 
+      printf("Created directory '%s' inum '%d'\n", newdir_dirent_one->name, newdir_dirent_one->inum);
+
     return 0;
 }
 
-// server MFS READ
+// server MFS Write - 
 int Ser_MFS_Write(void* fs_img){
     printf("Inside Server MFS_Write; Message type: %d\n", msg->type);
     // Check if inum is valid, if not return -1
-    if(msg->inum < 0 || msg->inum > max_inodes)
+    if(msg->inum < 0 || msg->inum > max_inodes){
+      printf("1\n");
       return -1;
+    }
     // Check if nbytes is greater than 4096 or less than 0, if so return -1
-    if(msg->nbytes > 4096 || msg->nbytes < 0)
+    if(msg->nbytes > 4096 - msg->offset || msg->nbytes < 0){
+      printf("2\n");
       return -1;
+    }
     // Go to appropriate inode based on inum
     void *addr = fs_img + (superblock->inode_region_addr + msg->inum/32) * MFS_BLOCK_SIZE;
     addr = addr + (msg->inum % 32) * sizeof(inode_t);
     inode_t *fileinode = (inode_t*)addr;
-    // Check if offset is greater than size of file or less than 0, if so return -1
-    if(msg->offset > fileinode->size || msg->offset < 0)
+    // Check if offset is greater than size of data block or less than 0, if so return -1
+    if(msg->offset >= MFS_BLOCK_SIZE || msg->offset < 0){
+      printf("3\n");
       return -1;
+    }
     // Check i-bitmap and make sure bit corresponding to inum is allocated (set to 1)
     void *tempptr = fs_img + superblock->inode_bitmap_addr * MFS_BLOCK_SIZE;
     int bit = get_bit((unsigned int*)tempptr, msg->inum);
-    if(bit == 0)
+    if(bit == 0){
+      printf("4\n");
       return -1;
+    }
     // If i-bitmap is allocated at inum, check if file type is directory, if so return -1
-    if(fileinode->type == MFS_DIRECTORY)
+    if(fileinode->type == MFS_DIRECTORY){
+      printf("5\n");
       return -1;
+    }
 
+    printf("file size: %d\n", fileinode->size);
     // If inode's size is set to 0, try to allocate space for file in data region
     if(fileinode->size == 0){
       int datablock = alloc_databitmap(fs_img);
       if(datablock == -1)
         return -1;
-      fileinode->direct[0] = datablock;
+      fileinode->direct[0] = datablock + superblock->data_region_addr;      // helpful!!!
     }
     // Use fileinode->direct[0] and offset to reach byte to begin writing from
     tempptr = fs_img + (fileinode->direct[0] * MFS_BLOCK_SIZE) + msg->offset;
@@ -401,28 +428,83 @@ int Ser_MFS_Read(void* fs_img){
     void *addr = fs_img + (superblock->inode_region_addr + msg->inum/32) * MFS_BLOCK_SIZE;
     addr = addr + (msg->inum % 32) * sizeof(inode_t);
     inode_t *fileinode = (inode_t*)addr;
-    // Check if offset is greater than size of file or less than 0, if so return -1
-    if(msg->offset > fileinode->size || msg->offset < 0)
-      return -1;
-    // Check if nbytes is greater than size of file minus offset or less than 0, if so return -1
-    if(msg->nbytes > fileinode->size - msg->offset || msg->nbytes < 0)
-      return -1;
-    // If inode->type is directory, nbytes and offset must both be multiples of 32
-    if(fileinode->type == MFS_DIRECTORY && (msg->offset % 32 != 0 || msg->nbytes % 32 != 0))
-      return -1;
 
-    // Use fileinode->direct[0] and offset to reach byte to begin reading from
-    void *tempptr = fs_img + (fileinode->direct[0] * MFS_BLOCK_SIZE) + msg->offset;
-    char *readptr = (char*)tempptr;
-    int i = 0;
-    for(i = 0; i < msg->nbytes; i++){
-      msg->buffer[i] = *readptr;
-      readptr++;
+    // Read behavior for file read
+    if(fileinode->type == MFS_REGULAR_FILE){
+      // readtype is used in main for determining message to send back to client
+      readtype = FILEREAD;
+
+      // Check if offset is greater than size of file or less than 0, if so return -1
+      if(msg->offset > fileinode->size || msg->offset < 0)
+        return -1;
+      // Check if nbytes is greater than size of file minus offset or less than 0, if so return -1
+      if(msg->nbytes > fileinode->size - msg->offset || msg->nbytes < 0)
+        return -1;
+      printf("congrats on reaching this part\n");
+      // Use fileinode->direct[0] and offset to reach byte to begin reading from
+      void *tempptr = fs_img + (fileinode->direct[0] * MFS_BLOCK_SIZE) + msg->offset;
+      char *readptr = (char*)tempptr;
+      int i = 0;
+      printf("congrats on reaching this part 2\n");
+      fileread = malloc(sizeof(FileRead_t));
+      for(i = 0; i < msg->nbytes; i++){
+        fileread->filedata[i] = *readptr;
+        readptr++;
+      }
+      
+      if(i < MFS_BLOCK_SIZE){
+        fileread->filedata[i] = '\0';
+      }
+      printf("string read: %s\n", fileread->filedata);
+      return 0;
     }
-    if(i < MFS_BLOCK_SIZE){
-      msg->buffer[i] = '\0';
+
+    // Read behavior for directory read (fun)
+    else{
+      // If inode is a directory, offset and nbytes both must be multiples of 32
+      if(fileinode->type == MFS_DIRECTORY && (msg->offset % 32 != 0 || msg->nbytes % 32 != 0))
+        return -1;
+      // readtype is used in main for determining message to send back to client
+      readtype = DIRREAD;
+
+      // Check if nbytes is greater than 4096 or less than 0, if so return -1
+      if(msg->nbytes > MFS_BLOCK_SIZE || msg->nbytes < 0)
+        return -1;
+      // Get number of valid data block locations from inode's direct array
+      int i = 0;
+      int num = 0;
+      while(fileinode->direct[i] >= superblock->data_region_addr && fileinode->direct[i] < (superblock->data_region_addr + superblock->num_data)){
+        num++;
+        i++;
+      }
+      // Check if offset is invalid, if so return -1
+      if(msg->offset > num * MFS_BLOCK_SIZE || msg->offset < 0)
+        return -1;
+      // Go to directory entry specified by offset
+      int index = msg->offset / MFS_BLOCK_SIZE;
+      addr = fs_img + (fileinode->direct[index] * MFS_BLOCK_SIZE);
+      addr = addr + (msg->offset % MFS_BLOCK_SIZE);
+      dir_ent_t *currdirent = (dir_ent_t*)addr;
+      int bytestoread = msg->nbytes;
+      dirread = malloc(sizeof(DirRead_t));
+      i = 0;
+      int count = (msg->offset % MFS_BLOCK_SIZE) / sizeof(dir_ent_t);
+      while(bytestoread > 0){
+        dirread->direntries[i] = *currdirent;
+        bytestoread - sizeof(DirRead_t);
+        i++;
+        count++;
+        currdirent++;
+        // if currdirent pointer points to end of a data block, set it to start of next data block
+        if(count == 128){
+          addr = fs_img + (fileinode->direct[index + 1] * MFS_BLOCK_SIZE);
+          addr = addr + (msg->offset % MFS_BLOCK_SIZE);
+          currdirent = (dir_ent_t*)addr;
+        }
+        bytestoread = bytestoread - sizeof(dir_ent_t);
+      }
+      return 0;
     }
-    return 0;
 }
 
 // server MFS UNLINK
@@ -593,7 +675,8 @@ int main(int argc, char *argv[]) {
       }
 
       else if(msg->type == LOOKUP) {
-        printf(" message pinum: %d\n", msg->pinum);
+        printf("lookup message inum: %d\n", msg->inum);
+        printf("lookup message pinum: %d\n", msg->pinum);
         int inum = Ser_MFS_Lookup(fs_img);
         printf("Lookup done, it's %d\n", inum);
         // tempreply = "test";
@@ -615,11 +698,29 @@ int main(int argc, char *argv[]) {
 
       else if(msg->type == READ){
         printf("calling read\n");
-
+        // if(readtype == FILEREAD){
+        //   tempreply = malloc();
+        //   strcpy(tempreply, fileread->filedata);
+        // }
+        int ret = Ser_MFS_Read(fs_img);
+        tempreply = malloc(msg->nbytes);
+        if(readtype == FILEREAD){
+          strcpy(tempreply, fileread->filedata);
+          free(fileread);
+        }
+        else{
+          strcpy(tempreply, (char*)dirread);
+          free(dirread);
+        }
       }
 
       else if(msg->type == WRITE){
         printf("calling write\n");
+        int ret = Ser_MFS_Write(fs_img);
+        printf("Write done, it's %d\n", ret);
+        // tempreply = "test";
+        tempreply = malloc(4);
+        memcpy(tempreply, &ret, 4);
       }
 
       else if(msg->type == SHUTDOWN){

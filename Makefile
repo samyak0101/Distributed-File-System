@@ -1,6 +1,6 @@
 CC     := gcc
 
-CFLAGS := -Wall -Werror 
+CFLAGS := -g -Wall -Werror 
 IMGFGS := -f -i -d 
 SRCS   := server.c \
 #	  mfs.c \
@@ -24,7 +24,7 @@ CLIENTPORT := 15000
 all: ${PROGS} obj lib exe mkfs 
 
 ${PROGS} : % : %.o Makefile
-	${CC} $< -o $@ udp.c
+	${CC} ${CFLAGS} $< -o $@ udp.c
 run:
 	server ${PORT} ${IMAGE}
 clean:
@@ -43,14 +43,14 @@ mkfsrun:
 mkfs: mkfs.c
 	${CC} -o mkfs mkfs.c
 exe: libmfs.so
-	gcc -L. -o client client.c -Wall libmfs.so
+	gcc -L. -g -o client client.c -Wall libmfs.so
 lib: mfs.o udp.o
 	gcc -shared -o libmfs.so mfs.o udp.o
 
 obj: mfs.c udp.c server.c
-	gcc -c -fpic mfs.c 
-	gcc -c -fpic udp.c
-	gcc -c -fpic server.c
+	gcc -g -c -fpic mfs.c 
+	gcc -g -c -fpic udp.c
+	gcc -g -c -fpic server.c
 
 test:
 	sh ~cs537-1/tests/p4/p4-test/runtests.sh -t 1

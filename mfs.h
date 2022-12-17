@@ -17,6 +17,11 @@ typedef struct __MFS_DirEnt_t {
     int  inum;      // inode number of entry (-1 means entry not used)
 } MFS_DirEnt_t;
 
+enum read_type{
+        FILEREAD,
+        DIRREAD
+};
+
 enum message_type{
         LOOKUP,
         STAT,
