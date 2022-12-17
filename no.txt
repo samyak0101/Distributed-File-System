@@ -1,3 +1,15 @@
+gcc -g -Wall -Werror  server.o -o server udp.c
+gcc -g -c -fpic mfs.c 
+gcc -g -c -fpic udp.c
+gcc -g -c -fpic server.c
+gcc -shared -o libmfs.so mfs.o udp.o
+gcc -L. -g -o client client.c -Wall libmfs.so
+total blocks        36
+  inodes            32 [size of each: 128]
+  data blocks       32
+layout details
+  inode bitmap address/len 1 [1]
+  data bitmap address/len  2 [1]
 ('starting', 'build')
 
 **********************************************************************
@@ -8,7 +20,7 @@ build project using make
 **********************************************************************
 Trying to build project using make
 make
-make[1]: Entering directory '/tmp/tmpIbP5rQ/p'
+gcc -g -Wall -Werror  server.o -o server udp.c
 gcc -g -c -fpic mfs.c 
 mfs.c: In function ‘MFS_Lookup’:
 mfs.c:84:3: warning: format not a string literal and no format arguments [-Wformat-security]
@@ -40,7 +52,6 @@ gcc -g -c -fpic udp.c
 gcc -g -c -fpic server.c
 gcc -shared -o libmfs.so mfs.o udp.o
 gcc -L. -g -o client client.c -Wall libmfs.so
-make[1]: Leaving directory '/tmp/tmpIbP5rQ/p'
 
 
 test build PASSED
@@ -60,9 +71,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8957
-/tmp/tmpIbP5rQ/p/server 8957 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 8957
+Starting server on port 7148
+/tmp/tmpC7SZsG/p/server 7148 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 7148
 inodes 0
 max inum: 32
 server:: waiting...
@@ -88,9 +99,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7819
-/tmp/tmpIbP5rQ/p/server 7819 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 7819
+Starting server on port 5692
+/tmp/tmpC7SZsG/p/server 5692 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 5692
 inodes 0
 max inum: 32
 server:: waiting...
@@ -98,7 +109,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
 msg inum: 0
-0x7f1e1f7db000 vs 0x7f1e1f7db000
+0x7f938efca000 vs 0x7f938efca000
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -110,7 +121,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7f1e1f7db000 vs 0x7f1e1f7db000
+0x7f938efca000 vs 0x7f938efca000
 Looked up inode 1 -> test
 Found this name in lookup: test
 inum in lookup LOOKKKUPP: 1
@@ -140,14 +151,14 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9799
-/tmp/tmpIbP5rQ/p/server 9799 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 5763
+/tmp/tmpC7SZsG/p/server 5763 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 in mfs creat
 in mfs creat
 read 8 bytes
 ('START BLOCK 1\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00END BLOCK 1')
-('START BL\xf0\x06\xf6\xa1\xfd\x7f\x00\x00\x80\x85#1\xfe~\x00\x00\x08\x00\x00\x00\x07\x00\x00\x00\x10\x00\x00\x00\x08\x00\x00\x00', 'P\x17\xf6\xa1\xfd\x7f\x00\x00\x00\x00\x00\x00\xfe~\x00\x00H\x17\xf6\xa1\xfd\x7f\x00\x008\x17\xf6\xa1\xfd\x7f\x00\x00\xe0\x16\xf6\xa1\xfd\x7f\x00\x00')
+('START BL\xe0(\x9d\x0b\xfc\x7f\x00\x00\x80\xd5\x06\xe2a\x7f\x00\x00\x08\x00\x00\x00\x07\x00\x00\x00\x10\x00\x00\x00\x08\x00\x00\x00', '@9\x9d\x0b\xfc\x7f\x00\x00\x00\x00\x00\x00a\x7f\x00\x0089\x9d\x0b\xfc\x7f\x00\x00(9\x9d\x0b\xfc\x7f\x00\x00\xd08\x9d\x0b\xfc\x7f\x00\x00')
 Failure: Corrupt data returned by read
 
 
@@ -169,8 +180,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5578
-/tmp/tmpIbP5rQ/p/server 5578 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 8917
+/tmp/tmpC7SZsG/p/server 8917 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 in mfs stat
 size of m: 0
@@ -182,7 +193,7 @@ in mfs creat
 in mfs stat
 size of m: 0
 type of data: 0
-Listening for connections on port 5578
+Listening for connections on port 8917
 inodes 0
 max inum: 32
 server:: waiting...
@@ -190,7 +201,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
 msg inum: 0
-0x7f63834bb000 vs 0x7f63834bb000
+0x7f25fa24d000 vs 0x7f25fa24d000
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -202,7 +213,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7f63834bb000 vs 0x7f63834bb000
+0x7f25fa24d000 vs 0x7f25fa24d000
 Looked up inode 1 -> test
 Found this name in lookup: test
 inum in lookup LOOKKKUPP: 1
@@ -269,8 +280,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7164
-/tmp/tmpIbP5rQ/p/server 7164 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 9316
+/tmp/tmpC7SZsG/p/server 9316 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 in mfs creat
 in mfs creat
@@ -296,9 +307,9 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5253
-/tmp/tmpIbP5rQ/p/server 5253 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 5253
+Starting server on port 8051
+/tmp/tmpC7SZsG/p/server 8051 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8051
 inodes 0
 max inum: 128
 server:: waiting...
@@ -306,7 +317,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
 msg inum: 0
-0x7f2d51d17000 vs 0x7f2d51d17000
+0x7f6ded62a000 vs 0x7f6ded62a000
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -318,7 +329,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7f2d51d17000 vs 0x7f2d51d17000
+0x7f6ded62a000 vs 0x7f6ded62a000
 Looked up inode 1 -> test
 Found this name in lookup: test
 inum in lookup LOOKKKUPP: 1
@@ -529,9 +540,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8155
-/tmp/tmpIbP5rQ/p/server 8155 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 8155
+Starting server on port 5170
+/tmp/tmpC7SZsG/p/server 5170 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 5170
 inodes 0
 max inum: 32
 server:: waiting...
@@ -539,7 +550,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
 msg inum: 0
-0x7f292d2f9000 vs 0x7f292d2f9000
+0x7ff940553000 vs 0x7ff940553000
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -551,7 +562,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7f292d2f9000 vs 0x7f292d2f9000
+0x7ff940553000 vs 0x7ff940553000
 Looked up inode 1 -> test
 Found this name in lookup: test
 inum in lookup LOOKKKUPP: 1
@@ -763,16 +774,16 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5486
-/tmp/tmpIbP5rQ/p/server 5486 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 5486
+Starting server on port 8521
+/tmp/tmpC7SZsG/p/server 8521 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8521
 inodes 0
 max inum: 32
 server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7fed5bd35000 vs 0x7fed5bd35000
+0x7f938b290000 vs 0x7f938b290000
 Looked up inode 0 -> .
 Found this name in lookup: .
 inum in lookup LOOKKKUPP: 0
@@ -782,7 +793,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7fed5bd35000 vs 0x7fed5bd35000
+0x7f938b290000 vs 0x7f938b290000
 Looked up inode 0 -> ..
 Found this name in lookup: ..
 inum in lookup LOOKKKUPP: 0
@@ -811,9 +822,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5526
-/tmp/tmpIbP5rQ/p/server 5526 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 5526
+Starting server on port 6179
+/tmp/tmpC7SZsG/p/server 6179 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 6179
 inodes 0
 max inum: 32
 server:: waiting...
@@ -821,7 +832,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
 msg inum: 0
-0x7f529c1c8000 vs 0x7f529c1c8000
+0x7f413b925000 vs 0x7f413b925000
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -842,7 +853,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7f529c1c8000 vs 0x7f529c1c8000
+0x7f413b925000 vs 0x7f413b925000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -852,7 +863,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f529c1c8000 vs 0x7f529c1c8080
+0x7f413b925000 vs 0x7f413b925080
 Looked up inode 1 -> .
 Found this name in lookup: .
 inum in lookup LOOKKKUPP: 1
@@ -862,7 +873,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f529c1c8000 vs 0x7f529c1c8080
+0x7f413b925000 vs 0x7f413b925080
 Looked up inode 0 -> ..
 Found this name in lookup: ..
 inum in lookup LOOKKKUPP: 0
@@ -892,9 +903,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9332
-/tmp/tmpIbP5rQ/p/server 9332 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 9332
+Starting server on port 9798
+/tmp/tmpC7SZsG/p/server 9798 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 9798
 inodes 0
 max inum: 32
 server:: waiting...
@@ -902,7 +913,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
 msg inum: 0
-0x7f2500f78000 vs 0x7f2500f78000
+0x7ff88e697000 vs 0x7ff88e697000
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -914,7 +925,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7f2500f78000 vs 0x7f2500f78000
+0x7ff88e697000 vs 0x7ff88e697000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -925,7 +936,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: testfile
 msg inum: 1
-0x7f2500f78000 vs 0x7f2500f78080
+0x7ff88e697000 vs 0x7ff88e697080
 file not found in lookup
 Create done, it's -1
 server:: reply
@@ -954,9 +965,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6103
-/tmp/tmpIbP5rQ/p/server 6103 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 6103
+Starting server on port 7511
+/tmp/tmpC7SZsG/p/server 7511 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 7511
 inodes 0
 max inum: 32
 server:: waiting...
@@ -964,7 +975,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
 msg inum: 0
-0x7fd9206e7000 vs 0x7fd9206e7000
+0x7f17b65cd000 vs 0x7f17b65cd000
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -976,7 +987,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7fd9206e7000 vs 0x7fd9206e7000
+0x7f17b65cd000 vs 0x7f17b65cd000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -986,7 +997,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7fd9206e7000 vs 0x7fd9206e7080
+0x7f17b65cd000 vs 0x7f17b65cd080
 Lookup done, it's -1
 server:: reply
 server:: waiting...
@@ -1013,9 +1024,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6784
-/tmp/tmpIbP5rQ/p/server 6784 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 6784
+Starting server on port 8763
+/tmp/tmpC7SZsG/p/server 8763 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8763
 inodes 0
 max inum: 32
 server:: waiting...
@@ -1023,7 +1034,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
 msg inum: 0
-0x7f04c12d4000 vs 0x7f04c12d4000
+0x7fa6c2141000 vs 0x7fa6c2141000
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1035,7 +1046,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7f04c12d4000 vs 0x7f04c12d4000
+0x7fa6c2141000 vs 0x7fa6c2141000
 Looked up inode 1 -> test
 Found this name in lookup: test
 inum in lookup LOOKKKUPP: 1
@@ -1064,11 +1075,6 @@ server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
-msg inum: 0
-0x7f04c12d4000 vs 0x7f04c12d4000
-Looked up inode -1 -> test
-Found this name in lookup: test
-inum in lookup LOOKKKUPP: -1
 Lookup done, it's -1
 server:: reply
 server:: waiting...
@@ -1096,9 +1102,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9596
-/tmp/tmpIbP5rQ/p/server 9596 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 9596
+Starting server on port 7414
+/tmp/tmpC7SZsG/p/server 7414 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 7414
 inodes 0
 max inum: 32
 server:: waiting...
@@ -1106,7 +1112,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
 msg inum: 0
-0x7f637a351000 vs 0x7f637a351000
+0x7fa5a8a02000 vs 0x7fa5a8a02000
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1127,7 +1133,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7f637a351000 vs 0x7f637a351000
+0x7fa5a8a02000 vs 0x7fa5a8a02000
 Looked up inode 1 -> test
 Found this name in lookup: test
 inum in lookup LOOKKKUPP: 1
@@ -1158,11 +1164,6 @@ server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
-msg inum: 0
-0x7f637a351000 vs 0x7f637a351000
-Looked up inode -1 -> test
-Found this name in lookup: test
-inum in lookup LOOKKKUPP: -1
 Lookup done, it's -1
 server:: reply
 server:: waiting...
@@ -1190,136 +1191,19 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5172
-/tmp/tmpIbP5rQ/p/server 5172 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 5172
-inodes 0
-max inum: 32
-server:: waiting...
-server:: read message [size:1000 contents:()]
- message pinum: 0
-Creating with name: testdir
-msg inum: 0
-0x7f5af6c17000 vs 0x7f5af6c17000
-file not found in lookup
-Found space for inode, now need to alloc an inode to it
-inside alloc inode bit
-Allocated inode : 1
-here 10k idk
-director: 0
-here
-calling getbit with i = 0
-calling getbit with i = 1
-valid was not 1
-done setting bit!
-new inode printed later: 1
-Created directory '.' inum '1'
-Created directory '..' inum '0'
-Create done, it's 0
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
-lookup message pinum: 0
-msg inum: 0
-0x7f5af6c17000 vs 0x7f5af6c17000
-Looked up inode 1 -> testdir
-Found this name in lookup: testdir
-inum in lookup LOOKKKUPP: 1
-Lookup done, it's 1
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
- message pinum: 1
-Creating with name: testfile
-msg inum: 1
-0x7f5af6c17000 vs 0x7f5af6c17080
-file not found in lookup
-Found space for inode, now need to alloc an inode to it
-inside alloc inode bit
-Allocated inode : 2
-here 10k idk
-Create done, it's 0
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
-lookup message pinum: 1
-msg inum: 1
-0x7f5af6c17000 vs 0x7f5af6c17080
-Looked up inode 2 -> testfile
-Found this name in lookup: testfile
-inum in lookup LOOKKKUPP: 2
-Lookup done, it's 2
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
-Calling unlink
-Trying to unlink a file called testdir
-parent has the inum: 0
-pinum is valid
-Got the parent inode. It's size is: 96
-entered second for loop
-entered second for loop
-entered second for loop
-Found dir ent with name testdir in parent's directory entries
-inode to delete size: 96
- inode to del   type: 0
-Unlink done, it's -1
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
-Calling unlink
-Trying to unlink a file called testfile
-parent has the inum: 1
-pinum is valid
-Got the parent inode. It's size is: 96
-entered second for loop
-entered second for loop
-entered second for loop
-Found dir ent with name testfile in parent's directory entries
-inode to delete size: 0
- inode to del   type: 1
-Reached, about to clear inode and some other stuff
-attempting to clear 2
-Got past clear_bit i think!
-value of delbit is -1
-Last 2 things to change!
-Unlink done, it's 0
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
-Calling unlink
-Trying to unlink a file called testdir
-parent has the inum: 0
-pinum is valid
-Got the parent inode. It's size is: 96
-entered second for loop
-entered second for loop
-entered second for loop
-Found dir ent with name testdir in parent's directory entries
-inode to delete size: 64
- inode to del   type: 0
-Reached, about to clear inode and some other stuff
-attempting to clear 1
-Got past clear_bit i think!
-value of delbit is 5
-before second clear bit
-after second clear bit 
-Last 2 things to change!
-Unlink done, it's 0
-server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
-Calling shutdown
+Starting server on port 6475
+/tmp/tmpC7SZsG/p/server 6475 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 in mfs creat
 in mfs unlink
 in mfs unlink
 in mfs unlink
-in mfs shutdown
+Failure: MFS_Unlink returned failure pinum=0 name='testdir'
 
 
-test empty PASSED
+test empty FAILED
  (unlink a non-empty directory)
+ MFS_Unlink returned failure pinum=0 name='testdir'
 
 ('starting', 'name')
 
@@ -1335,9 +1219,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6875
-/tmp/tmpIbP5rQ/p/server 6875 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 6875
+Starting server on port 8538
+/tmp/tmpC7SZsG/p/server 8538 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8538
 inodes 0
 max inum: 32
 server:: waiting...
@@ -1364,8 +1248,8 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5106
-/tmp/tmpIbP5rQ/p/server 5106 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 5071
+/tmp/tmpC7SZsG/p/server 5071 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
 in mfs creat
 in mfs creat
@@ -1391,9 +1275,9 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9112
-/tmp/tmpIbP5rQ/p/server 9112 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 9112
+Starting server on port 8328
+/tmp/tmpC7SZsG/p/server 8328 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8328
 inodes 0
 max inum: 128
 server:: waiting...
@@ -1401,7 +1285,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
 msg inum: 0
-0x7f9b23daa000 vs 0x7f9b23daa000
+0x7fe063969000 vs 0x7fe063969000
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1422,7 +1306,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7f9b23daa000 vs 0x7f9b23daa000
+0x7fe063969000 vs 0x7fe063969000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -1433,7 +1317,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 0
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1446,7 +1330,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1459,7 +1343,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 2
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1472,7 +1356,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 3
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1485,7 +1369,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 4
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1498,7 +1382,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 5
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1511,7 +1395,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 6
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1524,7 +1408,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 7
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1537,7 +1421,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 8
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1550,7 +1434,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 9
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1563,7 +1447,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 10
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1576,7 +1460,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 11
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1589,7 +1473,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 12
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1602,7 +1486,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 13
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1615,7 +1499,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 14
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1628,7 +1512,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 15
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1641,7 +1525,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 16
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1654,7 +1538,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 17
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1667,7 +1551,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 18
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1680,7 +1564,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 19
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1693,7 +1577,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 20
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1706,7 +1590,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 21
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1719,7 +1603,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 22
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1732,7 +1616,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 23
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1745,7 +1629,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 24
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1758,7 +1642,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 25
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1771,7 +1655,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 26
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1784,7 +1668,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 27
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1797,7 +1681,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 28
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1810,7 +1694,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 29
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1823,7 +1707,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 30
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1836,7 +1720,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 31
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1849,7 +1733,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 32
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1862,7 +1746,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 33
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1875,7 +1759,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 34
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1888,7 +1772,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 35
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1901,7 +1785,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 36
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1914,7 +1798,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 37
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1927,7 +1811,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 38
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1940,7 +1824,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 39
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1953,7 +1837,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 40
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1966,7 +1850,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 41
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1979,7 +1863,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 42
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -1992,7 +1876,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 43
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2005,7 +1889,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 44
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2018,7 +1902,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 45
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2031,7 +1915,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 46
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2044,7 +1928,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 47
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2057,7 +1941,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 48
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2070,7 +1954,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 49
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2083,7 +1967,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 50
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2096,7 +1980,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 51
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2109,7 +1993,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 52
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2122,7 +2006,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 53
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2135,7 +2019,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 54
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2148,7 +2032,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 55
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2161,7 +2045,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 56
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2174,7 +2058,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 57
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2187,7 +2071,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 58
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2200,7 +2084,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 59
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2213,7 +2097,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 60
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2226,7 +2110,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 61
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2239,7 +2123,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 62
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2252,7 +2136,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 63
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2265,7 +2149,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 64
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2278,7 +2162,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 65
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2291,7 +2175,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 66
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2304,7 +2188,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 67
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2317,7 +2201,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 68
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2330,7 +2214,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 69
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2343,7 +2227,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 70
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2356,7 +2240,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 71
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2369,7 +2253,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 72
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2382,7 +2266,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 73
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2395,7 +2279,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 74
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2408,7 +2292,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 75
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2421,7 +2305,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 76
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2434,7 +2318,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 77
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2447,7 +2331,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 78
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2460,7 +2344,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 79
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2473,7 +2357,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 80
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2486,7 +2370,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 81
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2499,7 +2383,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 82
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2512,7 +2396,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 83
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2525,7 +2409,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 84
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2538,7 +2422,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 85
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2551,7 +2435,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 86
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2564,7 +2448,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 87
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2577,7 +2461,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 88
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2590,7 +2474,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 89
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2603,7 +2487,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 90
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2616,7 +2500,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 91
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2629,7 +2513,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 92
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2642,7 +2526,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 93
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2655,7 +2539,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 94
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2668,7 +2552,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 95
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2681,7 +2565,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 96
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2694,7 +2578,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 97
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2707,7 +2591,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 98
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2720,7 +2604,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 99
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2733,7 +2617,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 100
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2746,7 +2630,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 101
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2759,7 +2643,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 102
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2772,7 +2656,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 103
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2785,7 +2669,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 104
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2798,7 +2682,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 105
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2811,7 +2695,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 106
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2824,7 +2708,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 107
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2837,7 +2721,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 108
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2850,7 +2734,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 109
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2863,7 +2747,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 110
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2876,7 +2760,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 111
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2889,7 +2773,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 112
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2902,7 +2786,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 113
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2915,7 +2799,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 114
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2928,7 +2812,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 115
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2941,7 +2825,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 116
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2954,7 +2838,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 117
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2967,7 +2851,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 118
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2980,7 +2864,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 119
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -2993,7 +2877,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 120
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -3006,7 +2890,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 121
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -3019,7 +2903,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 122
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -3032,7 +2916,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 123
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -3045,7 +2929,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 124
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -3058,7 +2942,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 125
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -3070,7 +2954,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 2 -> 0
 Found this name in lookup: 0
 inum in lookup LOOKKKUPP: 2
@@ -3080,7 +2964,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 3 -> 1
 Found this name in lookup: 1
 inum in lookup LOOKKKUPP: 3
@@ -3090,7 +2974,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 4 -> 2
 Found this name in lookup: 2
 inum in lookup LOOKKKUPP: 4
@@ -3100,7 +2984,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 5 -> 3
 Found this name in lookup: 3
 inum in lookup LOOKKKUPP: 5
@@ -3110,7 +2994,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 6 -> 4
 Found this name in lookup: 4
 inum in lookup LOOKKKUPP: 6
@@ -3120,7 +3004,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 7 -> 5
 Found this name in lookup: 5
 inum in lookup LOOKKKUPP: 7
@@ -3130,7 +3014,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 8 -> 6
 Found this name in lookup: 6
 inum in lookup LOOKKKUPP: 8
@@ -3140,7 +3024,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 9 -> 7
 Found this name in lookup: 7
 inum in lookup LOOKKKUPP: 9
@@ -3150,7 +3034,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 10 -> 8
 Found this name in lookup: 8
 inum in lookup LOOKKKUPP: 10
@@ -3160,7 +3044,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 11 -> 9
 Found this name in lookup: 9
 inum in lookup LOOKKKUPP: 11
@@ -3170,7 +3054,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 12 -> 10
 Found this name in lookup: 10
 inum in lookup LOOKKKUPP: 12
@@ -3180,7 +3064,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 13 -> 11
 Found this name in lookup: 11
 inum in lookup LOOKKKUPP: 13
@@ -3190,7 +3074,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 14 -> 12
 Found this name in lookup: 12
 inum in lookup LOOKKKUPP: 14
@@ -3200,7 +3084,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 15 -> 13
 Found this name in lookup: 13
 inum in lookup LOOKKKUPP: 15
@@ -3210,7 +3094,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 16 -> 14
 Found this name in lookup: 14
 inum in lookup LOOKKKUPP: 16
@@ -3220,7 +3104,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 17 -> 15
 Found this name in lookup: 15
 inum in lookup LOOKKKUPP: 17
@@ -3230,7 +3114,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 18 -> 16
 Found this name in lookup: 16
 inum in lookup LOOKKKUPP: 18
@@ -3240,7 +3124,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 19 -> 17
 Found this name in lookup: 17
 inum in lookup LOOKKKUPP: 19
@@ -3250,7 +3134,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 20 -> 18
 Found this name in lookup: 18
 inum in lookup LOOKKKUPP: 20
@@ -3260,7 +3144,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 21 -> 19
 Found this name in lookup: 19
 inum in lookup LOOKKKUPP: 21
@@ -3270,7 +3154,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 22 -> 20
 Found this name in lookup: 20
 inum in lookup LOOKKKUPP: 22
@@ -3280,7 +3164,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 23 -> 21
 Found this name in lookup: 21
 inum in lookup LOOKKKUPP: 23
@@ -3290,7 +3174,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 24 -> 22
 Found this name in lookup: 22
 inum in lookup LOOKKKUPP: 24
@@ -3300,7 +3184,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 25 -> 23
 Found this name in lookup: 23
 inum in lookup LOOKKKUPP: 25
@@ -3310,7 +3194,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 26 -> 24
 Found this name in lookup: 24
 inum in lookup LOOKKKUPP: 26
@@ -3320,7 +3204,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 27 -> 25
 Found this name in lookup: 25
 inum in lookup LOOKKKUPP: 27
@@ -3330,7 +3214,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 28 -> 26
 Found this name in lookup: 26
 inum in lookup LOOKKKUPP: 28
@@ -3340,7 +3224,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 29 -> 27
 Found this name in lookup: 27
 inum in lookup LOOKKKUPP: 29
@@ -3350,7 +3234,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 30 -> 28
 Found this name in lookup: 28
 inum in lookup LOOKKKUPP: 30
@@ -3360,7 +3244,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 31 -> 29
 Found this name in lookup: 29
 inum in lookup LOOKKKUPP: 31
@@ -3370,7 +3254,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 32 -> 30
 Found this name in lookup: 30
 inum in lookup LOOKKKUPP: 32
@@ -3380,7 +3264,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 33 -> 31
 Found this name in lookup: 31
 inum in lookup LOOKKKUPP: 33
@@ -3390,7 +3274,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 34 -> 32
 Found this name in lookup: 32
 inum in lookup LOOKKKUPP: 34
@@ -3400,7 +3284,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 35 -> 33
 Found this name in lookup: 33
 inum in lookup LOOKKKUPP: 35
@@ -3410,7 +3294,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 36 -> 34
 Found this name in lookup: 34
 inum in lookup LOOKKKUPP: 36
@@ -3420,7 +3304,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 37 -> 35
 Found this name in lookup: 35
 inum in lookup LOOKKKUPP: 37
@@ -3430,7 +3314,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 38 -> 36
 Found this name in lookup: 36
 inum in lookup LOOKKKUPP: 38
@@ -3440,7 +3324,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 39 -> 37
 Found this name in lookup: 37
 inum in lookup LOOKKKUPP: 39
@@ -3450,7 +3334,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 40 -> 38
 Found this name in lookup: 38
 inum in lookup LOOKKKUPP: 40
@@ -3460,7 +3344,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 41 -> 39
 Found this name in lookup: 39
 inum in lookup LOOKKKUPP: 41
@@ -3470,7 +3354,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 42 -> 40
 Found this name in lookup: 40
 inum in lookup LOOKKKUPP: 42
@@ -3480,7 +3364,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 43 -> 41
 Found this name in lookup: 41
 inum in lookup LOOKKKUPP: 43
@@ -3490,7 +3374,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 44 -> 42
 Found this name in lookup: 42
 inum in lookup LOOKKKUPP: 44
@@ -3500,7 +3384,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 45 -> 43
 Found this name in lookup: 43
 inum in lookup LOOKKKUPP: 45
@@ -3510,7 +3394,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 46 -> 44
 Found this name in lookup: 44
 inum in lookup LOOKKKUPP: 46
@@ -3520,7 +3404,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 47 -> 45
 Found this name in lookup: 45
 inum in lookup LOOKKKUPP: 47
@@ -3530,7 +3414,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 48 -> 46
 Found this name in lookup: 46
 inum in lookup LOOKKKUPP: 48
@@ -3540,7 +3424,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 49 -> 47
 Found this name in lookup: 47
 inum in lookup LOOKKKUPP: 49
@@ -3550,7 +3434,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 50 -> 48
 Found this name in lookup: 48
 inum in lookup LOOKKKUPP: 50
@@ -3560,7 +3444,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 51 -> 49
 Found this name in lookup: 49
 inum in lookup LOOKKKUPP: 51
@@ -3570,7 +3454,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 52 -> 50
 Found this name in lookup: 50
 inum in lookup LOOKKKUPP: 52
@@ -3580,7 +3464,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 53 -> 51
 Found this name in lookup: 51
 inum in lookup LOOKKKUPP: 53
@@ -3590,7 +3474,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 54 -> 52
 Found this name in lookup: 52
 inum in lookup LOOKKKUPP: 54
@@ -3600,7 +3484,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 55 -> 53
 Found this name in lookup: 53
 inum in lookup LOOKKKUPP: 55
@@ -3610,7 +3494,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 56 -> 54
 Found this name in lookup: 54
 inum in lookup LOOKKKUPP: 56
@@ -3620,7 +3504,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 57 -> 55
 Found this name in lookup: 55
 inum in lookup LOOKKKUPP: 57
@@ -3630,7 +3514,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 58 -> 56
 Found this name in lookup: 56
 inum in lookup LOOKKKUPP: 58
@@ -3640,7 +3524,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 59 -> 57
 Found this name in lookup: 57
 inum in lookup LOOKKKUPP: 59
@@ -3650,7 +3534,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 60 -> 58
 Found this name in lookup: 58
 inum in lookup LOOKKKUPP: 60
@@ -3660,7 +3544,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 61 -> 59
 Found this name in lookup: 59
 inum in lookup LOOKKKUPP: 61
@@ -3670,7 +3554,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 62 -> 60
 Found this name in lookup: 60
 inum in lookup LOOKKKUPP: 62
@@ -3680,7 +3564,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 63 -> 61
 Found this name in lookup: 61
 inum in lookup LOOKKKUPP: 63
@@ -3690,7 +3574,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 64 -> 62
 Found this name in lookup: 62
 inum in lookup LOOKKKUPP: 64
@@ -3700,7 +3584,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 65 -> 63
 Found this name in lookup: 63
 inum in lookup LOOKKKUPP: 65
@@ -3710,7 +3594,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 66 -> 64
 Found this name in lookup: 64
 inum in lookup LOOKKKUPP: 66
@@ -3720,7 +3604,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 67 -> 65
 Found this name in lookup: 65
 inum in lookup LOOKKKUPP: 67
@@ -3730,7 +3614,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 68 -> 66
 Found this name in lookup: 66
 inum in lookup LOOKKKUPP: 68
@@ -3740,7 +3624,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 69 -> 67
 Found this name in lookup: 67
 inum in lookup LOOKKKUPP: 69
@@ -3750,7 +3634,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 70 -> 68
 Found this name in lookup: 68
 inum in lookup LOOKKKUPP: 70
@@ -3760,7 +3644,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 71 -> 69
 Found this name in lookup: 69
 inum in lookup LOOKKKUPP: 71
@@ -3770,7 +3654,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 72 -> 70
 Found this name in lookup: 70
 inum in lookup LOOKKKUPP: 72
@@ -3780,7 +3664,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 73 -> 71
 Found this name in lookup: 71
 inum in lookup LOOKKKUPP: 73
@@ -3790,7 +3674,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 74 -> 72
 Found this name in lookup: 72
 inum in lookup LOOKKKUPP: 74
@@ -3800,7 +3684,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 75 -> 73
 Found this name in lookup: 73
 inum in lookup LOOKKKUPP: 75
@@ -3810,7 +3694,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 76 -> 74
 Found this name in lookup: 74
 inum in lookup LOOKKKUPP: 76
@@ -3820,7 +3704,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 77 -> 75
 Found this name in lookup: 75
 inum in lookup LOOKKKUPP: 77
@@ -3830,7 +3714,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 78 -> 76
 Found this name in lookup: 76
 inum in lookup LOOKKKUPP: 78
@@ -3840,7 +3724,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 79 -> 77
 Found this name in lookup: 77
 inum in lookup LOOKKKUPP: 79
@@ -3850,7 +3734,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 80 -> 78
 Found this name in lookup: 78
 inum in lookup LOOKKKUPP: 80
@@ -3860,7 +3744,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 81 -> 79
 Found this name in lookup: 79
 inum in lookup LOOKKKUPP: 81
@@ -3870,7 +3754,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 82 -> 80
 Found this name in lookup: 80
 inum in lookup LOOKKKUPP: 82
@@ -3880,7 +3764,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 83 -> 81
 Found this name in lookup: 81
 inum in lookup LOOKKKUPP: 83
@@ -3890,7 +3774,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 84 -> 82
 Found this name in lookup: 82
 inum in lookup LOOKKKUPP: 84
@@ -3900,7 +3784,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 85 -> 83
 Found this name in lookup: 83
 inum in lookup LOOKKKUPP: 85
@@ -3910,7 +3794,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 86 -> 84
 Found this name in lookup: 84
 inum in lookup LOOKKKUPP: 86
@@ -3920,7 +3804,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 87 -> 85
 Found this name in lookup: 85
 inum in lookup LOOKKKUPP: 87
@@ -3930,7 +3814,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 88 -> 86
 Found this name in lookup: 86
 inum in lookup LOOKKKUPP: 88
@@ -3940,7 +3824,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 89 -> 87
 Found this name in lookup: 87
 inum in lookup LOOKKKUPP: 89
@@ -3950,7 +3834,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 90 -> 88
 Found this name in lookup: 88
 inum in lookup LOOKKKUPP: 90
@@ -3960,7 +3844,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 91 -> 89
 Found this name in lookup: 89
 inum in lookup LOOKKKUPP: 91
@@ -3970,7 +3854,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 92 -> 90
 Found this name in lookup: 90
 inum in lookup LOOKKKUPP: 92
@@ -3980,7 +3864,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 93 -> 91
 Found this name in lookup: 91
 inum in lookup LOOKKKUPP: 93
@@ -3990,7 +3874,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 94 -> 92
 Found this name in lookup: 92
 inum in lookup LOOKKKUPP: 94
@@ -4000,7 +3884,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 95 -> 93
 Found this name in lookup: 93
 inum in lookup LOOKKKUPP: 95
@@ -4010,7 +3894,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 96 -> 94
 Found this name in lookup: 94
 inum in lookup LOOKKKUPP: 96
@@ -4020,7 +3904,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 97 -> 95
 Found this name in lookup: 95
 inum in lookup LOOKKKUPP: 97
@@ -4030,7 +3914,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 98 -> 96
 Found this name in lookup: 96
 inum in lookup LOOKKKUPP: 98
@@ -4040,7 +3924,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 99 -> 97
 Found this name in lookup: 97
 inum in lookup LOOKKKUPP: 99
@@ -4050,7 +3934,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 100 -> 98
 Found this name in lookup: 98
 inum in lookup LOOKKKUPP: 100
@@ -4060,7 +3944,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 101 -> 99
 Found this name in lookup: 99
 inum in lookup LOOKKKUPP: 101
@@ -4070,7 +3954,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 102 -> 100
 Found this name in lookup: 100
 inum in lookup LOOKKKUPP: 102
@@ -4080,7 +3964,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 103 -> 101
 Found this name in lookup: 101
 inum in lookup LOOKKKUPP: 103
@@ -4090,7 +3974,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 104 -> 102
 Found this name in lookup: 102
 inum in lookup LOOKKKUPP: 104
@@ -4100,7 +3984,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 105 -> 103
 Found this name in lookup: 103
 inum in lookup LOOKKKUPP: 105
@@ -4110,7 +3994,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 106 -> 104
 Found this name in lookup: 104
 inum in lookup LOOKKKUPP: 106
@@ -4120,7 +4004,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 107 -> 105
 Found this name in lookup: 105
 inum in lookup LOOKKKUPP: 107
@@ -4130,7 +4014,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 108 -> 106
 Found this name in lookup: 106
 inum in lookup LOOKKKUPP: 108
@@ -4140,7 +4024,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 109 -> 107
 Found this name in lookup: 107
 inum in lookup LOOKKKUPP: 109
@@ -4150,7 +4034,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 110 -> 108
 Found this name in lookup: 108
 inum in lookup LOOKKKUPP: 110
@@ -4160,7 +4044,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 111 -> 109
 Found this name in lookup: 109
 inum in lookup LOOKKKUPP: 111
@@ -4170,7 +4054,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 112 -> 110
 Found this name in lookup: 110
 inum in lookup LOOKKKUPP: 112
@@ -4180,7 +4064,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 113 -> 111
 Found this name in lookup: 111
 inum in lookup LOOKKKUPP: 113
@@ -4190,7 +4074,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 114 -> 112
 Found this name in lookup: 112
 inum in lookup LOOKKKUPP: 114
@@ -4200,7 +4084,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 115 -> 113
 Found this name in lookup: 113
 inum in lookup LOOKKKUPP: 115
@@ -4210,7 +4094,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 116 -> 114
 Found this name in lookup: 114
 inum in lookup LOOKKKUPP: 116
@@ -4220,7 +4104,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 117 -> 115
 Found this name in lookup: 115
 inum in lookup LOOKKKUPP: 117
@@ -4230,7 +4114,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 118 -> 116
 Found this name in lookup: 116
 inum in lookup LOOKKKUPP: 118
@@ -4240,7 +4124,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 119 -> 117
 Found this name in lookup: 117
 inum in lookup LOOKKKUPP: 119
@@ -4250,7 +4134,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 120 -> 118
 Found this name in lookup: 118
 inum in lookup LOOKKKUPP: 120
@@ -4260,7 +4144,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 121 -> 119
 Found this name in lookup: 119
 inum in lookup LOOKKKUPP: 121
@@ -4270,7 +4154,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 122 -> 120
 Found this name in lookup: 120
 inum in lookup LOOKKKUPP: 122
@@ -4280,7 +4164,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 123 -> 121
 Found this name in lookup: 121
 inum in lookup LOOKKKUPP: 123
@@ -4290,7 +4174,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 124 -> 122
 Found this name in lookup: 122
 inum in lookup LOOKKKUPP: 124
@@ -4300,7 +4184,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 125 -> 123
 Found this name in lookup: 123
 inum in lookup LOOKKKUPP: 125
@@ -4310,7 +4194,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 126 -> 124
 Found this name in lookup: 124
 inum in lookup LOOKKKUPP: 126
@@ -4320,7 +4204,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7f9b23daa000 vs 0x7f9b23daa080
+0x7fe063969000 vs 0x7fe063969080
 Looked up inode 127 -> 125
 Found this name in lookup: 125
 inum in lookup LOOKKKUPP: 127
@@ -4476,9 +4360,9 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5844
-/tmp/tmpIbP5rQ/p/server 5844 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 5844
+Starting server on port 5411
+/tmp/tmpC7SZsG/p/server 5411 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 5411
 inodes 0
 max inum: 128
 server:: waiting...
@@ -4486,7 +4370,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
 msg inum: 0
-0x7ff8b595e000 vs 0x7ff8b595e000
+0x7f0503e14000 vs 0x7f0503e14000
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -4507,7 +4391,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7ff8b595e000 vs 0x7ff8b595e000
+0x7f0503e14000 vs 0x7f0503e14000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -4518,7 +4402,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 0
 msg inum: 1
-0x7ff8b595e000 vs 0x7ff8b595e080
+0x7f0503e14000 vs 0x7f0503e14080
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -4540,7 +4424,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7ff8b595e000 vs 0x7ff8b595e080
+0x7f0503e14000 vs 0x7f0503e14080
 Looked up inode 2 -> 0
 Found this name in lookup: 0
 inum in lookup LOOKKKUPP: 2
@@ -4551,7 +4435,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 2
 Creating with name: 1
 msg inum: 2
-0x7ff8b595e000 vs 0x7ff8b595e100
+0x7f0503e14000 vs 0x7f0503e14100
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -4574,7 +4458,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 2
 msg inum: 2
-0x7ff8b595e000 vs 0x7ff8b595e100
+0x7f0503e14000 vs 0x7f0503e14100
 Looked up inode 3 -> 1
 Found this name in lookup: 1
 inum in lookup LOOKKKUPP: 3
@@ -4585,7 +4469,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 3
 Creating with name: 2
 msg inum: 3
-0x7ff8b595e000 vs 0x7ff8b595e180
+0x7f0503e14000 vs 0x7f0503e14180
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -4609,7 +4493,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 3
 msg inum: 3
-0x7ff8b595e000 vs 0x7ff8b595e180
+0x7f0503e14000 vs 0x7f0503e14180
 Looked up inode 4 -> 2
 Found this name in lookup: 2
 inum in lookup LOOKKKUPP: 4
@@ -4620,7 +4504,7 @@ server:: read message [size:1000 contents:()]
  message pinum: 4
 Creating with name: 3
 msg inum: 4
-0x7ff8b595e000 vs 0x7ff8b595e200
+0x7f0503e14000 vs 0x7f0503e14200
 file not found in lookup
 Found space for inode, now need to alloc an inode to it
 inside alloc inode bit
@@ -4645,7 +4529,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 4
 msg inum: 4
-0x7ff8b595e000 vs 0x7ff8b595e200
+0x7f0503e14000 vs 0x7f0503e14200
 Looked up inode 5 -> 3
 Found this name in lookup: 3
 inum in lookup LOOKKKUPP: 5
@@ -4655,7 +4539,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 0
 msg inum: 0
-0x7ff8b595e000 vs 0x7ff8b595e000
+0x7f0503e14000 vs 0x7f0503e14000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -4665,7 +4549,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 1
 msg inum: 1
-0x7ff8b595e000 vs 0x7ff8b595e080
+0x7f0503e14000 vs 0x7f0503e14080
 Looked up inode 2 -> 0
 Found this name in lookup: 0
 inum in lookup LOOKKKUPP: 2
@@ -4675,7 +4559,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 2
 msg inum: 2
-0x7ff8b595e000 vs 0x7ff8b595e100
+0x7f0503e14000 vs 0x7f0503e14100
 Looked up inode 3 -> 1
 Found this name in lookup: 1
 inum in lookup LOOKKKUPP: 3
@@ -4685,7 +4569,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 3
 msg inum: 3
-0x7ff8b595e000 vs 0x7ff8b595e180
+0x7f0503e14000 vs 0x7f0503e14180
 Looked up inode 4 -> 2
 Found this name in lookup: 2
 inum in lookup LOOKKKUPP: 4
@@ -4695,7 +4579,7 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 lookup message pinum: 4
 msg inum: 4
-0x7ff8b595e000 vs 0x7ff8b595e200
+0x7f0503e14000 vs 0x7f0503e14200
 Looked up inode 5 -> 3
 Found this name in lookup: 3
 inum in lookup LOOKKKUPP: 5
@@ -4763,8 +4647,9 @@ test unlink PASSED
 test unlink2 PASSED
  (unlink a directory)
 
-test empty PASSED
+test empty FAILED
  (unlink a non-empty directory)
+ MFS_Unlink returned failure pinum=0 name='testdir'
 
 test name PASSED
  (name too long)
@@ -4779,5 +4664,5 @@ test bigdir PASSED
 test deep PASSED
  (create many deeply nested directories)
 
-Passed 14 of 19 tests.
-Overall 14 of 19
+Passed 13 of 19 tests.
+Overall 13 of 19

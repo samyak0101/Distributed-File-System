@@ -27,15 +27,25 @@ int main(int argc, char *argv[]) {
     */
      { // TEST 1: Test stat
         int inum2 = 0;
-        MFS_Creat(0, 1, "test");
-        MFS_Lookup(0, "test");
+        MFS_Creat(0, 0, "testdir");
+        int inum = MFS_Lookup(0, "testdir");
+        MFS_Creat(inum, 1, "testfile");
+        MFS_Lookup(inum, "testfile");
+        int ret = MFS_Unlink(0, "testdir");
+        printf("unlink return value: %d\n", ret);
+      //   unlinking the dir inside
+        ret = MFS_Unlink(1, "testfile");
+        printf("unlink return val: %d\n", ret); // should easily unlink
+        ret = MFS_Unlink(0, "testdir");
+        printf("unlink return val: %d\n", ret); // should unlink!!!
+
         
-        MFS_Stat_t *stat = malloc(sizeof(MFS_Stat_t));
-        stat->size = 0;
-        stat->type = 0;
-        printf("before mfs\n");
-        MFS_Stat(inum2, stat);
-         printf("printing stats after stat: size %d\n and type %d\n", stat->size, stat->type);
+      //   MFS_Stat_t *stat = malloc(sizeof(MFS_Stat_t));
+      //   stat->size = 0;
+      //   stat->type = 0;
+      //   printf("before mfs\n");
+      //   MFS_Stat(inum2, stat);
+      //    printf("printing stats after stat: size %d\n and type %d\n", stat->size, stat->type);
 
     }
 

@@ -47,7 +47,7 @@ void clear_bit(unsigned int *bitmap, int position) {
   // printf("position: %d\n", position);
    int index = position / 32;
    int offset = 31 - (position % 32);
-   bitmap[index] = (0x0 << offset);
+   bitmap[index] &= ~(1UL << offset);
 }
 
 //helper
@@ -520,6 +520,7 @@ int Ser_MFS_Read(void* fs_img){
 // server MFS UNLINK
 int Ser_MFS_Unlink(void* fs_img){
 
+
   printf("Trying to unlink a file called %s\n", msg->name);
 
   // check if pinum is valid
@@ -530,6 +531,7 @@ int Ser_MFS_Unlink(void* fs_img){
     // return struct with -1's if inode is invalid
 
     if(valid != 1){
+      printf("parent inum aws invalid?\n");
         return -1;
     }
 
@@ -602,6 +604,7 @@ int Ser_MFS_Unlink(void* fs_img){
     addr = fs_img + (superblock->inode_bitmap_addr * MFS_BLOCK_SIZE);
     printf("attempting to clear %d\n", find_inum);
     clear_bit((unsigned int *)addr, find_inum);
+
     
     int del_dbit = inode_to_delete->direct[0];
     printf("Got past clear_bit i think!\n");

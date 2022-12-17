@@ -272,7 +272,7 @@ int MFS_Unlink(int pinum, char *name) {
   }
 
     int a = (int)*response;
-  printf("response of unlink: %d\n", a);
+  // printf("response of unlink: %d\n", a);
   return a;
 
 }

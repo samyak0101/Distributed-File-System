@@ -160,8 +160,11 @@ class EmptyTest(MfsTest):
       self.lookup(inum, "testfile")
 
       r = self.libmfs.MFS_Unlink(ROOT, "testdir")
+      # r = self.libmfs.unlink(ROOT, "testdir")
+      raise Failure("r's value was: ", r)
       if r != -1:
          raise Failure("MFS_Unlink should fail on non-empty dir")
+      
 
       self.unlink(inum, "testfile")
       self.unlink(ROOT, "testdir")
