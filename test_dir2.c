@@ -25,6 +25,19 @@ int main(int argc, char *argv[]) {
       self.shutdown()
       
     */
+     { // TEST 1: Test stat
+        int inum2 = 0;
+        MFS_Creat(0, 1, "test");
+        MFS_Lookup(0, "test");
+        
+        MFS_Stat_t *stat = malloc(sizeof(MFS_Stat_t));
+        stat->size = 0;
+        stat->type = 0;
+        printf("before mfs\n");
+        MFS_Stat(inum2, stat);
+         printf("printing stats after stat: size %d\n and type %d\n", stat->size, stat->type);
+
+    }
 
     // MFS_Creat(0, 0, "testdir");
     // int inum = MFS_Lookup(0, "testdir");
@@ -99,17 +112,17 @@ int main(int argc, char *argv[]) {
    //  }
 
 
-    for (int i = 0; i < 126; i++) {
-        char name[6];
-        int inum = 0;
-        snprintf(name, 8, "test%d", i+1);
-        int rc = MFS_Creat(inum, MFS_REGULAR_FILE, name); // inum = 1
-        printf("in testdir.c, mfs create for %s returned %d\n", name, rc);
-        printf("\n");
-        rc = MFS_Lookup(inum, name);
-        printf("in testdir.c, mfs lookup for %s returned %d\n", name, rc);
-        printf("\n\n\n");
-    }
+   //  for (int i = 0; i < 126; i++) {
+   //      char name[6];
+   //      int inum = 0;
+   //      snprintf(name, 8, "test%d", i+1);
+   //      int rc = MFS_Creat(inum, MFS_REGULAR_FILE, name); // inum = 1
+   //      printf("in testdir.c, mfs create for %s returned %d\n", name, rc);
+   //      printf("\n");
+   //      rc = MFS_Lookup(inum, name);
+   //      printf("in testdir.c, mfs lookup for %s returned %d\n", name, rc);
+   //      printf("\n\n\n");
+   //  }
 
    // MFS_Creat(0, 1, "test dir 32");
 

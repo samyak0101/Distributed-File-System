@@ -131,10 +131,10 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
     return -1;
   }
 
-  // char statreturn[sizeof(MFS_Stat_t)];
-  m = malloc(sizeof(MFS_Stat_t));
+  MFS_Stat_t *statreturn = malloc(sizeof(MFS_Stat_t));
+  // m = malloc(sizeof(MFS_Stat_t));
 
-  n = UDP_Read(clientfd, &addrRcv, m, sizeof(MFS_Stat_t));
+  n = UDP_Read(clientfd, &addrRcv, statreturn, sizeof(MFS_Stat_t));
   if (n < 0) {
     perror("read");
     return -1;
@@ -144,6 +144,8 @@ int MFS_Stat(int inum, MFS_Stat_t *m) {
   printf("size of m: %d\n", m->size);
   printf("type of data: %d\n", m->type);
   fflush(stdout);
+  m->size = statreturn->size;
+  m->type = statreturn->type;
 
   // return 0 on success
   return 0;
