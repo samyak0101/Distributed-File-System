@@ -8,7 +8,6 @@ build project using make
 **********************************************************************
 Trying to build project using make
 make
-gcc -g -Wall -Werror  server.o -o server udp.c
 gcc -g -c -fpic mfs.c 
 mfs.c: In function ‘MFS_Lookup’:
 mfs.c:84:3: warning: format not a string literal and no format arguments [-Wformat-security]
@@ -28,26 +27,18 @@ mfs.c: In function ‘MFS_Write’:
 mfs.c:159:3: warning: format not a string literal and no format arguments [-Wformat-security]
   159 |   sprintf(msg.buffer, buffer);
       |   ^~~~~~~
-mfs.c: In function ‘MFS_Read’:
-mfs.c:191:3: warning: format not a string literal and no format arguments [-Wformat-security]
-  191 |   sprintf(msg.buffer, buffer);
-      |   ^~~~~~~
 mfs.c: In function ‘MFS_Creat’:
-mfs.c:220:3: warning: format not a string literal and no format arguments [-Wformat-security]
-  220 |   sprintf(msg.name, name);
+mfs.c:223:3: warning: format not a string literal and no format arguments [-Wformat-security]
+  223 |   sprintf(msg.name, name);
       |   ^~~~~~~
 mfs.c: In function ‘MFS_Unlink’:
-mfs.c:252:3: warning: format not a string literal and no format arguments [-Wformat-security]
-  252 |   sprintf(msg.name, name);
+mfs.c:255:3: warning: format not a string literal and no format arguments [-Wformat-security]
+  255 |   sprintf(msg.name, name);
       |   ^~~~~~~
 gcc -g -c -fpic udp.c
 gcc -g -c -fpic server.c
 gcc -shared -o libmfs.so mfs.o udp.o
 gcc -L. -g -o client client.c -Wall libmfs.so
-client.c: In function ‘main’:
-client.c:65:9: warning: ‘stat’ is used uninitialized [-Wuninitialized]
-   65 |         MFS_Stat(inum2, stat);
-      |         ^~~~~~~~~~~~~~~~~~~~~
 
 
 test build PASSED
@@ -67,9 +58,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9818
-/tmp/tmp6idvVQ/p/server 9818 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 9818
+Starting server on port 9887
+/tmp/tmp8OSljO/p/server 9887 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 9887
 inodes 0
 max inum: 32
 server:: waiting...
@@ -95,9 +86,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8998
-/tmp/tmp6idvVQ/p/server 8998 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 8998
+Starting server on port 8663
+/tmp/tmp8OSljO/p/server 8663 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8663
 inodes 0
 max inum: 32
 server:: waiting...
@@ -105,17 +96,19 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
 msg inum: 0
-0x7f0b76aaf000 vs 0x7f0b76aaf000
-parent inode dierct i is 4
+0x7f70c109a000 vs 0x7f70c109a000
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 1
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7f0b76aaf000 vs 0x7f0b76aaf000
+0x7f70c109a000 vs 0x7f70c109a000
 Looked up inode 1 -> test
 Found this name in lookup: test
 inum in lookup LOOKKKUPP: 1
@@ -125,11 +118,6 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 Calling shutdown
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
 in mfs shutdown
 
 
@@ -150,26 +138,20 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9683
-/tmp/tmp6idvVQ/p/server 9683 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 5696
+/tmp/tmp8OSljO/p/server 5696 /home/samyak/cs537/p4/osp4/test.img
+in mfs creat
+in mfs creat
 in mfs creat
 read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
-in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs creat
-read 8 bytes
-response of creat: 83
-Failure: MFS_Read returned failure inum=1 block=0
+('START BLOCK 1\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00', '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00END BLOCK 1')
+('START BL\x10\xc0rS\xfe\x7f\x00\x00\x80E\xbfO\x1c\x7f\x00\x00\x08\x00\x00\x00\x07\x00\x00\x00\x10\x00\x00\x00\x08\x00\x00\x00', 'p\xd0rS\xfe\x7f\x00\x00\x00\x00\x00\x00\x1c\x7f\x00\x00h\xd0rS\xfe\x7f\x00\x00X\xd0rS\xfe\x7f\x00\x00\x00\xd0rS\xfe\x7f\x00\x00')
+Failure: Corrupt data returned by read
 
 
 test write FAILED
  (write then read one block)
- MFS_Read returned failure inum=1 block=0
+ Corrupt data returned by read
 
 ('starting', 'stat')
 
@@ -185,14 +167,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7336
-/tmp/tmp6idvVQ/p/server 7336 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 5282
+/tmp/tmp8OSljO/p/server 5282 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
 in mfs stat
 size of m: 96
 type of data: 0
@@ -220,26 +197,18 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6815
-/tmp/tmp6idvVQ/p/server 6815 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 5672
+/tmp/tmp8OSljO/p/server 5672 /home/samyak/cs537/p4/osp4/test.img
+in mfs creat
+in mfs creat
 in mfs creat
 read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
-in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs creat
-read 8 bytes
-response of creat: 83
-Failure: MFS_Read returned failure inum=1 block=0
+Failure: Corrupt data returned by read
 
 
 test overwrite FAILED
  (overwrite a block)
- MFS_Read returned failure inum=1 block=0
+ Corrupt data returned by read
 
 ('starting', 'maxfile')
 
@@ -255,27 +224,29 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6359
-/tmp/tmp6idvVQ/p/server 6359 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 6359
+Starting server on port 7512
+/tmp/tmp8OSljO/p/server 7512 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 7512
 inodes 0
-max inum: 32
+max inum: 128
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
 msg inum: 0
-0x7fc491449000 vs 0x7fc491449000
-parent inode dierct i is 7
+0x7fda11c4a000 vs 0x7fda11c4a000
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 1
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7fc491449000 vs 0x7fc491449000
+0x7fda11c4a000 vs 0x7fda11c4a000
 Looked up inode 1 -> test
 Found this name in lookup: test
 inum in lookup LOOKKKUPP: 1
@@ -286,6 +257,10 @@ server:: read message [size:1000 contents:()]
 calling write
 Inside Server MFS_Write; Message type: 2
 file size: 0
+calling getbit with i = 0
+calling getbit with i = 1
+valid was not 1
+done setting bit!
 Write done, it's 0
 server:: reply
 server:: waiting...
@@ -428,118 +403,45 @@ Inside Server MFS_Write; Message type: 2
 2
 Write done, it's -1
 server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
-calling write
-Inside Server MFS_Write; Message type: 2
-2
-Write done, it's -1
-server:: reply
-server:: wain mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
+server:: waitingin mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
 in mfs creat
 read 8 bytes
-response of creat: 0
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: -1
-in mfs creat
-read 8 bytes
-response of creat: 83
-Failure: MFS_Read returned failure inum=1 block=0
+Failure: Corrupt data returned by read
 
 
 test maxfile FAILED
  (write largest possible file)
- MFS_Read returned failure inum=1 block=0
+ Corrupt data returned by read
 
 ('starting', 'maxfile2')
 
@@ -555,9 +457,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9388
-/tmp/tmp6idvVQ/p/server 9388 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 9388
+Starting server on port 7664
+/tmp/tmp8OSljO/p/server 7664 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 7664
 inodes 0
 max inum: 32
 server:: waiting...
@@ -565,17 +467,19 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
 msg inum: 0
-0x7fe2f2658000 vs 0x7fe2f2658000
-parent inode dierct i is 4
+0x7fcb26d1f000 vs 0x7fcb26d1f000
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 1
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7fe2f2658000 vs 0x7fe2f2658000
+0x7fcb26d1f000 vs 0x7fcb26d1f000
 Looked up inode 1 -> test
 Found this name in lookup: test
 inum in lookup LOOKKKUPP: 1
@@ -586,6 +490,10 @@ server:: read message [size:1000 contents:()]
 calling write
 Inside Server MFS_Write; Message type: 2
 file size: 0
+calling getbit with i = 0
+calling getbit with i = 1
+valid was not 1
+done setting bit!
 Write done, it's 0
 server:: reply
 server:: waiting...
@@ -728,114 +636,40 @@ Inside Server MFS_Write; Message type: 2
 2
 Write done, it's -1
 server:: reply
-server:: waiting...
-server:: read message [size:1000 contents:()]
-calling write
-Inside Server MFS_Write; Message type: 2
-2
-Write done, it's -1
-server:: reply
-server:: wain mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
+server:: waiting.in mfs creat
 31
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs creat
-read 8 bytes
-response of creat: -1
 write more than need
 in mfs creat
-read 8 bytes
-response of creat: -1
 Failure: MFS_Write should fail on inalid block number
 
 
@@ -857,17 +691,16 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7525
-/tmp/tmp6idvVQ/p/server 7525 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 7525
+Starting server on port 6143
+/tmp/tmp8OSljO/p/server 6143 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 6143
 inodes 0
 max inum: 32
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7f88c0b09000 vs 0x7f88c0b09000
+0x7f4082461000 vs 0x7f4082461000
 Looked up inode 0 -> .
 Found this name in lookup: .
 inum in lookup LOOKKKUPP: 0
@@ -875,10 +708,9 @@ Lookup done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7f88c0b09000 vs 0x7f88c0b09000
+0x7f4082461000 vs 0x7f4082461000
 Looked up inode 0 -> ..
 Found this name in lookup: ..
 inum in lookup LOOKKKUPP: 0
@@ -887,12 +719,6 @@ server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
 Calling shutdown
-in mfs lookup
-read 8 bytes
-return of lookup: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 0
 in mfs shutdown
 
 
@@ -913,9 +739,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 5870
-/tmp/tmp6idvVQ/p/server 5870 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 5870
+Starting server on port 8351
+/tmp/tmp8OSljO/p/server 8351 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8351
 inodes 0
 max inum: 32
 server:: waiting...
@@ -923,10 +749,18 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
 msg inum: 0
-0x7fd62cd3d000 vs 0x7fd62cd3d000
-parent inode dierct i is 4
+0x7fa10c0af000 vs 0x7fa10c0af000
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 1
+here 10k idk
+director: 0
 here
+calling getbit with i = 0
+calling getbit with i = 1
+valid was not 1
+done setting bit!
 new inode printed later: 1
 Created directory '.' inum '1'
 Created directory '..' inum '0'
@@ -934,10 +768,9 @@ Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7fd62cd3d000 vs 0x7fd62cd3d000
+0x7fa10c0af000 vs 0x7fa10c0af000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -945,10 +778,9 @@ Lookup done, it's 1
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 1
 msg inum: 1
-0x7fd62cd3d000 vs 0x7fd62cd3d080
+0x7fa10c0af000 vs 0x7fa10c0af080
 Looked up inode 1 -> .
 Found this name in lookup: .
 inum in lookup LOOKKKUPP: 1
@@ -956,10 +788,9 @@ Lookup done, it's 1
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 1
 msg inum: 1
-0x7fd62cd3d000 vs 0x7fd62cd3d080
+0x7fa10c0af000 vs 0x7fa10c0af080
 Looked up inode 0 -> ..
 Found this name in lookup: ..
 inum in lookup LOOKKKUPP: 0
@@ -969,17 +800,6 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 Calling shutdown
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
-in mfs lookup
-read 8 bytes
-return of lookup: 1
-in mfs lookup
-read 8 bytes
-return of lookup: 0
 in mfs shutdown
 
 
@@ -1000,9 +820,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7245
-/tmp/tmp6idvVQ/p/server 7245 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 7245
+Starting server on port 6014
+/tmp/tmp8OSljO/p/server 6014 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 6014
 inodes 0
 max inum: 32
 server:: waiting...
@@ -1010,17 +830,19 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
 msg inum: 0
-0x7f6c9319f000 vs 0x7f6c9319f000
-parent inode dierct i is 4
+0x7f092c6f0000 vs 0x7f092c6f0000
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 1
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7f6c9319f000 vs 0x7f6c9319f000
+0x7f092c6f0000 vs 0x7f092c6f0000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -1031,21 +853,15 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: testfile
 msg inum: 1
-0x7f6c9319f000 vs 0x7f6c9319f080
+0x7f092c6f0000 vs 0x7f092c6f0080
+file not found in lookup
 Create done, it's -1
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
 Calling shutdown
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
 in mfs creat
-read 8 bytes
-response of creat: -1
 in mfs shutdown
 
 
@@ -1066,9 +882,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6664
-/tmp/tmp6idvVQ/p/server 6664 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 6664
+Starting server on port 9053
+/tmp/tmp8OSljO/p/server 9053 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 9053
 inodes 0
 max inum: 32
 server:: waiting...
@@ -1076,17 +892,19 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
 msg inum: 0
-0x7f0be2168000 vs 0x7f0be2168000
-parent inode dierct i is 4
+0x7f2d554bd000 vs 0x7f2d554bd000
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 1
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7f0be2168000 vs 0x7f0be2168000
+0x7f2d554bd000 vs 0x7f2d554bd000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -1094,24 +912,15 @@ Lookup done, it's 1
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 1
 msg inum: 1
-0x7f0be2168000 vs 0x7f0be2168080
+0x7f2d554bd000 vs 0x7f2d554bd080
 Lookup done, it's -1
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
 Calling shutdown
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
-in mfs lookup
-read 8 bytes
-return of lookup: -1
 in mfs shutdown
 
 
@@ -1132,9 +941,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6524
-/tmp/tmp6idvVQ/p/server 6524 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 6524
+Starting server on port 5396
+/tmp/tmp8OSljO/p/server 5396 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 5396
 inodes 0
 max inum: 32
 server:: waiting...
@@ -1142,17 +951,19 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
 msg inum: 0
-0x7f75ec80b000 vs 0x7f75ec80b000
-parent inode dierct i is 4
+0x7f989e020000 vs 0x7f989e020000
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 1
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7f75ec80b000 vs 0x7f75ec80b000
+0x7f989e020000 vs 0x7f989e020000
 Looked up inode 1 -> test
 Found this name in lookup: test
 inum in lookup LOOKKKUPP: 1
@@ -1169,16 +980,17 @@ entered second for loop
 entered second for loop
 entered second for loop
 Found dir ent with name test in parent's directory entries
+inode to delete size: 0
+ inode to del   type: 1
 Reached, about to clear inode and some other stuff
 attempting to clear 1
 Got past clear_bit i think!
-value of delbit is -16777216
+value of delbit is -1
 Last 2 things to change!
 Unlink done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 Lookup done, it's -1
 server:: reply
@@ -1186,17 +998,8 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 Calling shutdown
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
-in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: -1
+in mfs unlink
+response of unlink: 0
 in mfs shutdown
 
 
@@ -1217,9 +1020,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8341
-/tmp/tmp6idvVQ/p/server 8341 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 8341
+Starting server on port 8754
+/tmp/tmp8OSljO/p/server 8754 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8754
 inodes 0
 max inum: 32
 server:: waiting...
@@ -1227,10 +1030,18 @@ server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: test
 msg inum: 0
-0x7f37c415a000 vs 0x7f37c415a000
-parent inode dierct i is 4
+0x7faf1b44d000 vs 0x7faf1b44d000
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 1
+here 10k idk
+director: 0
 here
+calling getbit with i = 0
+calling getbit with i = 1
+valid was not 1
+done setting bit!
 new inode printed later: 1
 Created directory '.' inum '1'
 Created directory '..' inum '0'
@@ -1238,10 +1049,9 @@ Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7f37c415a000 vs 0x7f37c415a000
+0x7faf1b44d000 vs 0x7faf1b44d000
 Looked up inode 1 -> test
 Found this name in lookup: test
 inum in lookup LOOKKKUPP: 1
@@ -1258,16 +1068,19 @@ entered second for loop
 entered second for loop
 entered second for loop
 Found dir ent with name test in parent's directory entries
+inode to delete size: 64
+ inode to del   type: 0
 Reached, about to clear inode and some other stuff
 attempting to clear 1
 Got past clear_bit i think!
-value of delbit is -16777216
+value of delbit is 5
+before second clear bit
+after second clear bit 
 Last 2 things to change!
 Unlink done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 Lookup done, it's -1
 server:: reply
@@ -1275,17 +1088,8 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 Calling shutdown
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
-in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: -1
+in mfs unlink
+response of unlink: 0
 in mfs shutdown
 
 
@@ -1306,29 +1110,22 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 6867
-/tmp/tmp6idvVQ/p/server 6867 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 5853
+/tmp/tmp8OSljO/p/server 5853 /home/samyak/cs537/p4/osp4/test.img
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 2
-in mfs creat
-read 8 bytes
-response of creat: 0
-Failure: MFS_Unlink should fail on non-empty dir
+in mfs unlink
+response of unlink: -1
+in mfs unlink
+response of unlink: 0
+in mfs unlink
+response of unlink: -1
+Failure: MFS_Unlink returned failure pinum=0 name='testdir'
 
 
 test empty FAILED
  (unlink a non-empty directory)
- MFS_Unlink should fail on non-empty dir
+ MFS_Unlink returned failure pinum=0 name='testdir'
 
 ('starting', 'name')
 
@@ -1344,9 +1141,9 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 8479
-/tmp/tmp6idvVQ/p/server 8479 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 8479
+Starting server on port 7318
+/tmp/tmp8OSljO/p/server 7318 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 7318
 inodes 0
 max inum: 32
 server:: waiting...
@@ -1373,29 +1170,18 @@ total blocks        36
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 7713
-/tmp/tmp6idvVQ/p/server 7713 /home/samyak/cs537/p4/osp4/test.img
+Starting server on port 8533
+/tmp/tmp8OSljO/p/server 8533 /home/samyak/cs537/p4/osp4/test.img
+in mfs creat
+in mfs creat
 in mfs creat
 read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
-in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
-in mfs creat
-read 8 bytes
-response of creat: 83
-Failure: MFS_Read returned failure inum=1 block=0
+Failure: Corrupt data returned by read
 
 
 test persist FAILED
  (restart server after creating a file)
- MFS_Read returned failure inum=1 block=0
+ Corrupt data returned by read
 
 ('starting', 'bigdir')
 
@@ -1411,20 +1197,28 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9563
-/tmp/tmp6idvVQ/p/server 9563 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 9563
+Starting server on port 6538
+/tmp/tmp8OSljO/p/server 6538 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 6538
 inodes 0
-max inum: 32
+max inum: 128
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
 msg inum: 0
-0x7fba7598e000 vs 0x7fba7598e000
-parent inode dierct i is 7
+0x7fda68e6e000 vs 0x7fda68e6e000
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 1
+here 10k idk
+director: 0
 here
+calling getbit with i = 0
+calling getbit with i = 1
+valid was not 1
+done setting bit!
 new inode printed later: 1
 Created directory '.' inum '1'
 Created directory '..' inum '0'
@@ -1432,10 +1226,9 @@ Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7fba7598e000 vs 0x7fba7598e000
+0x7fda68e6e000 vs 0x7fda68e6e000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -1446,9 +1239,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 0
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 2
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1456,9 +1252,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 1
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 3
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1466,9 +1265,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 2
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 4
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1476,9 +1278,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 3
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 5
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1486,9 +1291,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 4
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 6
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1496,9 +1304,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 5
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 7
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1506,9 +1317,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 6
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 8
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1516,9 +1330,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 7
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 9
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1526,9 +1343,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 8
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 10
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1536,9 +1356,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 9
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 11
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1546,9 +1369,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 10
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 12
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1556,9 +1382,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 11
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 13
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1566,9 +1395,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 12
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 14
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1576,9 +1408,12 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 13
 msg inum: 1
-0x7fba7598e000 vs 0x7fba7598e080
-parent inode dierct i is 8
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 15
+here 10k idk
 Create done, it's 0
 server:: reply
 server:: waiting...
@@ -1586,111 +1421,2852 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 14
 msg inum: 1
-0x7fba759in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 16
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 15
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 17
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 16
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 18
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 17
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 19
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 18
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 20
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 19
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 21
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 20
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 22
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 21
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 23
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 22
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 24
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 23
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 25
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 24
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 26
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 25
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 27
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 26
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 28
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 27
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 29
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 28
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 30
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 29
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 31
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 30
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 32
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 31
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 33
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 32
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 34
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 33
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 35
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 34
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 36
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 35
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 37
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 36
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 38
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 37
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 39
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 38
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 40
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 39
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 41
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 40
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 42
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 41
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 43
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 42
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 44
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 43
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 45
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 44
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 46
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 45
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 47
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 46
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 48
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 47
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 49
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 48
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 50
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 49
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 51
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 50
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 52
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 51
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 53
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 52
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 54
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 53
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 55
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 54
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 56
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 55
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 57
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 56
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 58
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 57
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 59
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 58
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 60
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 59
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 61
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 60
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 62
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 61
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 63
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 62
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 64
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 63
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 65
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 64
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 66
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 65
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 67
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 66
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 68
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 67
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 69
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 68
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 70
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 69
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 71
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 70
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 72
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 71
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 73
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 72
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 74
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 73
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 75
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 74
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 76
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 75
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 77
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 76
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 78
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 77
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 79
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 78
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 80
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 79
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 81
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 80
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 82
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 81
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 83
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 82
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 84
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 83
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 85
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 84
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 86
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 85
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 87
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 86
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 88
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 87
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 89
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 88
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 90
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 89
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 91
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 90
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 92
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 91
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 93
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 92
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 94
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 93
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 95
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 94
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 96
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 95
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 97
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 96
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 98
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 97
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 99
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 98
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 100
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 99
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 101
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 100
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 102
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 101
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 103
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 102
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 104
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 103
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 105
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 104
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 106
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 105
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 107
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 106
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 108
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 107
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 109
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 108
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 110
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 109
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 111
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 110
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 112
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 111
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 113
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 112
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 114
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 113
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 115
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 114
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 116
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 115
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 117
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 116
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 118
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 117
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 119
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 118
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 120
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 119
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 121
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 120
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 122
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 121
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 123
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 122
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 124
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 123
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 125
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 124
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 126
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+ message pinum: 1
+Creating with name: 125
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
+Allocated inode : 127
+here 10k idk
+Create done, it's 0
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 2 -> 0
+Found this name in lookup: 0
+inum in lookup LOOKKKUPP: 2
+Lookup done, it's 2
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 3 -> 1
+Found this name in lookup: 1
+inum in lookup LOOKKKUPP: 3
+Lookup done, it's 3
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 4 -> 2
+Found this name in lookup: 2
+inum in lookup LOOKKKUPP: 4
+Lookup done, it's 4
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 5 -> 3
+Found this name in lookup: 3
+inum in lookup LOOKKKUPP: 5
+Lookup done, it's 5
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 6 -> 4
+Found this name in lookup: 4
+inum in lookup LOOKKKUPP: 6
+Lookup done, it's 6
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 7 -> 5
+Found this name in lookup: 5
+inum in lookup LOOKKKUPP: 7
+Lookup done, it's 7
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 8 -> 6
+Found this name in lookup: 6
+inum in lookup LOOKKKUPP: 8
+Lookup done, it's 8
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 9 -> 7
+Found this name in lookup: 7
+inum in lookup LOOKKKUPP: 9
+Lookup done, it's 9
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 10 -> 8
+Found this name in lookup: 8
+inum in lookup LOOKKKUPP: 10
+Lookup done, it's 10
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 11 -> 9
+Found this name in lookup: 9
+inum in lookup LOOKKKUPP: 11
+Lookup done, it's 11
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 12 -> 10
+Found this name in lookup: 10
+inum in lookup LOOKKKUPP: 12
+Lookup done, it's 12
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 13 -> 11
+Found this name in lookup: 11
+inum in lookup LOOKKKUPP: 13
+Lookup done, it's 13
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 14 -> 12
+Found this name in lookup: 12
+inum in lookup LOOKKKUPP: 14
+Lookup done, it's 14
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 15 -> 13
+Found this name in lookup: 13
+inum in lookup LOOKKKUPP: 15
+Lookup done, it's 15
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 16 -> 14
+Found this name in lookup: 14
+inum in lookup LOOKKKUPP: 16
+Lookup done, it's 16
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 17 -> 15
+Found this name in lookup: 15
+inum in lookup LOOKKKUPP: 17
+Lookup done, it's 17
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 18 -> 16
+Found this name in lookup: 16
+inum in lookup LOOKKKUPP: 18
+Lookup done, it's 18
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 19 -> 17
+Found this name in lookup: 17
+inum in lookup LOOKKKUPP: 19
+Lookup done, it's 19
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 20 -> 18
+Found this name in lookup: 18
+inum in lookup LOOKKKUPP: 20
+Lookup done, it's 20
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 21 -> 19
+Found this name in lookup: 19
+inum in lookup LOOKKKUPP: 21
+Lookup done, it's 21
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 22 -> 20
+Found this name in lookup: 20
+inum in lookup LOOKKKUPP: 22
+Lookup done, it's 22
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 23 -> 21
+Found this name in lookup: 21
+inum in lookup LOOKKKUPP: 23
+Lookup done, it's 23
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 24 -> 22
+Found this name in lookup: 22
+inum in lookup LOOKKKUPP: 24
+Lookup done, it's 24
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 25 -> 23
+Found this name in lookup: 23
+inum in lookup LOOKKKUPP: 25
+Lookup done, it's 25
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 26 -> 24
+Found this name in lookup: 24
+inum in lookup LOOKKKUPP: 26
+Lookup done, it's 26
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 27 -> 25
+Found this name in lookup: 25
+inum in lookup LOOKKKUPP: 27
+Lookup done, it's 27
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 28 -> 26
+Found this name in lookup: 26
+inum in lookup LOOKKKUPP: 28
+Lookup done, it's 28
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 29 -> 27
+Found this name in lookup: 27
+inum in lookup LOOKKKUPP: 29
+Lookup done, it's 29
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 30 -> 28
+Found this name in lookup: 28
+inum in lookup LOOKKKUPP: 30
+Lookup done, it's 30
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 31 -> 29
+Found this name in lookup: 29
+inum in lookup LOOKKKUPP: 31
+Lookup done, it's 31
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 32 -> 30
+Found this name in lookup: 30
+inum in lookup LOOKKKUPP: 32
+Lookup done, it's 32
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 33 -> 31
+Found this name in lookup: 31
+inum in lookup LOOKKKUPP: 33
+Lookup done, it's 33
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 34 -> 32
+Found this name in lookup: 32
+inum in lookup LOOKKKUPP: 34
+Lookup done, it's 34
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 35 -> 33
+Found this name in lookup: 33
+inum in lookup LOOKKKUPP: 35
+Lookup done, it's 35
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 36 -> 34
+Found this name in lookup: 34
+inum in lookup LOOKKKUPP: 36
+Lookup done, it's 36
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 37 -> 35
+Found this name in lookup: 35
+inum in lookup LOOKKKUPP: 37
+Lookup done, it's 37
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 38 -> 36
+Found this name in lookup: 36
+inum in lookup LOOKKKUPP: 38
+Lookup done, it's 38
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 39 -> 37
+Found this name in lookup: 37
+inum in lookup LOOKKKUPP: 39
+Lookup done, it's 39
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 40 -> 38
+Found this name in lookup: 38
+inum in lookup LOOKKKUPP: 40
+Lookup done, it's 40
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 41 -> 39
+Found this name in lookup: 39
+inum in lookup LOOKKKUPP: 41
+Lookup done, it's 41
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 42 -> 40
+Found this name in lookup: 40
+inum in lookup LOOKKKUPP: 42
+Lookup done, it's 42
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 43 -> 41
+Found this name in lookup: 41
+inum in lookup LOOKKKUPP: 43
+Lookup done, it's 43
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 44 -> 42
+Found this name in lookup: 42
+inum in lookup LOOKKKUPP: 44
+Lookup done, it's 44
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 45 -> 43
+Found this name in lookup: 43
+inum in lookup LOOKKKUPP: 45
+Lookup done, it's 45
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 46 -> 44
+Found this name in lookup: 44
+inum in lookup LOOKKKUPP: 46
+Lookup done, it's 46
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 47 -> 45
+Found this name in lookup: 45
+inum in lookup LOOKKKUPP: 47
+Lookup done, it's 47
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 48 -> 46
+Found this name in lookup: 46
+inum in lookup LOOKKKUPP: 48
+Lookup done, it's 48
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 49 -> 47
+Found this name in lookup: 47
+inum in lookup LOOKKKUPP: 49
+Lookup done, it's 49
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 50 -> 48
+Found this name in lookup: 48
+inum in lookup LOOKKKUPP: 50
+Lookup done, it's 50
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 51 -> 49
+Found this name in lookup: 49
+inum in lookup LOOKKKUPP: 51
+Lookup done, it's 51
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 52 -> 50
+Found this name in lookup: 50
+inum in lookup LOOKKKUPP: 52
+Lookup done, it's 52
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 53 -> 51
+Found this name in lookup: 51
+inum in lookup LOOKKKUPP: 53
+Lookup done, it's 53
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 54 -> 52
+Found this name in lookup: 52
+inum in lookup LOOKKKUPP: 54
+Lookup done, it's 54
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 55 -> 53
+Found this name in lookup: 53
+inum in lookup LOOKKKUPP: 55
+Lookup done, it's 55
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 56 -> 54
+Found this name in lookup: 54
+inum in lookup LOOKKKUPP: 56
+Lookup done, it's 56
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 57 -> 55
+Found this name in lookup: 55
+inum in lookup LOOKKKUPP: 57
+Lookup done, it's 57
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 58 -> 56
+Found this name in lookup: 56
+inum in lookup LOOKKKUPP: 58
+Lookup done, it's 58
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 59 -> 57
+Found this name in lookup: 57
+inum in lookup LOOKKKUPP: 59
+Lookup done, it's 59
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 60 -> 58
+Found this name in lookup: 58
+inum in lookup LOOKKKUPP: 60
+Lookup done, it's 60
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 61 -> 59
+Found this name in lookup: 59
+inum in lookup LOOKKKUPP: 61
+Lookup done, it's 61
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 62 -> 60
+Found this name in lookup: 60
+inum in lookup LOOKKKUPP: 62
+Lookup done, it's 62
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 63 -> 61
+Found this name in lookup: 61
+inum in lookup LOOKKKUPP: 63
+Lookup done, it's 63
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 64 -> 62
+Found this name in lookup: 62
+inum in lookup LOOKKKUPP: 64
+Lookup done, it's 64
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 65 -> 63
+Found this name in lookup: 63
+inum in lookup LOOKKKUPP: 65
+Lookup done, it's 65
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 66 -> 64
+Found this name in lookup: 64
+inum in lookup LOOKKKUPP: 66
+Lookup done, it's 66
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 67 -> 65
+Found this name in lookup: 65
+inum in lookup LOOKKKUPP: 67
+Lookup done, it's 67
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 68 -> 66
+Found this name in lookup: 66
+inum in lookup LOOKKKUPP: 68
+Lookup done, it's 68
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 69 -> 67
+Found this name in lookup: 67
+inum in lookup LOOKKKUPP: 69
+Lookup done, it's 69
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 70 -> 68
+Found this name in lookup: 68
+inum in lookup LOOKKKUPP: 70
+Lookup done, it's 70
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 71 -> 69
+Found this name in lookup: 69
+inum in lookup LOOKKKUPP: 71
+Lookup done, it's 71
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 72 -> 70
+Found this name in lookup: 70
+inum in lookup LOOKKKUPP: 72
+Lookup done, it's 72
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 73 -> 71
+Found this name in lookup: 71
+inum in lookup LOOKKKUPP: 73
+Lookup done, it's 73
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 74 -> 72
+Found this name in lookup: 72
+inum in lookup LOOKKKUPP: 74
+Lookup done, it's 74
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 75 -> 73
+Found this name in lookup: 73
+inum in lookup LOOKKKUPP: 75
+Lookup done, it's 75
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 76 -> 74
+Found this name in lookup: 74
+inum in lookup LOOKKKUPP: 76
+Lookup done, it's 76
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 77 -> 75
+Found this name in lookup: 75
+inum in lookup LOOKKKUPP: 77
+Lookup done, it's 77
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 78 -> 76
+Found this name in lookup: 76
+inum in lookup LOOKKKUPP: 78
+Lookup done, it's 78
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 79 -> 77
+Found this name in lookup: 77
+inum in lookup LOOKKKUPP: 79
+Lookup done, it's 79
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 80 -> 78
+Found this name in lookup: 78
+inum in lookup LOOKKKUPP: 80
+Lookup done, it's 80
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 81 -> 79
+Found this name in lookup: 79
+inum in lookup LOOKKKUPP: 81
+Lookup done, it's 81
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 82 -> 80
+Found this name in lookup: 80
+inum in lookup LOOKKKUPP: 82
+Lookup done, it's 82
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 83 -> 81
+Found this name in lookup: 81
+inum in lookup LOOKKKUPP: 83
+Lookup done, it's 83
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 84 -> 82
+Found this name in lookup: 82
+inum in lookup LOOKKKUPP: 84
+Lookup done, it's 84
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 85 -> 83
+Found this name in lookup: 83
+inum in lookup LOOKKKUPP: 85
+Lookup done, it's 85
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 86 -> 84
+Found this name in lookup: 84
+inum in lookup LOOKKKUPP: 86
+Lookup done, it's 86
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 87 -> 85
+Found this name in lookup: 85
+inum in lookup LOOKKKUPP: 87
+Lookup done, it's 87
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 88 -> 86
+Found this name in lookup: 86
+inum in lookup LOOKKKUPP: 88
+Lookup done, it's 88
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 89 -> 87
+Found this name in lookup: 87
+inum in lookup LOOKKKUPP: 89
+Lookup done, it's 89
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 90 -> 88
+Found this name in lookup: 88
+inum in lookup LOOKKKUPP: 90
+Lookup done, it's 90
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 91 -> 89
+Found this name in lookup: 89
+inum in lookup LOOKKKUPP: 91
+Lookup done, it's 91
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 92 -> 90
+Found this name in lookup: 90
+inum in lookup LOOKKKUPP: 92
+Lookup done, it's 92
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 93 -> 91
+Found this name in lookup: 91
+inum in lookup LOOKKKUPP: 93
+Lookup done, it's 93
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 94 -> 92
+Found this name in lookup: 92
+inum in lookup LOOKKKUPP: 94
+Lookup done, it's 94
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 95 -> 93
+Found this name in lookup: 93
+inum in lookup LOOKKKUPP: 95
+Lookup done, it's 95
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 96 -> 94
+Found this name in lookup: 94
+inum in lookup LOOKKKUPP: 96
+Lookup done, it's 96
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 97 -> 95
+Found this name in lookup: 95
+inum in lookup LOOKKKUPP: 97
+Lookup done, it's 97
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 98 -> 96
+Found this name in lookup: 96
+inum in lookup LOOKKKUPP: 98
+Lookup done, it's 98
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 99 -> 97
+Found this name in lookup: 97
+inum in lookup LOOKKKUPP: 99
+Lookup done, it's 99
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 100 -> 98
+Found this name in lookup: 98
+inum in lookup LOOKKKUPP: 100
+Lookup done, it's 100
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 101 -> 99
+Found this name in lookup: 99
+inum in lookup LOOKKKUPP: 101
+Lookup done, it's 101
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 102 -> 100
+Found this name in lookup: 100
+inum in lookup LOOKKKUPP: 102
+Lookup done, it's 102
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 103 -> 101
+Found this name in lookup: 101
+inum in lookup LOOKKKUPP: 103
+Lookup done, it's 103
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 104 -> 102
+Found this name in lookup: 102
+inum in lookup LOOKKKUPP: 104
+Lookup done, it's 104
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 105 -> 103
+Found this name in lookup: 103
+inum in lookup LOOKKKUPP: 105
+Lookup done, it's 105
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 106 -> 104
+Found this name in lookup: 104
+inum in lookup LOOKKKUPP: 106
+Lookup done, it's 106
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 107 -> 105
+Found this name in lookup: 105
+inum in lookup LOOKKKUPP: 107
+Lookup done, it's 107
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 108 -> 106
+Found this name in lookup: 106
+inum in lookup LOOKKKUPP: 108
+Lookup done, it's 108
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 109 -> 107
+Found this name in lookup: 107
+inum in lookup LOOKKKUPP: 109
+Lookup done, it's 109
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 110 -> 108
+Found this name in lookup: 108
+inum in lookup LOOKKKUPP: 110
+Lookup done, it's 110
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 111 -> 109
+Found this name in lookup: 109
+inum in lookup LOOKKKUPP: 111
+Lookup done, it's 111
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 112 -> 110
+Found this name in lookup: 110
+inum in lookup LOOKKKUPP: 112
+Lookup done, it's 112
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 113 -> 111
+Found this name in lookup: 111
+inum in lookup LOOKKKUPP: 113
+Lookup done, it's 113
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 114 -> 112
+Found this name in lookup: 112
+inum in lookup LOOKKKUPP: 114
+Lookup done, it's 114
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 115 -> 113
+Found this name in lookup: 113
+inum in lookup LOOKKKUPP: 115
+Lookup done, it's 115
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 116 -> 114
+Found this name in lookup: 114
+inum in lookup LOOKKKUPP: 116
+Lookup done, it's 116
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 117 -> 115
+Found this name in lookup: 115
+inum in lookup LOOKKKUPP: 117
+Lookup done, it's 117
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 118 -> 116
+Found this name in lookup: 116
+inum in lookup LOOKKKUPP: 118
+Lookup done, it's 118
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 119 -> 117
+Found this name in lookup: 117
+inum in lookup LOOKKKUPP: 119
+Lookup done, it's 119
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 120 -> 118
+Found this name in lookup: 118
+inum in lookup LOOKKKUPP: 120
+Lookup done, it's 120
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 121 -> 119
+Found this name in lookup: 119
+inum in lookup LOOKKKUPP: 121
+Lookup done, it's 121
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 122 -> 120
+Found this name in lookup: 120
+inum in lookup LOOKKKUPP: 122
+Lookup done, it's 122
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 123 -> 121
+Found this name in lookup: 121
+inum in lookup LOOKKKUPP: 123
+Lookup done, it's 123
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 124 -> 122
+Found this name in lookup: 122
+inum in lookup LOOKKKUPP: 124
+Lookup done, it's 124
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 125 -> 123
+Found this name in lookup: 123
+inum in lookup LOOKKKUPP: 125
+Lookup done, it's 125
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 126 -> 124
+Found this name in lookup: 124
+inum in lookup LOOKKKUPP: 126
+Lookup done, it's 126
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+lookup message pinum: 1
+msg inum: 1
+0x7fda68e6e000 vs 0x7fda68e6e080
+Looked up inode 127 -> 125
+Found this name in lookup: 125
+inum in lookup LOOKKKUPP: 127
+Lookup done, it's 127
+server:: reply
+server:: waiting...
+server:: read message [size:1000 contents:()]
+Calling shutdown
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: 0
 in mfs creat
-read 8 bytes
-response of creat: -1
-Failure: MFS_Creat returned failure inum=1 type=1 name='30'
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs creat
+in mfs shutdown
 
 
-test bigdir FAILED
+test bigdir PASSED
  (create a directory with 126 files)
- MFS_Creat returned failure inum=1 type=1 name='30'
 
 ('starting', 'deep')
 
@@ -1706,20 +4282,28 @@ total blocks        39
 layout details
   inode bitmap address/len 1 [1]
   data bitmap address/len  2 [1]
-Starting server on port 9139
-/tmp/tmp6idvVQ/p/server 9139 /home/samyak/cs537/p4/osp4/test.img
-Listening for connections on port 9139
+Starting server on port 8460
+/tmp/tmp8OSljO/p/server 8460 /home/samyak/cs537/p4/osp4/test.img
+Listening for connections on port 8460
 inodes 0
-max inum: 32
+max inum: 128
 server:: waiting...
 server:: read message [size:1000 contents:()]
  message pinum: 0
 Creating with name: testdir
 msg inum: 0
-0x7f4c28743000 vs 0x7f4c28743000
-parent inode dierct i is 7
+0x7f18c069b000 vs 0x7f18c069b000
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 1
+here 10k idk
+director: 0
 here
+calling getbit with i = 0
+calling getbit with i = 1
+valid was not 1
+done setting bit!
 new inode printed later: 1
 Created directory '.' inum '1'
 Created directory '..' inum '0'
@@ -1727,10 +4311,9 @@ Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7f4c28743000 vs 0x7f4c28743000
+0x7f18c069b000 vs 0x7f18c069b000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -1741,10 +4324,19 @@ server:: read message [size:1000 contents:()]
  message pinum: 1
 Creating with name: 0
 msg inum: 1
-0x7f4c28743000 vs 0x7f4c28743080
-parent inode dierct i is 8
+0x7f18c069b000 vs 0x7f18c069b080
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 2
+here 10k idk
+director: 0
 here
+calling getbit with i = 0
+calling getbit with i = 1
+calling getbit with i = 2
+valid was not 1
+done setting bit!
 new inode printed later: 2
 Created directory '.' inum '2'
 Created directory '..' inum '1'
@@ -1752,10 +4344,9 @@ Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 1
 msg inum: 1
-0x7f4c28743000 vs 0x7f4c28743080
+0x7f18c069b000 vs 0x7f18c069b080
 Looked up inode 2 -> 0
 Found this name in lookup: 0
 inum in lookup LOOKKKUPP: 2
@@ -1766,10 +4357,20 @@ server:: read message [size:1000 contents:()]
  message pinum: 2
 Creating with name: 1
 msg inum: 2
-0x7f4c28743000 vs 0x7f4c28743100
-parent inode dierct i is 9
+0x7f18c069b000 vs 0x7f18c069b100
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 3
+here 10k idk
+director: 0
 here
+calling getbit with i = 0
+calling getbit with i = 1
+calling getbit with i = 2
+calling getbit with i = 3
+valid was not 1
+done setting bit!
 new inode printed later: 3
 Created directory '.' inum '3'
 Created directory '..' inum '2'
@@ -1777,10 +4378,9 @@ Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 2
 msg inum: 2
-0x7f4c28743000 vs 0x7f4c28743100
+0x7f18c069b000 vs 0x7f18c069b100
 Looked up inode 3 -> 1
 Found this name in lookup: 1
 inum in lookup LOOKKKUPP: 3
@@ -1791,10 +4391,21 @@ server:: read message [size:1000 contents:()]
  message pinum: 3
 Creating with name: 2
 msg inum: 3
-0x7f4c28743000 vs 0x7f4c28743180
-parent inode dierct i is 10
+0x7f18c069b000 vs 0x7f18c069b180
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 4
+here 10k idk
+director: 0
 here
+calling getbit with i = 0
+calling getbit with i = 1
+calling getbit with i = 2
+calling getbit with i = 3
+calling getbit with i = 4
+valid was not 1
+done setting bit!
 new inode printed later: 4
 Created directory '.' inum '4'
 Created directory '..' inum '3'
@@ -1802,10 +4413,9 @@ Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 3
 msg inum: 3
-0x7f4c28743000 vs 0x7f4c28743180
+0x7f18c069b000 vs 0x7f18c069b180
 Looked up inode 4 -> 2
 Found this name in lookup: 2
 inum in lookup LOOKKKUPP: 4
@@ -1816,10 +4426,22 @@ server:: read message [size:1000 contents:()]
  message pinum: 4
 Creating with name: 3
 msg inum: 4
-0x7f4c28743000 vs 0x7f4c28743200
-parent inode dierct i is 11
+0x7f18c069b000 vs 0x7f18c069b200
+file not found in lookup
+Found space for inode, now need to alloc an inode to it
+inside alloc inode bit
 Allocated inode : 5
+here 10k idk
+director: 0
 here
+calling getbit with i = 0
+calling getbit with i = 1
+calling getbit with i = 2
+calling getbit with i = 3
+calling getbit with i = 4
+calling getbit with i = 5
+valid was not 1
+done setting bit!
 new inode printed later: 5
 Created directory '.' inum '5'
 Created directory '..' inum '4'
@@ -1827,10 +4449,9 @@ Create done, it's 0
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 4
 msg inum: 4
-0x7f4c28743000 vs 0x7f4c28743200
+0x7f18c069b000 vs 0x7f18c069b200
 Looked up inode 5 -> 3
 Found this name in lookup: 3
 inum in lookup LOOKKKUPP: 5
@@ -1838,10 +4459,9 @@ Lookup done, it's 5
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 0
 msg inum: 0
-0x7f4c28743000 vs 0x7f4c28743000
+0x7f18c069b000 vs 0x7f18c069b000
 Looked up inode 1 -> testdir
 Found this name in lookup: testdir
 inum in lookup LOOKKKUPP: 1
@@ -1849,10 +4469,9 @@ Lookup done, it's 1
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 1
 msg inum: 1
-0x7f4c28743000 vs 0x7f4c28743080
+0x7f18c069b000 vs 0x7f18c069b080
 Looked up inode 2 -> 0
 Found this name in lookup: 0
 inum in lookup LOOKKKUPP: 2
@@ -1860,10 +4479,9 @@ Lookup done, it's 2
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 2
 msg inum: 2
-0x7f4c28743000 vs 0x7f4c28743100
+0x7f18c069b000 vs 0x7f18c069b100
 Looked up inode 3 -> 1
 Found this name in lookup: 1
 inum in lookup LOOKKKUPP: 3
@@ -1871,10 +4489,9 @@ Lookup done, it's 3
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 3
 msg inum: 3
-0x7f4c28743000 vs 0x7f4c28743180
+0x7f18c069b000 vs 0x7f18c069b180
 Looked up inode 4 -> 2
 Found this name in lookup: 2
 inum in lookup LOOKKKUPP: 4
@@ -1882,10 +4499,9 @@ Lookup done, it's 4
 server:: reply
 server:: waiting...
 server:: read message [size:1000 contents:()]
-lookup message inum: 0
 lookup message pinum: 4
 msg inum: 4
-0x7f4c28743000 vs 0x7f4c28743200
+0x7f18c069b000 vs 0x7f18c069b200
 Looked up inode 5 -> 3
 Found this name in lookup: 3
 inum in lookup LOOKKKUPP: 5
@@ -1895,50 +4511,10 @@ server:: waiting...
 server:: read message [size:1000 contents:()]
 Calling shutdown
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 1
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 2
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 3
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 4
 in mfs creat
-read 8 bytes
-response of creat: 0
-in mfs lookup
-read 8 bytes
-return of lookup: 5
-in mfs lookup
-read 8 bytes
-return of lookup: 1
-in mfs lookup
-read 8 bytes
-return of lookup: 2
-in mfs lookup
-read 8 bytes
-return of lookup: 3
-in mfs lookup
-read 8 bytes
-return of lookup: 4
-in mfs lookup
-read 8 bytes
-return of lookup: 5
 in mfs shutdown
 
 
@@ -1958,7 +4534,7 @@ test creat PASSED
 
 test write FAILED
  (write then read one block)
- MFS_Read returned failure inum=1 block=0
+ Corrupt data returned by read
 
 test stat FAILED
  (stat a regular file)
@@ -1966,11 +4542,11 @@ test stat FAILED
 
 test overwrite FAILED
  (overwrite a block)
- MFS_Read returned failure inum=1 block=0
+ Corrupt data returned by read
 
 test maxfile FAILED
  (write largest possible file)
- MFS_Read returned failure inum=1 block=0
+ Corrupt data returned by read
 
 test maxfile2 FAILED
  (write more blocks than possible)
@@ -1996,21 +4572,20 @@ test unlink2 PASSED
 
 test empty FAILED
  (unlink a non-empty directory)
- MFS_Unlink should fail on non-empty dir
+ MFS_Unlink returned failure pinum=0 name='testdir'
 
 test name PASSED
  (name too long)
 
 test persist FAILED
  (restart server after creating a file)
- MFS_Read returned failure inum=1 block=0
+ Corrupt data returned by read
 
-test bigdir FAILED
+test bigdir PASSED
  (create a directory with 126 files)
- MFS_Creat returned failure inum=1 type=1 name='30'
 
 test deep PASSED
  (create many deeply nested directories)
 
-Passed 11 of 19 tests.
-Overall 11 of 19
+Passed 12 of 19 tests.
+Overall 12 of 19
