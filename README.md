@@ -10,6 +10,7 @@ NOTES:
     - in unlink set inode to -1.
 
 Client:
+- Specification
     - Open client socket
     - Fill udp message
     - Write udp message to target socket
@@ -17,15 +18,18 @@ Client:
     - Print server response
 
 Server:
+- Specification
     - Open server socket (different port from client socket)
     - Read socket message (read implicitly waits)
     - Write response to client
     - Print client message
 
 Super block:
+- Specification
     - info about file system and interacting w OS
 
 Inodes:
+- Specification
     - 32 byte data structure
     - 16 inodes
     - Metadata about the file system
@@ -33,6 +37,7 @@ Inodes:
     - Find the file size, then you know how many blocks to traverse
    
 Specifications:
+- Specification
     - The file system image can be customized to include 128 or more inodes, and 32 or more data blocks
     - Each file can have up to 30 blocks of data allocated to it
     - Each directory will mostly only have 1 block of data allocated to it (but it can have 30).
@@ -42,6 +47,7 @@ Specifications:
    
    
 File contents
+- Specification
     - file payloads stored in quantums of block size
     - each file block has an inode number and offset
     - The whole file system is made up of blocks. We want to make most of these data storage blocks
@@ -82,6 +88,7 @@ Creat notes
     - Make sure you have updated size of new dir and parent dir accordingly (parent dir increments by 32 for file and dir).
 
 Write Notes:
+- Specification
     - Information read by server: inum of file to write, bytes to actually write (char buffer), offset into file's data block in bytes, and the number of bytes in the buffer 
     - Check if inum is less than 0 or greater than max_inodes, if so, return -1 - If nbytes is greater than 4096, less than zero, or greater than (4096 - offset), return -1 
     - Get inode based on inum - If offset is greater than size (in inode) or less than zero, return -1 - Check i-bitmap and make sure bit corresponding to inum is allocated (set to 1) 
@@ -95,6 +102,7 @@ Write Notes:
     - Update file's size in inode - return 0
 
 Read Notes: 
+- Specification
     - Information read by server is the same as for Write 
     - Check if inum is less than 0 or greater than max_inodes, if so, return -1 
     - Get inode based on inum 
@@ -108,11 +116,13 @@ Read Notes:
     - return 0
     
 Questions:
+- Specification
     - if data full do we allocate file inode still (cuz it can't have data)
     - how to do mmap sync or flush etc.
     - in creat sometimes there are random garbage values at the dir ent location, how do i know for sure if theres a dir entry at a specific location or not?
     
 Unlink notes:
+- Specification
     - removes file or dir specified by pinum; ret 0 on success -1 on failure
     - Check if pinum is valid. If not, return -1.
     - Loop through parent's directory entries looking for name
