@@ -1,16 +1,11 @@
 # osp4
 Fall 2022 OS p4: Building a Distributed File System 
 
-TODO:
-    - Add timeout functionality to udp (ask peer mentor how to add and for how long)
-        - question: how many timeouts etc to add ?
-    - Make mfs stat method work
-    - 
 
 NOTES: 
     - Use ss -ulpn to check port numbers and file descriptor of open ports
     - we are reading the whole thing into memory using mmap and flushing it to disk with msync
-    - Use ./mkfs -ffs.img -d32 -i32 -v to ceck the layout of the file system image (need to compile mkfs before doing this obviously)
+    - Use ./mkfs -ffs.img -d32 -i32 -v to check the layout of the file system image (need to compile mkfs before doing this obviously)
     - Used gcc -o out mfs.c udp.c client.c for compiling the client
     - in unlink set inode to -1.
 
@@ -27,8 +22,6 @@ Server:
     - Write response to client
     - Print client message
 
-
-
 Super block:
     - info about file system and interacting w OS
 
@@ -38,8 +31,16 @@ Inodes:
     - Metadata about the file system
     - Can store 8 or 16 (not sure) blocks of data (512 bytes each), so 4096 per file.
     - Find the file size, then you know how many blocks to traverse
-    - 
-
+   
+Specifications:
+    - The file system image can be customized to include 128 or more inodes, and 32 or more data blocks
+    - Each file can have up to 30 blocks of data allocated to it
+    - Each directory will mostly only have 1 block of data allocated to it (but it can have 30).
+    - The set_bit, get_bit, clear_bit functions are the most important to get correct for the system to work.
+    - Unlink checks if directory size is more than 64, then it fails as it cannot unlink a non empty dir.
+    - By default, files should have size  0 after creating, and directories should have size 64 (. and ..)
+   
+   
 File contents
     - file payloads stored in quantums of block size
     - each file block has an inode number and offset
@@ -71,22 +72,45 @@ Creat notes
     - After finding free block, go to that address in data region and save that places address.
     - 5: loop through inode bitmap to find free bit. If exist, assign it. If not exist, return -1 since no space. (Make sure to loop through all inode bitmap blocks).
     - go to inode region and create a new struct of inode
+    - Loop over all direct[i] of inode and set them all to -1. (for file and dir both).
     - write type and size of the creation
     - if type is file, then go to that saved address and create a new dirent with filename and inum of file
     - if type is directory then make new dir ent in saved place with new directry name and inum.
     - find new bit in data bitmap and allocate to the first dirent entry of new dirctory inode. If not found, return -1.
-    - go to that block and create 2 new dir entries for . and ..
+    - go to that block, and create 128 dir ents with inum = -1.
+    - Then go to the start of the same block and make 2 directory entries: . and ..
+    - Make sure you have updated size of new dir and parent dir accordingly (parent dir increments by 32 for file and dir).
 
+Write Notes:
+    - Information read by server: inum of file to write, bytes to actually write (char buffer), offset into file's data block in bytes, and the number of bytes in the buffer 
+    - Check if inum is less than 0 or greater than max_inodes, if so, return -1 - If nbytes is greater than 4096, less than zero, or greater than (4096 - offset), return -1 
+    - Get inode based on inum - If offset is greater than size (in inode) or less than zero, return -1 - Check i-bitmap and make sure bit corresponding to inum is allocated (set to 1) 
+    - If i-bitmap is 1 for inumth bit, check if corresponding inode's type is regular file or directory; if i-bitmap is 0 for inumth bit, return -1 
+    - If inode's type is directory, return -1 (can't write directories) 
+    - If inode's size is set to 0, try to allocate space for file in data region 
+    - If all bits in d-bitmap are set to 1, no space to allocate, return -1 
+    - Otherwise, change first 0 in d-bitmap to 1 and save corresponding index to inode's direct[0] 
+    - If inode's size is greater than 0, just look at direct[0] 
+    - Use char pointer and point to byte specified by offset in allocated data block - Use for loop to increment pointer and write buffer into file 
+    - Update file's size in inode - return 0
+
+Read Notes: 
+    - Information read by server is the same as for Write 
+    - Check if inum is less than 0 or greater than max_inodes, if so, return -1 
+    - Get inode based on inum 
+    - If inode->type is directory, nbytes and offset must both be multiples of 32 
+    - If inode->type is regular file: 
+    - offset must be between 0 and inode->size 
+    - nbytes must be between 0 and inode->size - offset 
+    - Create _read struct so bytes read can be sent back to client 
+    - Use char* pointer and point to byte specified by offset in allocated data block 
+    - Use for loop to increment pointer and write from file into buffer - Manually null terminate buffer 
+    - return 0
+    
 Questions:
     - if data full do we allocate file inode still (cuz it can't have data)
     - how to do mmap sync or flush etc.
     - in creat sometimes there are random garbage values at the dir ent location, how do i know for sure if theres a dir entry at a specific location or not?
-    
-
-
-    Client randomly picks its own port number within mfs.c
-    mfs init uses the destination port number to connect to the server
-    server gets message from client and so fills in the source socket address from client portnumber
     
 Unlink notes:
     - removes file or dir specified by pinum; ret 0 on success -1 on failure
@@ -101,12 +125,5 @@ Unlink notes:
     - remove inode corresponding to directory
 
 
-
 gcc -o client mfs.c udp.c client.c
 server 52364 file
-
-
-
-Failing tests:
-    - write and read 1 block
-    - stat
