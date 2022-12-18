@@ -30,11 +30,11 @@ Super block:
 
 Inodes:
 - Specification
-    - 32 byte data structure
-    - 16 inodes
+    - 128 byte data structure
+    - 32 inodes per block
     - Metadata about the file system
-    - Can store 8 or 16 (not sure) blocks of data (512 bytes each), so 4096 per file.
-    - Find the file size, then you know how many blocks to traverse
+    - Can store 30 direct pointers to blocks of memory (120 bytes total)
+    - Stores file size, and type as well (another 4 bytes each).
    
 Specifications:
 - Specification
