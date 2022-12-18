@@ -1,6 +1,6 @@
 # osp4
 Fall 2022 OS p4: Building a Distributed File System 
-Updated: 12/17/2022 8:00pm
+Updated: 12/17/2022 
 
 
 NOTES: 
